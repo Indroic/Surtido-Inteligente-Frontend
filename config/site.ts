@@ -1,69 +1,22 @@
-export type SiteConfig = typeof siteConfig;
+import { IconTestPipe } from "@tabler/icons-react";
 
-export const siteConfig = {
-  name: "Next.js + HeroUI",
-  description: "Make beautiful websites regardless of your design experience.",
+import { NavBarItemType } from "@/types";
+
+export type DefaultSiteConfigType = {
+  name: string;
+  description: string;
+  navItems: NavBarItemType[];
+  secondaryNavItems?: NavBarItemType[];
+};
+
+export const defaultSiteConfig: DefaultSiteConfigType = {
+  name: "Surtido Inteligente",
+  description: "Sistema de Inventario Surtido Inteligente",
+  //Estos elementos son de prueba, IMPORTANTE CAMBIARLOS
   navItems: [
     {
-      label: "Home",
-      href: "/",
-    },
-    {
-      label: "Docs",
-      href: "/docs",
-    },
-    {
-      label: "Pricing",
-      href: "/pricing",
-    },
-    {
-      label: "Blog",
-      href: "/blog",
-    },
-    {
-      label: "About",
-      href: "/about",
+      label: "Esto es un Test",
+      Icon: IconTestPipe,
     },
   ],
-  navMenuItems: [
-    {
-      label: "Profile",
-      href: "/profile",
-    },
-    {
-      label: "Dashboard",
-      href: "/dashboard",
-    },
-    {
-      label: "Projects",
-      href: "/projects",
-    },
-    {
-      label: "Team",
-      href: "/team",
-    },
-    {
-      label: "Calendar",
-      href: "/calendar",
-    },
-    {
-      label: "Settings",
-      href: "/settings",
-    },
-    {
-      label: "Help & Feedback",
-      href: "/help-feedback",
-    },
-    {
-      label: "Logout",
-      href: "/logout",
-    },
-  ],
-  links: {
-    github: "https://github.com/heroui-inc/heroui",
-    twitter: "https://twitter.com/hero_ui",
-    docs: "https://heroui.com",
-    discord: "https://discord.gg/9b6yyZKmH4",
-    sponsor: "https://patreon.com/jrgarciadev",
-  },
 };

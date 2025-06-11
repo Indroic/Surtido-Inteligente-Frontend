@@ -33,3 +33,10 @@ export interface UsuarioInterface extends BaseInterface {
   is_client?: boolean;
   is_seller?: boolean;
 }
+
+export type NavBarItemType = {
+  Icon: React.ElementType;
+  label: string;
+  onPress?: () => void;
+  href?: string;
+};
