@@ -10,15 +10,15 @@ export default function NavItem({
   href,
 }: NavBarItemType) {
   return (
-    <Tooltip showArrow color="primary" content={label} placement="right">
+    <Tooltip showArrow color="primary" content={label}>
       <Button
         isIconOnly
         href={href}
-        size="lg"
+        size="md"
         variant="light"
         onPress={() => onPress?.()}
       >
-        <Icon size={32} stroke={1} />
+        <Icon size={28} stroke={1} />
       </Button>
     </Tooltip>
   );
