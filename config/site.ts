@@ -18,6 +18,36 @@ export const defaultSiteConfig: DefaultSiteConfigType = {
       label: "Esto es un Test",
       Icon: IconTestPipe,
     },
+    {
+      label: "Esto es un Test",
+      Icon: IconTestPipe,
+    },
+    {
+      label: "Esto es un Test",
+      Icon: IconTestPipe,
+    },
+    {
+      label: "Esto es un Test",
+      Icon: IconTestPipe,
+    },
+
+      {
+      label: "Esto es un Test",
+      Icon: IconTestPipe,
+    },
+
+      {
+      label: "Esto es un Test",
+      Icon: IconTestPipe,
+    },
+    {
+      label: "Esto es un Test",
+      Icon: IconTestPipe,
+    },
+    {
+      label: "Esto es un Test",
+      Icon: IconTestPipe,
+    },
   ],
   secondaryNavItems: [
     {

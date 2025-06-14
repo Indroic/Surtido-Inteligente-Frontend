@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import { ScrollShadow } from "@heroui/scroll-shadow";
 import { useState } from "react";
 
 import NavItem from "./NavItem";
@@ -12,40 +13,45 @@ export default function NavBar() {
   const [hovered, setHovered] = useState<boolean>(false);
 
   return (
-    <motion.nav
-      layout
-      animate={{
-        height: hovered ? "3.5rem" : "1rem",
-      }}
-      className="absolute mx-0 px-4 bottom-[2%] left-1/2 flex flex-row bg-content1/20 border-1 border-divider z-50 rounded-full items-center justify-between min-w-[15rem] overflow-hidden"
-      style={{
-        margin: "0 auto",
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <motion.section
+    <div className="block w-full md:relative md:inset-x-0 bottom-0 md:bottom-4 justify-center items-center z-50">
+      <motion.nav
+        layout
         animate={{
-          opacity: hovered ? 1 : 0,
-          pointerEvents: hovered ? "auto" : "none",
-          transition: { duration: 0.4, ease: "easeInOut" },
+          height: hovered ? "3.5rem" : "1rem",
         }}
-        className="flex flex-1 mx-8 w-full justify-between gap-2"
+        className="px-4 flex flex-row w-full gap-3  bg-content1/20 border-t-1 md:border-1 border-divider md:rounded-full items-center justify-between"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
       >
-        {items.map((item, i) => (
-          <NavItem key={i} {...item} />
-        ))}
-      </motion.section>
-      <motion.section
-        animate={{
-          opacity: hovered ? 1 : 0,
-          pointerEvents: hovered ? "auto" : "none",
-          transition: { duration: 0.4, ease: "easeInOut" },
-        }}
-        className="px-8 border-l-divider border-l-1"
-      >
-        <User />
-      </motion.section>
-    </motion.nav>
+        <motion.section
+          animate={{
+            opacity: hovered ? 1 : 0,
+            pointerEvents: hovered ? "auto" : "none",
+            transition: { duration: 0.4, ease: "easeInOut" },
+          }}
+          className="flex w-full basis-0 md:mx-0"
+        >
+          <ScrollShadow
+            hideScrollBar
+            className="flex w-full overflow-x-scroll"
+            orientation="horizontal"
+          >
+            {items.map((item, i) => (
+              <NavItem key={i} {...item} />
+            ))}
+          </ScrollShadow>
+        </motion.section>
+        <motion.section
+          animate={{
+            opacity: hovered ? 1 : 0,
+            pointerEvents: hovered ? "auto" : "none",
+            transition: { duration: 0.4, ease: "easeInOut" },
+          }}
+          className="border-l-divider border-l-1"
+        >
+          <User />
+        </motion.section>
+      </motion.nav>
+    </div>
   );
 }
