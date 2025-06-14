@@ -12,11 +12,7 @@ import { signOut, useSession } from "next-auth/react";
 import { useMemo, useState } from "react";
 import { Avatar } from "@heroui/avatar";
 
-type DropdownElement = {
-  label: string;
-  onPress?: () => void;
-  danger?: boolean;
-};
+import { DropdownElement } from "@/types";
 
 const dropdownElements: DropdownElement[] = [
   {
