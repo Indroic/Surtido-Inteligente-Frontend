@@ -19,7 +19,7 @@ export default function ConfigDropDown() {
       onPress: () => {
         setTheme(theme === "dark" ? "light" : "dark");
       },
-      icon: theme === "dark" ? IconSun : IconMoon,
+      Icon: theme === "dark" ? IconSun : IconMoon,
     },
   ];
 
@@ -34,7 +34,7 @@ export default function ConfigDropDown() {
             key={item.label.replace(" ", "").toLowerCase()}
             className={item.danger ? "text-danger" : ""}
             color={item.danger ? "danger" : "default"}
-            startContent={item.icon && <item.icon size={16} />}
+            startContent={item.Icon && <item.Icon size={16} />}
             onPress={item.onPress}
           >
             {item.label}

@@ -40,3 +40,7 @@ export type NavBarItemType = {
   onPress?: () => void;
   href?: string;
 };
+
+export interface DropdownElement extends NavBarItemType {
+  danger?: boolean;
+}
