@@ -1,11 +1,11 @@
 import axios, { AxiosInstance } from "axios";
 
-type PaginationType = {
+export type PaginationType = {
   limit: number;
   offset: number;
 };
 
-interface OptionsInterface extends PaginationType {}
+export interface OptionsInterface extends PaginationType {}
 
 class ApiClient {
   baseUrl: string;
@@ -18,24 +18,24 @@ class ApiClient {
     });
   }
 
-  async get(url: string, options?: OptionsInterface) {
-    const response = await this.axiosInstance.get(url, { params: options });
+  async get(subUrl: string, options?: OptionsInterface) {
+    const response = await this.axiosInstance.get(subUrl, { params: options });
 
     return response.data;
   }
-  async post(url: string, data: any) {
-    const response = await this.axiosInstance.post(url, data);
+  async post(subUrl: string, data: any) {
+    const response = await this.axiosInstance.post(subUrl, data);
 
     return response.data;
   }
-  async put(url: string, data: any) {
-    const response = await this.axiosInstance.put(url, data);
+  async put(subUrl: string, data: any) {
+    const response = await this.axiosInstance.put(subUrl, data);
 
     return response.data;
   }
 
-  async delete(url: string) {
-    const response = await this.axiosInstance.delete(url);
+  async delete(subUrl: string) {
+    const response = await this.axiosInstance.delete(subUrl);
 
     return response.data;
   }
@@ -52,37 +52,45 @@ class AuthenticatedApiClient extends ApiClient {
 }
 
 class BaseAdapter {
-  backendAdapter: ApiClient | AuthenticatedApiClient;
-  url: string;
+  client: ApiClient | AuthenticatedApiClient;
+  subUrl: string;
   token?: string;
-  constructor(url: string, token?: string) {
-    this.backendAdapter = token
-      ? new AuthenticatedApiClient(url, token)
-      : new ApiClient(url);
-    this.url = url;
+  constructor(
+    apiClient: ApiClient | AuthenticatedApiClient,
+    subUrl: string,
+    token?: string,
+  ) {
+    this.client = apiClient;
+    this.subUrl = subUrl.replace("/", "");
     this.token = token;
   }
 
-  async get(options?: { limit: number; offset: number }) {
-    const response = await this.backendAdapter.get(this.url, options);
+  async list(options?: OptionsInterface) {
+    const response = await this.client.get(this.subUrl, options);
+
+    return response;
+  }
+
+  async retrieve(pk: string) {
+    const response = await this.client.get(`${this.subUrl}/${pk}`);
 
     return response;
   }
 
   async create(data: any) {
-    const response = await this.backendAdapter.post(this.url, data);
+    const response = await this.client.post(this.subUrl, data);
 
     return response;
   }
 
   async update(data: any) {
-    const response = await this.backendAdapter.put(this.url, data);
+    const response = await this.client.put(this.subUrl, data);
 
     return response;
   }
 
-  async delete() {
-    const response = await this.backendAdapter.delete(this.url);
+  async delete(pk: string) {
+    const response = await this.client.delete(`${this.subUrl}/${pk}`);
 
     return response;
   }
