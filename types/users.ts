@@ -1,14 +1,4 @@
-import { SVGProps } from "react";
-
-export type IconSvgProps = SVGProps<SVGSVGElement> & {
-  size?: number;
-};
-
-interface BaseInterface {
-  id: string;
-  created_at: string;
-  updated_at: string;
-}
+import { BaseInterface } from "./bases";
 
 export interface ClienteInterface extends BaseInterface {
   names: string;
@@ -32,15 +22,4 @@ export interface UsuarioInterface extends BaseInterface {
   is_staff?: boolean;
   is_client?: boolean;
   is_seller?: boolean;
-}
-
-export type NavBarItemType = {
-  Icon: React.ElementType;
-  label: string;
-  onPress?: () => void;
-  href?: string;
-};
-
-export interface DropdownElement extends NavBarItemType {
-  danger?: boolean;
 }
