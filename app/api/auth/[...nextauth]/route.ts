@@ -1,17 +1,18 @@
 // Configura aquí tu proveedor OAuth 2.0 para next-auth
 // Ejemplo base para un proveedor OAuth personalizado
+import { BACKEND_API_URL, BACKEND_OAUTH_CLIENT_ID, BACKEND_OAUTH_CLIENT_SECRET, BACKEND_URL } from "@/globals";
 import type { NextAuthOptions, Profile } from "next-auth";
 
 import NextAuth from "next-auth";
 import { OAuthConfig } from "next-auth/providers";
 
 const SURTIDO_INTELIGENTE_PROVIDER: OAuthConfig<any> = {
-  clientId: process.env.API_OAUTH_CLIENT_ID,
-  clientSecret: process.env.API_OAUTH_CLIENT_SECRET,
+  clientId: BACKEND_OAUTH_CLIENT_ID,
+  clientSecret: BACKEND_OAUTH_CLIENT_SECRET,
   id: "surtido-intelligente-oauth",
   name: "Cuenta Surtido Inteligente",
   type: "oauth",
-  wellKnown: `${process.env.API_URL}/api/o/.well-known/openid-configuration`,
+  wellKnown: `${BACKEND_API_URL}/o/.well-known/openid-configuration`,
   authorization: { params: { scope: "openid user perms" } },
   idToken: true,
   checks: ["pkce", "state"],

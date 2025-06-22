@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 
 import { PaginationInterface } from "@/types/responses";
+import { BACKEND_API_URL } from "@/globals";
 
 export type PaginationType = {
   limit: number;
@@ -10,7 +11,7 @@ export type PaginationType = {
 export interface OptionsInterface extends PaginationType {}
 
 export interface ApiClientProps {
-  baseUrl: string;
+  baseUrl?: string;
   headers?: Record<string, string>;
   token?: string;
 }
@@ -45,7 +46,10 @@ class ApiClient {
   constructor(props: ApiClientProps) {
     const headers = AuthHandler.addAuthHeader(props.headers, props.token);
 
-    this.axiosInstance = AxiosFactory.createInstance(props.baseUrl, headers);
+    this.axiosInstance = AxiosFactory.createInstance(
+      props.baseUrl ? props.baseUrl : BACKEND_API_URL,
+      headers,
+    );
   }
 
   protected async get(subUrl: string, options?: OptionsInterface) {
