@@ -1,7 +1,7 @@
 import { Button } from "@heroui/button";
 import { Tooltip } from "@heroui/tooltip";
 
-import { NavBarItemType } from "@/types";
+import { NavBarItemType } from "@/types/navbar";
 
 export default function NavItem({
   Icon,

@@ -1,6 +1,6 @@
 import { IconTestPipe } from "@tabler/icons-react";
 
-import { NavBarItemType } from "@/types";
+import { NavBarItemType } from "@/types/navbar";
 
 export type DefaultSiteConfigType = {
   name: string;
@@ -14,42 +14,6 @@ export const defaultSiteConfig: DefaultSiteConfigType = {
   description: "Sistema de Inventario Surtido Inteligente",
   //Estos elementos son de prueba, IMPORTANTE CAMBIARLOS
   navItems: [
-    {
-      label: "Esto es un Test",
-      Icon: IconTestPipe,
-    },
-    {
-      label: "Esto es un Test",
-      Icon: IconTestPipe,
-    },
-    {
-      label: "Esto es un Test",
-      Icon: IconTestPipe,
-    },
-    {
-      label: "Esto es un Test",
-      Icon: IconTestPipe,
-    },
-
-    {
-      label: "Esto es un Test",
-      Icon: IconTestPipe,
-    },
-
-    {
-      label: "Esto es un Test",
-      Icon: IconTestPipe,
-    },
-    {
-      label: "Esto es un Test",
-      Icon: IconTestPipe,
-    },
-    {
-      label: "Esto es un Test",
-      Icon: IconTestPipe,
-    },
-  ],
-  secondaryNavItems: [
     {
       label: "Esto es un Test",
       Icon: IconTestPipe,

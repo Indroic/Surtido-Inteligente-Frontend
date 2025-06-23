@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
-import { NavBarItemType } from "@/types";
+import { NavBarItemType } from "@/types/navbar";
 import { defaultSiteConfig } from "@/config/site";
 
 type NavBarContextType = {

@@ -5,13 +5,22 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@heroui/dropdown";
-import { IconSun, IconMoon, IconDotsVertical } from "@tabler/icons-react";
+import {
+  IconSun,
+  IconMoon,
+  IconDotsVertical,
+  IconEyeClosed,
+  IconEye,
+} from "@tabler/icons-react";
 import { useTheme } from "next-themes";
 
-import { DropdownElement } from "@/types";
+import { DropdownElement } from "@/types/navbar";
+import { useHeaderBar } from "@/context/HeaderBarContext";
 
 export default function ConfigDropDown() {
   const { theme, setTheme } = useTheme();
+  const { hidden: hiddenHeaderBar, setHidden: setHiddenHeaderBar } =
+    useHeaderBar();
 
   const elements: DropdownElement[] = [
     {
@@ -20,6 +29,13 @@ export default function ConfigDropDown() {
         setTheme(theme === "dark" ? "light" : "dark");
       },
       Icon: theme === "dark" ? IconSun : IconMoon,
+    },
+    {
+      label: `${hiddenHeaderBar ? "Mostrar" : "Ocultar"} Header `,
+      onPress: () => {
+        setHiddenHeaderBar(!hiddenHeaderBar);
+      },
+      Icon: hiddenHeaderBar ? IconEye : IconEyeClosed,
     },
   ];
 

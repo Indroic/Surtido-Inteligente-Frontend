@@ -13,6 +13,7 @@ import { Session } from "next-auth";
 import { NavBarProvider } from "@/context/NavBarContext";
 import { AuthLayoutProvider } from "@/context/AuthLayoutContext";
 import { AuthTextProvider } from "@/context/AuthTextLayoutCOntext";
+import { HeaderBarProvider } from "@/context/HeaderBarContext";
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -40,7 +41,9 @@ export function Providers({ children, themeProps, session }: ProvidersProps) {
         <NextThemesProvider {...themeProps}>
           <NavBarProvider>
             <AuthLayoutProvider>
-              <AuthTextProvider>{children}</AuthTextProvider>
+              <AuthTextProvider>
+                <HeaderBarProvider>{children}</HeaderBarProvider>
+              </AuthTextProvider>
             </AuthLayoutProvider>
           </NavBarProvider>
         </NextThemesProvider>
