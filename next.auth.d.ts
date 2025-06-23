@@ -3,6 +3,7 @@ import {
   JWT as DefaultJWT,
   ISODateString,
 } from "next-auth";
+import { OAuthConfig as DefaultOAuthConfig } from "next-auth/providers";
 
 import { UsuarioInterface } from "@/types/users";
 
@@ -20,5 +21,9 @@ declare module "next-auth" {
   interface Session {
     user?: Profile;
     expires: ISODateString;
+  }
+
+  interface OAuthConfig<T> extends DefaultOAuthConfig<T> {
+    icon?: React.ElementType;
   }
 }
