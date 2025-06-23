@@ -1,10 +1,15 @@
 // Configura aquí tu proveedor OAuth 2.0 para next-auth
 // Ejemplo base para un proveedor OAuth personalizado
-import { BACKEND_API_URL, BACKEND_OAUTH_CLIENT_ID, BACKEND_OAUTH_CLIENT_SECRET, BACKEND_URL } from "@/globals";
 import type { NextAuthOptions, Profile } from "next-auth";
 
 import NextAuth from "next-auth";
 import { OAuthConfig } from "next-auth/providers";
+
+import {
+  BACKEND_API_URL,
+  BACKEND_OAUTH_CLIENT_ID,
+  BACKEND_OAUTH_CLIENT_SECRET,
+} from "@/globals";
 
 const SURTIDO_INTELIGENTE_PROVIDER: OAuthConfig<any> = {
   clientId: BACKEND_OAUTH_CLIENT_ID,

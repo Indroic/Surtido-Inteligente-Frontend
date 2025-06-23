@@ -31,12 +31,12 @@ export const defaultSiteConfig: DefaultSiteConfigType = {
       Icon: IconTestPipe,
     },
 
-      {
+    {
       label: "Esto es un Test",
       Icon: IconTestPipe,
     },
 
-      {
+    {
       label: "Esto es un Test",
       Icon: IconTestPipe,
     },

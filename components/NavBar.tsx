@@ -70,7 +70,6 @@ export default function NavBar() {
             pointerEvents: effectiveHovered ? "auto" : "none",
             transition: { duration: 0.4, ease: "easeInOut" },
           }}
-         
         >
           <ConfigDropDown />
         </motion.section>
