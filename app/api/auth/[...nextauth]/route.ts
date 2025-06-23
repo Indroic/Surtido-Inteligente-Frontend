@@ -12,7 +12,7 @@ const SURTIDO_INTELIGENTE_PROVIDER: OAuthConfig<any> = {
   id: "surtido-intelligente-oauth",
   name: "Cuenta Surtido Inteligente",
   type: "oauth",
-  wellKnown: `${BACKEND_API_URL}/o/.well-known/openid-configuration`,
+  wellKnown: `${BACKEND_API_URL}/o/.well-known/openid-configuration/`,
   authorization: { params: { scope: "openid user perms" } },
   idToken: true,
   checks: ["pkce", "state"],

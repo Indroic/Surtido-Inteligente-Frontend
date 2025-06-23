@@ -4,7 +4,6 @@ import { ScrollShadow } from "@heroui/scroll-shadow";
 import { useState, useEffect } from "react";
 
 import NavItem from "./NavItem";
-import User from "./User";
 import ConfigDropDown from "./ConfigDropDown";
 
 import { useNavBar } from "@/context/NavBarContext";
@@ -71,10 +70,9 @@ export default function NavBar() {
             pointerEvents: effectiveHovered ? "auto" : "none",
             transition: { duration: 0.4, ease: "easeInOut" },
           }}
-          className="grid grid-cols-2 gap-2 items-center w-max"
+         
         >
           <ConfigDropDown />
-          <User />
         </motion.section>
       </motion.nav>
     </div>

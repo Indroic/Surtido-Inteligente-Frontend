@@ -4,14 +4,14 @@ import {
   ISODateString,
 } from "next-auth";
 
-import { UsuarioInterface } from ".";
+import { UsuarioInterface } from "@/types/users";
 
 declare module "next-auth" {
   /**
    * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
    */
   interface JWT extends DefaultJWT {
-    profile: Profile;
+    profile?: Profile;
   }
 
   interface Profile extends DefaultProfile, UsuarioInterface {

@@ -1,3 +1,4 @@
+import HeaderBar from "@/components/Bar";
 import NavBar from "@/components/NavBar";
 
 export default async function DashboardLayout({
@@ -6,9 +7,10 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="relative flex flex-col-reverse h-full w-full gap-8">
+    <main className="relative flex flex-col h-full w-full gap-4">
+      <HeaderBar />
       <NavBar />
-      <div className="flex flex-1 container flex-grow m-0 p-5">{children}</div>
+      <div className="flex flex-1 flex-grow m-0 p-5">{children}</div>
     </main>
   );
 }

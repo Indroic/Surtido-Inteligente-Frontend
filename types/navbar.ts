@@ -5,7 +5,7 @@ export type IconSvgProps = SVGProps<SVGSVGElement> & {
 };
 
 export type NavBarItemType = {
-  Icon: React.ElementType;
+  Icon?: React.ElementType;
   label: string;
   onPress?: () => void;
   href?: string;
