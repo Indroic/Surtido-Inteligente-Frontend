@@ -1,4 +1,4 @@
-import { IconHome } from "@tabler/icons-react";
+import { IconHome, IconPackage } from "@tabler/icons-react";
 
 import { NavBarItemType } from "@/types/navbar";
 
@@ -18,6 +18,13 @@ export const defaultSiteConfig: DefaultSiteConfigType = {
       label: "Inicio",
       Icon: IconHome,
       href: "/dashboard",
+    },
+  ],
+  navItems: [
+    {
+      label: "Inventario",
+      Icon: IconPackage,
+      href: "/dashboard/inventory",
     },
   ],
 };

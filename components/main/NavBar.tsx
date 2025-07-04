@@ -86,6 +86,7 @@ export default function NavBar() {
             pointerEvents: effectiveHovered ? "auto" : "none",
             transition: { duration: 0.4, ease: "easeInOut" },
           }}
+          className="p-4"
         >
           <ConfigDropDown />
         </motion.section>

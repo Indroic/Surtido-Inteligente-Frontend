@@ -1,5 +1,5 @@
-import HeaderBar from "@/components/HeaderBar";
-import NavBar from "@/components/NavBar";
+import HeaderBar from "@/components/main/HeaderBar";
+import NavBar from "@/components/main/NavBar";
 
 export default async function DashboardLayout({
   children,
