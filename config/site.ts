@@ -1,17 +1,23 @@
-import { IconTestPipe } from "@tabler/icons-react";
+import { IconHome } from "@tabler/icons-react";
 
 import { NavBarItemType } from "@/types/navbar";
 
 export type DefaultSiteConfigType = {
   name: string;
   description: string;
-  navItems: NavBarItemType[];
-  secondaryNavItems?: NavBarItemType[];
+  staticNavItems: NavBarItemType[];
+  navItems?: NavBarItemType[];
 };
 
 export const defaultSiteConfig: DefaultSiteConfigType = {
   name: "Surtido Inteligente",
   description: "Sistema de Inventario Surtido Inteligente",
   //Estos elementos son de prueba, IMPORTANTE CAMBIARLOS
-  navItems: [],
+  staticNavItems: [
+    {
+      label: "Inicio",
+      Icon: IconHome,
+      href: "/dashboard",
+    },
+  ],
 };

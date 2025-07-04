@@ -4,25 +4,28 @@ import { NavBarItemType } from "@/types/navbar";
 import { defaultSiteConfig } from "@/config/site";
 
 type NavBarContextType = {
-  items: NavBarItemType[];
+  statics: NavBarItemType[];
+  items?: NavBarItemType[];
   setItems: (items: NavBarItemType[]) => void;
-  secondaryItems?: NavBarItemType[];
-  setSecondaryItems: (items: NavBarItemType[]) => void;
 };
 
 const NavBarContext = createContext<NavBarContextType | undefined>(undefined);
 
 export const NavBarProvider = ({ children }: { children: ReactNode }) => {
-  const [items, setItems] = useState<NavBarItemType[]>(
+  const [items, setItems] = useState<NavBarItemType[] | undefined>(
     defaultSiteConfig.navItems,
   );
-  const [secondaryItems, setSecondaryItems] = useState<
-    NavBarItemType[] | undefined
-  >(defaultSiteConfig.secondaryNavItems);
+  //Esta funcion se encarga de establecer los items por defecto en caso de que se llame a la funcion sin pasarle nada
+  const customSetItems = (items?: NavBarItemType[]) =>
+    items ? setItems(items) : setItems(defaultSiteConfig.navItems);
 
   return (
     <NavBarContext.Provider
-      value={{ items, setItems, secondaryItems, setSecondaryItems }}
+      value={{
+        items,
+        setItems: customSetItems,
+        statics: defaultSiteConfig.staticNavItems,
+      }}
     >
       {children}
     </NavBarContext.Provider>

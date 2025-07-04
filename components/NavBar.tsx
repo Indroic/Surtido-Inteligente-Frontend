@@ -29,7 +29,7 @@ function useMediaQuery(query: string) {
 }
 
 export default function NavBar() {
-  const { items } = useNavBar();
+  const { statics, items } = useNavBar();
   const [hovered, setHovered] = useState<boolean>(false);
   const isMediumUp = useMediaQuery("(min-width: 768px)");
 
@@ -42,7 +42,7 @@ export default function NavBar() {
         animate={{
           height: isMediumUp ? (effectiveHovered ? "3.5rem" : "1rem") : "auto",
         }}
-        className="px-4 flex flex-row gap-4 py-4 w-full max-w-full md:max-w-[60%] lg:max-w-[30%] shadow-lg  bg-content1/20 border-t-1 md:border-1 border-divider md:rounded-full items-center justify-between"
+        className="flex flex-row gap-4 w-full max-w-full md:max-w-[60%] lg:max-w-[30%] shadow-lg  bg-content1/20 border-t-1 md:border-1 border-divider md:rounded-full items-center justify-between"
         layout={isMediumUp}
         onMouseEnter={() => isMediumUp && setHovered(true)}
         onMouseLeave={() => isMediumUp && setHovered(false)}
@@ -52,17 +52,33 @@ export default function NavBar() {
             opacity: effectiveHovered ? 1 : 0,
             transition: { duration: 0.4, ease: "easeInOut" },
           }}
-          className="flex-1 items-center justify-center min-w-0"
+          className="flex flex-row items-center justify-center min-w-0"
         >
           <ScrollShadow
             hideScrollBar
-            className="flex min-w-0"
+            className="flex min-w-0 p-4"
             orientation="horizontal"
           >
-            {items.map((item, i) => (
+            {statics.map((item, i) => (
               <NavItem key={i} {...item} />
             ))}
           </ScrollShadow>
+          {!items ? null : (
+            <div className="bg-divider border-0 h-full w-divider">
+              {"\u200B"}
+            </div>
+          )}
+          {!items ? null : (
+            <ScrollShadow
+              hideScrollBar
+              className="flex min-w-0 p-4"
+              orientation="horizontal"
+            >
+              {items.map((item, i) => (
+                <NavItem key={i} {...item} />
+              ))}
+            </ScrollShadow>
+          )}
         </motion.section>
         <motion.section
           animate={{
