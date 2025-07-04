@@ -1,7 +1,10 @@
+"use client";
+
 import { Button } from "@heroui/button";
 import { Tooltip } from "@heroui/tooltip";
 
 import { NavBarItemType } from "@/types/navbar";
+import { useRouter } from "next/navigation";
 
 export default function NavItem({
   Icon,
@@ -9,14 +12,14 @@ export default function NavItem({
   onPress,
   href,
 }: NavBarItemType) {
+  const router = useRouter()
   return (
     <Tooltip showArrow color="primary" content={label}>
       <Button
         isIconOnly
-        href={href}
         size="md"
         variant="light"
-        onPress={() => onPress?.()}
+        onPress={() =>{ onPress?.(); if(href){router.push(href);} }}
       >
         <Icon size={28} stroke={1} />
       </Button>

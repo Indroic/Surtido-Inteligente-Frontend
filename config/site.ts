@@ -13,10 +13,5 @@ export const defaultSiteConfig: DefaultSiteConfigType = {
   name: "Surtido Inteligente",
   description: "Sistema de Inventario Surtido Inteligente",
   //Estos elementos son de prueba, IMPORTANTE CAMBIARLOS
-  navItems: [
-    {
-      label: "Esto es un Test",
-      Icon: IconTestPipe,
-    },
-  ],
+  navItems: [],
 };

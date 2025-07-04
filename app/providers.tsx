@@ -5,7 +5,7 @@ import type { ThemeProviderProps } from "next-themes";
 import * as React from "react";
 import { HeroUIProvider } from "@heroui/system";
 import { ToastProvider } from "@heroui/toast";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"; 
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
@@ -31,18 +31,18 @@ declare module "@react-types/shared" {
 
 export function Providers({ children, themeProps, session }: ProvidersProps) {
   const router = useRouter();
-  // **IMPORTANTE** el useHref no funciona, corregir para poder usarse correctamente en los componentes
-  const useHref = (href: string) => process.env.BASE_PATH + href;
 
   return (
-    <HeroUIProvider navigate={router.push} useHref={useHref}>
+    <HeroUIProvider navigate={router.push}>
       <ToastProvider />
       <SessionProvider session={session}>
         <NextThemesProvider {...themeProps}>
           <NavBarProvider>
             <AuthLayoutProvider>
               <AuthTextProvider>
-                <HeaderBarProvider>{children}</HeaderBarProvider>
+                <HeaderBarProvider>
+                  {children}
+                </HeaderBarProvider>
               </AuthTextProvider>
             </AuthLayoutProvider>
           </NavBarProvider>
