@@ -1,4 +1,4 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import {
   persistStore,
   persistReducer,
@@ -8,16 +8,16 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // Por defecto usa localStorage
+} from "redux-persist";
+import storage from "redux-persist/lib/storage"; // Por defecto usa localStorage
 
-import headerReducer from './features/header/HeaderSlice';
+import headerReducer from "./features/header/HeaderSlice";
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   version: 1,
   storage,
-  whitelist: ['header'], // Solo el slice 'header' será persistido
+  whitelist: ["header"], // Solo el slice 'header' será persistido
 };
 
 const rootReducer = combineReducers({

@@ -9,15 +9,14 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
 import { useRouter } from "next/dist/client/router";
-
-import { NavBarProvider } from "@/context/NavBarContext";
-import { AuthLayoutProvider } from "@/context/AuthLayoutContext";
-import { AuthTextProvider } from "@/context/AuthTextLayoutCOntext";
-
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 
 import { store, persistor } from "../store/store"; // Asegúrate de que la ruta sea correcta
+
+import { NavBarProvider } from "@/context/NavBarContext";
+import { AuthLayoutProvider } from "@/context/AuthLayoutContext";
+import { AuthTextProvider } from "@/context/AuthTextLayoutCOntext";
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -37,20 +36,18 @@ export function Providers({ children, themeProps, session }: ProvidersProps) {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-            <HeroUIProvider>
-              <ToastProvider />
-              <SessionProvider session={session}>
-                <NextThemesProvider {...themeProps}>
-                  <NavBarProvider>
-                    <AuthLayoutProvider>
-                      <AuthTextProvider>
-                        {children}
-                      </AuthTextProvider>
-                    </AuthLayoutProvider>
-                  </NavBarProvider>
-                </NextThemesProvider>
-              </SessionProvider>
-            </HeroUIProvider>
+        <HeroUIProvider>
+          <ToastProvider />
+          <SessionProvider session={session}>
+            <NextThemesProvider {...themeProps}>
+              <NavBarProvider>
+                <AuthLayoutProvider>
+                  <AuthTextProvider>{children}</AuthTextProvider>
+                </AuthLayoutProvider>
+              </NavBarProvider>
+            </NextThemesProvider>
+          </SessionProvider>
+        </HeroUIProvider>
       </PersistGate>
     </Provider>
   );

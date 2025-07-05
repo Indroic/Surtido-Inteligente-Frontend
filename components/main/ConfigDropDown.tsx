@@ -21,7 +21,7 @@ import { toggleHeaderVisibility } from "@/store/features/header/HeaderSlice";
 export default function ConfigDropDown() {
   const { theme, setTheme } = useTheme();
   const hiddenHeaderBar = useAppSelector((state) => state.header.hidden);
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const elements: DropdownElement[] = [
     {
