@@ -5,15 +5,19 @@ import type { ThemeProviderProps } from "next-themes";
 import * as React from "react";
 import { HeroUIProvider } from "@heroui/system";
 import { ToastProvider } from "@heroui/toast";
-import { useRouter } from "next/navigation";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
+import { useRouter } from "next/dist/client/router";
 
 import { NavBarProvider } from "@/context/NavBarContext";
 import { AuthLayoutProvider } from "@/context/AuthLayoutContext";
 import { AuthTextProvider } from "@/context/AuthTextLayoutCOntext";
-import { HeaderBarProvider } from "@/context/HeaderBarContext";
+
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+
+import { store, persistor } from "../store/store"; // Asegúrate de que la ruta sea correcta
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -30,22 +34,24 @@ declare module "@react-types/shared" {
 }
 
 export function Providers({ children, themeProps, session }: ProvidersProps) {
-  const router = useRouter();
-
   return (
-    <HeroUIProvider navigate={router.push}>
-      <ToastProvider />
-      <SessionProvider session={session}>
-        <NextThemesProvider {...themeProps}>
-          <NavBarProvider>
-            <AuthLayoutProvider>
-              <AuthTextProvider>
-                <HeaderBarProvider>{children}</HeaderBarProvider>
-              </AuthTextProvider>
-            </AuthLayoutProvider>
-          </NavBarProvider>
-        </NextThemesProvider>
-      </SessionProvider>
-    </HeroUIProvider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+            <HeroUIProvider>
+              <ToastProvider />
+              <SessionProvider session={session}>
+                <NextThemesProvider {...themeProps}>
+                  <NavBarProvider>
+                    <AuthLayoutProvider>
+                      <AuthTextProvider>
+                        {children}
+                      </AuthTextProvider>
+                    </AuthLayoutProvider>
+                  </NavBarProvider>
+                </NextThemesProvider>
+              </SessionProvider>
+            </HeroUIProvider>
+      </PersistGate>
+    </Provider>
   );
 }

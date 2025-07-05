@@ -2,10 +2,9 @@
 
 import { Button } from "@heroui/button";
 import { Tooltip } from "@heroui/tooltip";
+import Link from "next/link";
 
 import { NavBarItemType } from "@/types/navbar";
-
-import Link from 'next/link'
 
 export default function NavItem({
   Icon,

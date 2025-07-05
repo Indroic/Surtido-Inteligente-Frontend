@@ -15,12 +15,13 @@ import {
 import { useTheme } from "next-themes";
 
 import { DropdownElement } from "@/types/navbar";
-import { useHeaderBar } from "@/context/HeaderBarContext";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { toggleHeaderVisibility } from "@/store/features/header/HeaderSlice";
 
 export default function ConfigDropDown() {
   const { theme, setTheme } = useTheme();
-  const { hidden: hiddenHeaderBar, setHidden: setHiddenHeaderBar } =
-    useHeaderBar();
+  const hiddenHeaderBar = useAppSelector((state) => state.header.hidden);
+  const dispatch = useAppDispatch()
 
   const elements: DropdownElement[] = [
     {
@@ -32,9 +33,7 @@ export default function ConfigDropDown() {
     },
     {
       label: `${hiddenHeaderBar ? "Mostrar" : "Ocultar"} Header `,
-      onPress: () => {
-        setHiddenHeaderBar(!hiddenHeaderBar);
-      },
+      onPress: () => dispatch(toggleHeaderVisibility()),
       Icon: hiddenHeaderBar ? IconEye : IconEyeClosed,
     },
   ];
@@ -45,7 +44,7 @@ export default function ConfigDropDown() {
         <IconDotsVertical />
       </DropdownTrigger>
       <DropdownMenu items={elements}>
-        {(item) => (
+        {(item: DropdownElement) => (
           <DropdownItem
             key={item.label.replace(" ", "").toLowerCase()}
             className={item.danger ? "text-danger" : ""}
