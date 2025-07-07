@@ -9,7 +9,7 @@ import {
 
 export class ProveedoresAdapter extends BaseAdapter {
   constructor(token?: string) {
-    super("/proveedores/providers", { baseUrl: "", token });
+    super("/proveedores/providers", { token: token });
   }
 
   async list(

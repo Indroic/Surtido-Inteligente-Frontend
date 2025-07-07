@@ -21,6 +21,9 @@ declare module "next-auth" {
   interface Session {
     user?: Profile;
     expires: ISODateString;
+    expiresAt?: number;
+    accessToken?: string;
+    refreshToken?: string;
   }
 
   interface OAuthConfig<T> extends DefaultOAuthConfig<T> {

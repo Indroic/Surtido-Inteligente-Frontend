@@ -12,6 +12,7 @@ import {
 import storage from "redux-persist/lib/storage"; // Por defecto usa localStorage
 
 import headerReducer from "./features/header/HeaderSlice";
+import breadReducer from "./features/breadcrump/BreadCrumpSlice";
 
 const persistConfig = {
   key: "root",
@@ -22,6 +23,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   header: headerReducer,
+  bread: breadReducer,
   // otros: otrosReducer,
 });
 

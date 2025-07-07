@@ -17,6 +17,7 @@ import { store, persistor } from "../store/store"; // Asegúrate de que la ruta 
 import { NavBarProvider } from "@/context/NavBarContext";
 import { AuthLayoutProvider } from "@/context/AuthLayoutContext";
 import { AuthTextProvider } from "@/context/AuthTextLayoutCOntext";
+import { BreadActionsProvider } from "@/context/ActionsContext";
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -42,7 +43,9 @@ export function Providers({ children, themeProps, session }: ProvidersProps) {
             <NextThemesProvider {...themeProps}>
               <NavBarProvider>
                 <AuthLayoutProvider>
-                  <AuthTextProvider>{children}</AuthTextProvider>
+                  <AuthTextProvider>
+                    <BreadActionsProvider>{children}</BreadActionsProvider>
+                  </AuthTextProvider>
                 </AuthLayoutProvider>
               </NavBarProvider>
             </NextThemesProvider>

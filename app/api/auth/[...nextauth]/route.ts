@@ -33,9 +33,14 @@ const SURTIDO_INTELIGENTE_PROVIDER: OAuthConfig<any> = {
 export const authOptions: NextAuthOptions = {
   providers: [SURTIDO_INTELIGENTE_PROVIDER],
   callbacks: {
-    async jwt({ token, profile }) {
+    async jwt({ token, profile, account }) {
       // Solo la primera vez, después del login
-
+      if (account) {
+        // Asignamos el access_token, refresh_token y expires_at al token JWT interno de NextAuth
+        (token as any).accessToken = account.access_token;
+        (token as any).refreshToken = account.refresh_token;
+        (token as any).expiresAt = account.expires_at; // Este es un timestamp (Unix Epoch)
+      }
       if (profile) {
         token.profile = profile;
       }
@@ -47,6 +52,15 @@ export const authOptions: NextAuthOptions = {
       if (token.profile) {
         session.user = token.profile as Profile;
       }
+      if (token.accessToken) {
+        session.accessToken = token.accessToken as string;
+      }
+      if (token.refreshToken) {
+        session.refreshToken = token.refreshToken as string;
+      }
+      if (token.expiresAt) {
+        session.expiresAt = token.expiresAt as number;
+      }
 
       return session;
     },
@@ -56,6 +70,9 @@ export const authOptions: NextAuthOptions = {
     signOut: "/auth/signout",
     error: "/auth/error",
   },
+  session: {
+    strategy: "jwt",
+  }
 };
 
 const handler = NextAuth(authOptions);

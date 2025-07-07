@@ -1,4 +1,3 @@
-// store/features/header/headerSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
