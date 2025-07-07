@@ -72,6 +72,7 @@ export const authOptions: NextAuthOptions = {
         console.log("token actualizado", token);
       }
       console.log("token", token);
+
       return token;
     },
     async session({ session, token }) {

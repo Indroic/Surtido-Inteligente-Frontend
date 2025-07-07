@@ -1,11 +1,12 @@
-import { NextApiRequest } from "next";
+import { JWT } from "next-auth/jwt";
+
 import { BaseAdapter, PaginationType } from "./bases";
 
 import { ProductInterface, ProductPaginationInterface } from "@/types/products";
 
 export class ProductsAdapter extends BaseAdapter {
-  constructor(req: NextApiRequest) {
-    super("inventory/products", { req: req });
+  constructor(token: JWT) {
+    super("inventory/products", { token: token });
   }
   async list(options?: PaginationType): Promise<ProductPaginationInterface> {
     return (await super.list(options)) as ProductPaginationInterface;

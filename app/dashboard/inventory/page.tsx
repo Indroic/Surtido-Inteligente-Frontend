@@ -3,20 +3,31 @@
 import { Button, ButtonGroup } from "@heroui/button";
 import { IconCategory, IconPlus, IconSearch } from "@tabler/icons-react";
 import { Input } from "@heroui/input";
-import { Table, TableHeader, TableColumn, TableBody } from "@heroui/table";
+import {
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "@heroui/table";
 import { useEffect } from "react";
-import { useSession } from "next-auth/react";
+import { useState } from "react";
+import { addToast } from "@heroui/toast";
 
 import ResumeComponent from "@/components/inventory/ResumeComponent";
 import ResumeItem from "@/components/inventory/ResumeItem";
 import { useAppDispatch } from "@/store/hooks";
 import { addBread } from "@/store/features/breadcrump/BreadCrumpSlice";
 import { useBreadActions } from "@/context/ActionsContext";
+import { ProductPaginationInterface } from "@/types/products";
 
 export default function Inventory() {
+  const [productos, setProductos] = useState<ProductPaginationInterface>();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const dispatch = useAppDispatch();
   const { setActions } = useBreadActions();
-  const { data: session, status } = useSession();
 
   useEffect(() => {
     dispatch(
@@ -40,15 +51,42 @@ export default function Inventory() {
         color: "primary",
       },
     ]);
+
+    // Fetch común para obtener productos
+    const fetchProductos = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const res = await fetch("/api/inventory/list");
+
+        if (!res.ok)
+          addToast({
+            title: "Error",
+            description: res.statusText,
+            color: "danger",
+          });
+        const data = await res.json();
+
+        setProductos(data);
+      } catch (err: any) {
+        setError(err.message || "Error desconocido");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProductos();
   }, []);
 
   return (
     <main className="flex flex-1 flex-col gap-6">
       <ResumeComponent>
-        <ResumeItem Icon={IconSearch} content="0" title="Productos" />
-        <ResumeItem Icon={IconSearch} content="0" title="Productos" />
-        <ResumeItem Icon={IconSearch} content="0" title="Productos" />
-        <ResumeItem Icon={IconSearch} content="0" title="Productos" />
+        <ResumeItem
+          Icon={IconSearch}
+          content={productos ? productos.length : 0}
+          title="Productos"
+        />
+        {/* Puedes agregar más ResumeItem según tus métricas */}
       </ResumeComponent>
       <section className="flex flex-row w-full gap-12">
         <Input
@@ -62,7 +100,7 @@ export default function Inventory() {
       </section>
       <Table
         removeWrapper
-        aria-label="Example static collection table"
+        aria-label="Lista de productos"
         className="flex flex-1"
       >
         <TableHeader>
@@ -72,8 +110,25 @@ export default function Inventory() {
           <TableColumn>STOCK BASE</TableColumn>
           <TableColumn>ACCIONES</TableColumn>
         </TableHeader>
-        <TableBody className="flex-1" emptyContent={"No Hay Nada que Mostrar"}>
-          {[]}
+        <TableBody
+          className="flex-1"
+          emptyContent={
+            isLoading
+              ? "Cargando..."
+              : error
+                ? "Error al cargar"
+                : "No Hay Nada que Mostrar"
+          }
+          items={productos ? productos.results : []}
+        >
+          {(item) => (
+            <TableRow>
+              <TableCell>{item.name}</TableCell>
+              <TableCell>{item.updated_at}</TableCell>
+              <TableCell>0</TableCell>
+              <TableCell>Acciones</TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </main>
