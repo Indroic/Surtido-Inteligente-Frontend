@@ -19,7 +19,6 @@ const SURTIDO_INTELIGENTE_PROVIDER: OAuthConfig<any> = {
   type: "oauth",
   wellKnown: `${BACKEND_API_URL}/o/.well-known/openid-configuration/`,
   authorization: { params: { scope: "openid user perms" } },
-  idToken: true,
   checks: ["pkce", "state"],
   profile(profile) {
     // Desanida los campos del usuario para que estén planos en session.user
@@ -40,11 +39,39 @@ export const authOptions: NextAuthOptions = {
         (token as any).accessToken = account.access_token;
         (token as any).refreshToken = account.refresh_token;
         (token as any).expiresAt = account.expires_at; // Este es un timestamp (Unix Epoch)
+        (token as any).tokenType = account.token_type;
       }
       if (profile) {
         token.profile = profile;
       }
 
+      // verifica que el token no haya expirado
+      if (token.expiresAt && token.expiresAt * 1000 < Date.now()) {
+        // refresca el token
+        console.log("refrescando token");
+        try {
+          const res = await fetch(`${BACKEND_API_URL}/o/token/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({
+              grant_type: "refresh_token",
+              refresh_token: token.refreshToken,
+            }),
+          });
+          const data = await res.json();
+
+          (token as any).accessToken = data.access_token;
+          (token as any).refreshToken = data.refresh_token;
+          (token as any).expiresAt = data.expires_at;
+          (token as any).tokenType = data.token_type;
+        } catch (error) {
+          throw new Error("Error al refrescar el token");
+        }
+        console.log("token actualizado", token);
+      }
+      console.log("token", token);
       return token;
     },
     async session({ session, token }) {
@@ -72,7 +99,7 @@ export const authOptions: NextAuthOptions = {
   },
   session: {
     strategy: "jwt",
-  }
+  },
 };
 
 const handler = NextAuth(authOptions);

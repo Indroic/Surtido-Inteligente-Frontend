@@ -1,13 +1,13 @@
+import { NextApiRequest } from "next";
 import { BaseAdapter, PaginationType } from "./bases";
+
 import { ProductInterface, ProductPaginationInterface } from "@/types/products";
 
 export class ProductsAdapter extends BaseAdapter {
-  constructor(token: string) {
-    super("inventory/products", { token: token });
+  constructor(req: NextApiRequest) {
+    super("inventory/products", { req: req });
   }
-  async list(
-    options?: PaginationType,
-  ): Promise<ProductPaginationInterface> {
+  async list(options?: PaginationType): Promise<ProductPaginationInterface> {
     return (await super.list(options)) as ProductPaginationInterface;
   }
 

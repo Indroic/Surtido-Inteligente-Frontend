@@ -5,21 +5,19 @@ import { IconCategory, IconPlus, IconSearch } from "@tabler/icons-react";
 import { Input } from "@heroui/input";
 import { Table, TableHeader, TableColumn, TableBody } from "@heroui/table";
 import { useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 import ResumeComponent from "@/components/inventory/ResumeComponent";
 import ResumeItem from "@/components/inventory/ResumeItem";
 import { useAppDispatch } from "@/store/hooks";
 import { addBread } from "@/store/features/breadcrump/BreadCrumpSlice";
 import { useBreadActions } from "@/context/ActionsContext";
-import { ProductsAdapter } from "@/adapters/inventory";
-import useSWR from 'swr'
-import { useSession } from "next-auth/react";
 
 export default function Inventory() {
   const dispatch = useAppDispatch();
   const { setActions } = useBreadActions();
-  const {data: session, status} = useSession();
-  
+  const { data: session, status } = useSession();
+
   useEffect(() => {
     dispatch(
       addBread([

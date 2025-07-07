@@ -11,10 +11,6 @@ declare module "next-auth" {
   /**
    * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
    */
-  interface JWT extends DefaultJWT {
-    profile?: Profile;
-  }
-
   interface Profile extends DefaultProfile, UsuarioInterface {
     id: string;
   }
@@ -28,5 +24,15 @@ declare module "next-auth" {
 
   interface OAuthConfig<T> extends DefaultOAuthConfig<T> {
     icon?: React.ElementType;
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT extends DefaultJWT {
+    profile?: Profile;
+    accessToken?: string;
+    refreshToken?: string;
+    expiresAt?: number;
+    tokenType?: string;
   }
 }

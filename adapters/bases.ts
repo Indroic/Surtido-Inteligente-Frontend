@@ -1,7 +1,10 @@
 import axios, { AxiosInstance } from "axios";
+import { getToken } from "next-auth/jwt";
 
 import { PaginationInterface } from "@/types/responses";
 import { BACKEND_API_URL } from "@/globals";
+import { JWT } from "next-auth";
+import { NextApiRequest } from "next";
 
 export type PaginationType = {
   limit: number;
@@ -13,7 +16,7 @@ export interface OptionsInterface extends PaginationType {}
 export interface ApiClientProps {
   baseUrl?: string;
   headers?: Record<string, string>;
-  token?: string;
+  req: NextApiRequest;
 }
 
 // Factoría para crear instancias de Axios
@@ -31,9 +34,15 @@ class AxiosFactory {
 
 // Handler para autenticación
 class AuthHandler {
-  static addAuthHeader(headers: Record<string, string> = {}, token?: string) {
+  static addAuthHeader(
+    headers: Record<string, string> = {},
+    token: JWT | null,
+  ) {
     if (token) {
-      return { ...headers, Authorization: `Bearer ${token}` };
+      return {
+        ...headers,
+        Authorization: `${token.tokenType} ${token.accessToken}`,
+      };
     }
 
     return headers;
@@ -44,12 +53,25 @@ class ApiClient {
   axiosInstance: AxiosInstance;
 
   constructor(props: ApiClientProps) {
-    const headers = AuthHandler.addAuthHeader(props.headers, props.token);
+    let headers = props.headers || {};
 
     this.axiosInstance = AxiosFactory.createInstance(
-      props.baseUrl ? props.baseUrl : BACKEND_API_URL,
-      headers,
+      props.baseUrl || BACKEND_API_URL,
+      headers
     );
+    getToken({ req: props.req })
+      .then((token) => {
+        headers = AuthHandler.addAuthHeader(headers, token);
+      })
+      .catch(() => {
+        headers = AuthHandler.addAuthHeader(headers, null);
+      })
+      .finally(() => {
+        this.axiosInstance = AxiosFactory.createInstance(
+          props.baseUrl || BACKEND_API_URL,
+          headers
+        );
+      });
   }
 
   protected async get(subUrl: string, options?: OptionsInterface) {
