@@ -1,3 +1,4 @@
+import { Skeleton } from "@heroui/skeleton";
 import { TablerIcon } from "@tabler/icons-react";
 import { Component } from "react";
 
@@ -6,23 +7,27 @@ interface Props {
   Icon: TablerIcon;
   content: string;
   indice?: number;
+  loading?: boolean;
 }
 
 class ResumeItem extends Component<Props> {
   render() {
-    const { title, Icon, content } = this.props;
+    const { title, Icon, content, loading } = this.props;
 
     return (
       <li
-        className={`flex flex-col justify-start items-start px-8 py-7 w-full min-w-max ${this.border()}`}
+        className={`flex flex-col justify-start items-start px-8 py-7 w-full min-w-max gap-1 ${this.border()}`}
       >
         <section className="flex-1 flex flex-row w-full justify-between items-center">
           <span className="text-lg font-semibold">{title}</span>
           {<Icon />}
         </section>
-        <section className="font-bold text-xl flex-1 justify-start">
+        <Skeleton
+          className="flex w-full rounded-md font-bold text-xl flex-1 justify-start"
+          isLoaded={!loading}
+        >
           {content}
-        </section>
+        </Skeleton>
       </li>
     );
   }

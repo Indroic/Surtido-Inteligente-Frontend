@@ -1,8 +1,9 @@
 import axios, { AxiosInstance } from "axios";
 import { JWT } from "next-auth/jwt";
+import { NextApiRequest } from "next";
 
-import { PaginationInterface } from "@/types/responses";
-import { BACKEND_API_URL } from "@/globals";
+import { PaginationInterface, PaginationResponse } from "@/types/responses";
+import { BACKEND_API_URL, BACKEND_URL } from "@/globals";
 
 export type PaginationType = {
   limit: number;
@@ -44,6 +45,82 @@ class AuthHandler {
   }
 }
 
+// --- Pagination URL Parser ---
+class PaginationUrlParser {
+  static parse(
+    url: string | null,
+    baseUrl: string,
+  ): { limit: number; offset: number } | null {
+    if (!url) return null;
+    let params: URLSearchParams;
+
+    try {
+      if (url.startsWith("http://") || url.startsWith("https://")) {
+        params = new URL(url).searchParams;
+      } else {
+        params = new URL(url, baseUrl).searchParams;
+      }
+    } catch {
+      return null;
+    }
+    const limit = parseInt(params.get("limit") || "10", 10);
+    const offset = parseInt(params.get("offset") || "0", 10);
+
+    return { limit, offset };
+  }
+}
+
+// --- Pagination Data Calculator ---
+class PaginationDataCalculator {
+  static calculate({
+    count,
+    next,
+    previous,
+  }: {
+    count: number;
+    next: { limit: number; offset: number } | null;
+    previous: { limit: number; offset: number } | null;
+  }) {
+    const limit = next?.limit || previous?.limit || 10;
+    const offset =
+      next?.offset !== undefined
+        ? next.offset - limit
+        : previous?.offset !== undefined
+          ? previous.offset + limit
+          : 0;
+    const page = Math.floor(offset / limit) + 1;
+    const totalPages = Math.ceil(count / limit);
+
+    return { limit, offset, page, totalPages };
+  }
+}
+
+class LimitOffsetPaginationHandler {
+  static fromResponse(response: PaginationResponse<any>, baseUrl: string) {
+    const next = PaginationUrlParser.parse(response.next, baseUrl);
+    const previous = PaginationUrlParser.parse(response.previous, baseUrl);
+    const { limit, offset, page, totalPages } =
+      PaginationDataCalculator.calculate({
+        count: response.count,
+        next,
+        previous,
+      });
+
+    return {
+      count: response.count,
+      next,
+      previous,
+      results: response.results,
+      page,
+      totalPages,
+      hasNext: !!next,
+      hasPrevious: !!previous,
+      limit,
+      offset,
+    };
+  }
+}
+
 class ApiClient {
   axiosInstance: AxiosInstance;
 
@@ -56,26 +133,43 @@ class ApiClient {
     );
   }
 
-  protected async get(subUrl: string, options?: OptionsInterface) {
-    console.log(this.axiosInstance.defaults.headers);
-    const response = await this.axiosInstance.get(subUrl, { params: options });
+  protected async get(subUrl: string, params?: URLSearchParams) {
+    try {
+      const response = await this.axiosInstance.get(subUrl, {
+        params: params,
+      });
 
-    return response.data;
+      return response.data;
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
   protected async post(subUrl: string, data: any) {
-    const response = await this.axiosInstance.post(subUrl, data);
+    try {
+      const response = await this.axiosInstance.post(subUrl, data);
 
-    return response.data;
+      return response.data;
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
   protected async put(subUrl: string, data: any) {
-    const response = await this.axiosInstance.put(subUrl, data);
+    try {
+      const response = await this.axiosInstance.put(subUrl, data);
 
-    return response.data;
+      return response.data;
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
   protected async delete(subUrl: string) {
-    const response = await this.axiosInstance.delete(subUrl);
+    try {
+      const response = await this.axiosInstance.delete(subUrl);
 
-    return response.data;
+      return response.data;
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 }
 
@@ -85,8 +179,13 @@ class BaseAdapter extends ApiClient {
     super(props);
     this.subUrl = subUrl.replace(/^\//, "");
   }
-  async list(options?: OptionsInterface): Promise<PaginationInterface> {
-    return this.get(this.subUrl, options);
+  async list(req?: NextApiRequest): Promise<PaginationInterface<any>> {
+    const params = req
+      ? new URL(req.url as string).searchParams
+      : new URLSearchParams();
+    const response = await this.get(this.subUrl, params);
+
+    return LimitOffsetPaginationHandler.fromResponse(response, BACKEND_URL);
   }
   async retrieve(pk: string): Promise<Record<string, any>> {
     return this.get(`${this.subUrl}/${pk}`);

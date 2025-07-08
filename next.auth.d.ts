@@ -17,7 +17,7 @@ declare module "next-auth" {
   interface Session {
     user?: Profile;
     expires: ISODateString;
-    expiresAt?: number;
+    expiresAt?: Date;
     accessToken?: string;
     refreshToken?: string;
   }
@@ -32,7 +32,7 @@ declare module "next-auth/jwt" {
     profile?: Profile;
     accessToken?: string;
     refreshToken?: string;
-    expiresAt?: number;
+    expiresAt?: Date;
     tokenType?: string;
   }
 }

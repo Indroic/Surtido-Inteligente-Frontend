@@ -1,8 +1,9 @@
 "use client";
 
 import { Button, ButtonGroup } from "@heroui/button";
-import { IconCategory, IconPlus, IconSearch } from "@tabler/icons-react";
+import { IconPackage, IconSearch } from "@tabler/icons-react";
 import { Input } from "@heroui/input";
+import Form from "next/form";
 import {
   Table,
   TableHeader,
@@ -11,21 +12,25 @@ import {
   TableRow,
   TableCell,
 } from "@heroui/table";
-import { useEffect } from "react";
-import { useState } from "react";
-import { addToast } from "@heroui/toast";
+import { Pagination } from "@heroui/pagination";
+import { useEffect, useState } from "react";
+import useSWR from "swr";
 
 import ResumeComponent from "@/components/inventory/ResumeComponent";
 import ResumeItem from "@/components/inventory/ResumeItem";
 import { useAppDispatch } from "@/store/hooks";
 import { addBread } from "@/store/features/breadcrump/BreadCrumpSlice";
 import { useBreadActions } from "@/context/ActionsContext";
-import { ProductPaginationInterface } from "@/types/products";
+import CreateProductModal from "@/components/inventory/ModalCreate";
+import { PaginationInterface } from "@/types/responses";
+import { ProductInterface } from "@/types/products";
 
 export default function Inventory() {
-  const [productos, setProductos] = useState<ProductPaginationInterface>();
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [limit, setLimit] = useState(10);
+  const [offset, setOffset] = useState(0);
+  const { data, isLoading, error } = useSWR<
+    PaginationInterface<ProductInterface>
+  >(`/api/inventory/products/list?limit=${limit}&offset=${offset}`);
   const dispatch = useAppDispatch();
   const { setActions } = useBreadActions();
 
@@ -36,64 +41,59 @@ export default function Inventory() {
         { id: "3", href: "/dashboard/inventory", label: "Productos Base" },
       ]),
     );
-    setActions([
-      {
-        Icon: <IconCategory size={16} />,
-        label: "Categorias",
-        onPress: () => {},
-        variant: "light",
-        color: "secondary",
-      },
-      {
-        Icon: <IconPlus size={16} />,
-        label: "Nuevo Producto",
-        onPress: () => {},
-        color: "primary",
-      },
-    ]);
-
-    // Fetch común para obtener productos
-    const fetchProductos = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const res = await fetch("/api/inventory/list");
-
-        if (!res.ok)
-          addToast({
-            title: "Error",
-            description: res.statusText,
-            color: "danger",
-          });
-        const data = await res.json();
-
-        setProductos(data);
-      } catch (err: any) {
-        setError(err.message || "Error desconocido");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchProductos();
+    setActions([<CreateProductModal key={"1"} />]);
   }, []);
+
+  // Cuando el usuario cambia de página
+  const handlePageChange = (newPage: number) => {
+    if (data) {
+      setOffset((newPage - 1) * data.limit);
+      setLimit(data.limit);
+    }
+  };
+
+  // Usar los datos de la respuesta para la paginación
+  const page = data ? data.page : 1;
+  const totalPages = data ? data.totalPages : 1;
 
   return (
     <main className="flex flex-1 flex-col gap-6">
       <ResumeComponent>
         <ResumeItem
-          Icon={IconSearch}
-          content={productos ? productos.length : 0}
+          Icon={IconPackage}
+          content={data ? `${data.count}` : "0"}
+          loading={isLoading}
           title="Productos"
         />
-        {/* Puedes agregar más ResumeItem según tus métricas */}
+        <ResumeItem
+          Icon={IconPackage}
+          content={data ? `${data.count}` : "0"}
+          loading={isLoading}
+          title="Productos"
+        />
+        <ResumeItem
+          Icon={IconPackage}
+          content={data ? `${data.count}` : "0"}
+          loading={isLoading}
+          title="Productos"
+        />
+        <ResumeItem
+          Icon={IconPackage}
+          content={data ? `${data.count}` : "0"}
+          loading={isLoading}
+          title="Productos"
+        />
       </ResumeComponent>
       <section className="flex flex-row w-full gap-12">
-        <Input
-          endContent={<IconSearch className="text-default-300" />}
-          placeholder="Buscar Producto"
-          variant="bordered"
-        />
+        <Form action={"/dashboard/inventory"} className="flex flex-1 gap-1">
+          <Input name="search" placeholder="Buscar" variant="bordered" />
+          <Button
+            isIconOnly
+            startContent={<IconSearch />}
+            type="submit"
+            variant="light"
+          />
+        </Form>
         <ButtonGroup>
           <Button>Filtrar</Button>
         </ButtonGroup>
@@ -101,7 +101,22 @@ export default function Inventory() {
       <Table
         removeWrapper
         aria-label="Lista de productos"
-        className="flex flex-1"
+        bottomContent={
+          totalPages > 0 ? (
+            <div className="flex w-full justify-center">
+              <Pagination
+                isCompact
+                showControls
+                showShadow
+                color="primary"
+                page={page}
+                total={totalPages}
+                onChange={handlePageChange}
+              />
+            </div>
+          ) : null
+        }
+        className="flex max-w-full max-h-full"
       >
         <TableHeader>
           <TableColumn>PRODUCTO</TableColumn>
@@ -119,14 +134,15 @@ export default function Inventory() {
                 ? "Error al cargar"
                 : "No Hay Nada que Mostrar"
           }
-          items={productos ? productos.results : []}
+          items={data ? data.results : []}
         >
           {(item) => (
             <TableRow>
               <TableCell>{item.name}</TableCell>
+              <TableCell>{item.variants}</TableCell>
               <TableCell>{item.updated_at}</TableCell>
-              <TableCell>0</TableCell>
-              <TableCell>Acciones</TableCell>
+              <TableCell>{item.stock}</TableCell>
+              <TableCell>acciones</TableCell>
             </TableRow>
           )}
         </TableBody>

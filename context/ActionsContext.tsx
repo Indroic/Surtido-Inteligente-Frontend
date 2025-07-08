@@ -1,15 +1,9 @@
-import { ButtonProps } from "@heroui/button";
-import { TablerIcon } from "@tabler/icons-react";
+import { Button } from "@heroui/button";
 import React, { createContext, useContext, useState } from "react";
 
-type ActionType = {
-  Icon?: React.ReactElement<TablerIcon>;
-  label?: string;
-} & ButtonProps;
-
 export type BreadActionsContextType = {
-  actions: ActionType[];
-  setActions: (actions: ActionType[]) => void;
+  actions: React.ReactElement<typeof Button>[];
+  setActions: (actions: React.ReactElement<typeof Button>[]) => void;
 };
 
 const BreadActionsContext = createContext<BreadActionsContextType>({
@@ -22,7 +16,9 @@ export function BreadActionsProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [actions, setActions] = useState<ActionType[]>([]);
+  const [actions, setActions] = useState<React.ReactElement<typeof Button>[]>(
+    [],
+  );
 
   return (
     <BreadActionsContext.Provider value={{ actions, setActions }}>

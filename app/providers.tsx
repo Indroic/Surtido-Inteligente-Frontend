@@ -11,6 +11,7 @@ import { Session } from "next-auth";
 import { useRouter } from "next/dist/client/router";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
+import { SWRConfig } from "swr";
 
 import { store, persistor } from "../store/store"; // Asegúrate de que la ruta sea correcta
 
@@ -44,7 +45,18 @@ export function Providers({ children, themeProps, session }: ProvidersProps) {
               <NavBarProvider>
                 <AuthLayoutProvider>
                   <AuthTextProvider>
-                    <BreadActionsProvider>{children}</BreadActionsProvider>
+                    <BreadActionsProvider>
+                      <SWRConfig
+                        value={{
+                          revalidateOnFocus: false,
+                          refreshInterval: 0,
+                          fetcher: (url) =>
+                            fetch(url).then((res) => res.json()),
+                        }}
+                      >
+                        {children}
+                      </SWRConfig>
+                    </BreadActionsProvider>
                   </AuthTextProvider>
                 </AuthLayoutProvider>
               </NavBarProvider>

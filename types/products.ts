@@ -1,9 +1,8 @@
 import { BaseInterface } from "./bases";
 import { ImpuestoInterface } from "./legal";
-import { PaginationInterface } from "./responses";
 
 export interface CategoryInterface extends BaseInterface {
-  nombre: string;
+  name: string;
 }
 
 export interface ProductTypeInterface extends BaseInterface {
@@ -16,6 +15,8 @@ export interface ProductInterface extends BaseInterface {
   description: string;
   product_type: ProductTypeInterface | string;
   category: CategoryInterface | string;
+  stock?: number;
+  variants?: number;
 }
 
 export interface ProductVariantInterface extends BaseInterface {
@@ -24,8 +25,4 @@ export interface ProductVariantInterface extends BaseInterface {
   description: string;
   weight: number;
   stock?: number;
-}
-
-export interface ProductPaginationInterface extends PaginationInterface {
-  results: ProductInterface[];
 }

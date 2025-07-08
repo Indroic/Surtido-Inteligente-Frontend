@@ -3,7 +3,7 @@
 import { BreadcrumbItem, Breadcrumbs } from "@heroui/breadcrumbs";
 import { useEffect, useState } from "react";
 import { Skeleton } from "@heroui/skeleton";
-import { Button, ButtonGroup } from "@heroui/button";
+import { ButtonGroup } from "@heroui/button";
 
 import { useAppSelector } from "@/store/hooks";
 import { useBreadActions } from "@/context/ActionsContext";
@@ -38,16 +38,9 @@ export default function BreadCrump() {
       </Skeleton>
       <Skeleton className="rounded-md" isLoaded={loading}>
         <ButtonGroup>
-          {actions.map((action, index) => (
-            <Button
-              key={index}
-              startContent={action.Icon ? action.Icon : null}
-              {...action}
-              size="sm"
-            >
-              {action.label}
-            </Button>
-          ))}
+          {actions
+            ? actions.map((Action: React.ReactElement, index) => Action)
+            : null}
         </ButtonGroup>
       </Skeleton>
     </div>

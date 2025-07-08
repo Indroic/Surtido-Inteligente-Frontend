@@ -2,20 +2,20 @@ import { NextResponse } from "next/server";
 import { NextApiRequest } from "next";
 import { getToken, JWT } from "next-auth/jwt";
 
-import { ProductsAdapter } from "@/adapters/inventory";
-import { ProductPaginationInterface } from "@/types/products";
+import { CategoriesAdapter } from "@/adapters/inventory";
+import { PaginationInterface } from "@/types/responses";
+import { CategoryInterface } from "@/types/products";
 
 export async function GET(req: NextApiRequest) {
   const token = await getToken({ req });
-  const productsAdapter = new ProductsAdapter(token as JWT);
+  const adapter = new CategoriesAdapter(token as JWT);
 
   try {
-    const result: ProductPaginationInterface = await productsAdapter.list();
+    const result: PaginationInterface<CategoryInterface> =
+      await adapter.list(req);
 
     return NextResponse.json(result, { status: 200 });
-  } catch (err) {
-    console.log(err);
-
+  } catch {
     return NextResponse.json({ error: "failed to load data" }, { status: 500 });
   }
 }
