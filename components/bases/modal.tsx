@@ -14,9 +14,9 @@ interface CustomModalProps {
   triggerLabel: string;
   title: string;
   children: ReactNode;
-  modalprops?: React.ComponentProps<typeof Modal>;
+  modalprops?: Omit<React.ComponentProps<typeof Modal>, "children">;
   triggerIcon?: React.ReactNode;
-  onConfirm?: () => void;
+  onConfirm?: (closeModal: () => void) => void;
   confirmLabel?: string;
   cancelLabel?: string;
   confirmColor?: "primary" | "danger" | "default";
@@ -44,8 +44,13 @@ export default class CustomModal extends React.Component<CustomModalProps> {
   };
 
   handleConfirm = () => {
-    if (this.props.onConfirm) this.props.onConfirm();
-    this.handleClose();
+    if (this.props.onConfirm) {
+      // Si hay onConfirm, solo se cierra si el usuario llama a closeModal
+      this.props.onConfirm(this.handleClose);
+    } else {
+      // Si no hay onConfirm, se cierra por defecto
+      this.handleClose();
+    }
   };
 
   render() {

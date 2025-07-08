@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosError, AxiosInstance, isAxiosError } from "axios";
 import { JWT } from "next-auth/jwt";
 import { NextApiRequest } from "next";
 
@@ -141,16 +141,18 @@ class ApiClient {
 
       return response.data;
     } catch (error) {
-      return Promise.reject(error);
+      throw error as AxiosError;
     }
   }
   protected async post(subUrl: string, data: any) {
     try {
-      const response = await this.axiosInstance.post(subUrl, data);
+      const response = await this.axiosInstance.post(subUrl, JSON.stringify(data));
 
       return response.data;
     } catch (error) {
-      return Promise.reject(error);
+      if (isAxiosError(error)) {
+        throw error;
+      }
     }
   }
   protected async put(subUrl: string, data: any) {
@@ -159,7 +161,7 @@ class ApiClient {
 
       return response.data;
     } catch (error) {
-      return Promise.reject(error);
+      throw error as AxiosError;
     }
   }
   protected async delete(subUrl: string) {
@@ -168,37 +170,57 @@ class ApiClient {
 
       return response.data;
     } catch (error) {
-      return Promise.reject(error);
+      throw error as AxiosError;
     }
   }
 }
 
-class BaseAdapter extends ApiClient {
+class BackendAdapter extends ApiClient {
   subUrl: string;
   constructor(subUrl: string, props: ApiClientProps) {
     super(props);
     this.subUrl = subUrl.replace(/^\//, "");
   }
   async list(req?: NextApiRequest): Promise<PaginationInterface<any>> {
-    const params = req
-      ? new URL(req.url as string).searchParams
-      : new URLSearchParams();
-    const response = await this.get(this.subUrl, params);
+    try {
+      const params = req
+        ? new URL(req.url as string).searchParams
+        : new URLSearchParams();
+      const response = await this.get(this.subUrl, params);
 
-    return LimitOffsetPaginationHandler.fromResponse(response, BACKEND_URL);
+      return LimitOffsetPaginationHandler.fromResponse(response, BACKEND_URL);
+    } catch (error) {
+      throw error as AxiosError;
+    }
   }
   async retrieve(pk: string): Promise<Record<string, any>> {
-    return this.get(`${this.subUrl}/${pk}`);
+    try {
+      return this.get(`${this.subUrl}/${pk}`);
+    } catch (error) {
+      throw error as AxiosError;
+    }
   }
   async create(data: any): Promise<Record<string, any>> {
-    return this.post(this.subUrl, data);
+    try {
+      return this.post(this.subUrl, data);
+    } catch (error) {
+      throw error as AxiosError;
+    }
   }
   async update(data: any): Promise<Record<string, any>> {
-    return this.put(this.subUrl, data);
+    try {
+      return this.put(this.subUrl, data);
+    } catch (error) {
+      throw error as AxiosError;
+    }
   }
   async delete(pk: string): Promise<any> {
-    return this.delete(`${this.subUrl}/${pk}`);
+    try {
+      return this.delete(`${this.subUrl}/${pk}`);
+    } catch (error) {
+      throw error as AxiosError;
+    }
   }
 }
 
-export { BaseAdapter, ApiClient };
+export { BackendAdapter, ApiClient };

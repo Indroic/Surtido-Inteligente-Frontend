@@ -2,16 +2,16 @@ import { NextResponse } from "next/server";
 import { NextApiRequest } from "next";
 import { getToken, JWT } from "next-auth/jwt";
 
-import { ProductsAdapter } from "@/adapters/inventory";
+import { ProductTypesAdapter } from "@/adapters/inventory";
 import { PaginationInterface } from "@/types/responses";
-import { ProductInterface } from "@/types/products";
+import { ProductTypeInterface } from "@/types/products";
 
 export async function GET(req: NextApiRequest) {
   const token = await getToken({ req });
-  const adapter = new ProductsAdapter(token as JWT);
+  const adapter = new ProductTypesAdapter(token as JWT);
 
   try {
-    const result: PaginationInterface<ProductInterface> =
+    const result: PaginationInterface<ProductTypeInterface> =
       await adapter.list(req);
 
     return NextResponse.json(result, { status: 200 });
