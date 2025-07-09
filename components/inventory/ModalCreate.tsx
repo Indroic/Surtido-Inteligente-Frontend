@@ -2,22 +2,121 @@
 
 import { IconPlus } from "@tabler/icons-react";
 import { Form } from "@heroui/form";
-import useSWR from "swr";
+import { useInfiniteScroll } from "@heroui/use-infinite-scroll";
 import { Input, Textarea } from "@heroui/input";
 import { Select, SelectItem } from "@heroui/select";
 import { Controller, useForm } from "react-hook-form";
+import { useState, useCallback, useEffect } from "react";
 
 import CustomModal from "@/components/bases/modal";
 import { PaginationInterface } from "@/types/responses";
 import { CategoryInterface, ProductTypeInterface } from "@/types/products";
+import { enableCompileCache } from "module";
+import { getCsrfToken } from "next-auth/react";
 
-export default function CreateProductModal() {
-  const { data: categoriesData, isLoading: categoriesLoading } = useSWR<
-    PaginationInterface<CategoryInterface>
-  >("/api/inventory/products/categories/list");
-  const { data: productTypesData, isLoading: productTypesLoading } = useSWR<
-    PaginationInterface<ProductTypeInterface>
-  >("/api/inventory/products/productTypes/list");
+// --- Custom hooks para obtención de datos con scroll infinito ---
+function useInfiniteCategories({ Enabled }: { Enabled: boolean }) {
+  const selectItemsLimit = 10;
+  const [categories, setCategories] = useState<CategoryInterface[]>([]);
+  const [offset, setOffset] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+  const fetchMore = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(
+        `/api/inventory/products/categories/list?offset=${offset}&limit=${selectItemsLimit}`
+      );
+      const data: PaginationInterface<CategoryInterface> = await res.json();
+
+      setCategories((prev) => {
+        const existingIds = new Set(prev.map((item) => item.id));
+        const newItems = (data.results || []).filter(
+          (item) => !existingIds.has(item.id)
+        );
+        return [...prev, ...newItems];
+      });
+      setHasMore(Boolean(data.next));
+      setOffset((prev) => prev + selectItemsLimit);
+    } finally {
+      setLoading(false);
+    }
+  }, [offset]);
+
+  const [, scrollerRef] = useInfiniteScroll({
+    hasMore,
+    isEnabled: Enabled,
+    shouldUseLoader: false,
+    onLoadMore: fetchMore,
+  });
+
+  useEffect(() => {
+    fetchMore();
+  }, []);
+
+  return { categories, loading, scrollerRef };
+}
+
+function useInfiniteProductTypes({ Enabled }: { Enabled: boolean }) {
+  const selectItemsLimit = 10;
+  const [productTypes, setProductTypes] = useState<ProductTypeInterface[]>([]);
+  const [offset, setOffset] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+  const fetchMore = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(
+        `/api/inventory/products/productTypes/list?offset=${offset}&limit=${selectItemsLimit}`
+      );
+      const data: PaginationInterface<ProductTypeInterface> = await res.json();
+
+      setProductTypes((prev) => {
+        const existingIds = new Set(prev.map((item) => item.id));
+        const newItems = (data.results || []).filter(
+          (item) => !existingIds.has(item.id)
+        );
+        return [...prev, ...newItems];
+      });
+      setHasMore(Boolean(data.next));
+      setOffset((prev) => prev + selectItemsLimit);
+    } finally {
+      setLoading(false);
+    }
+  }, [offset]);
+
+  const [scrollerRef] = useInfiniteScroll({
+    hasMore,
+    isEnabled: Enabled,
+    shouldUseLoader: false,
+    onLoadMore: fetchMore,
+  });
+
+  useEffect(() => {
+    fetchMore();
+  }, []);
+
+  return { productTypes, loading, scrollerRef };
+}
+
+// Componente principal
+export default function ModalCreate() {
+  const [csrfToken, setCsrfToken] = useState<string | undefined>();
+  const [openCategories, setOpenCategories] = useState(false);
+  const [openProductTypes, setOpenProductTypes] = useState(false);
+  // Usar hooks personalizados
+  const {
+    categories,
+    loading: categoriesLoading,
+    scrollerRef: scrollerCategoriesRef,
+  } = useInfiniteCategories({ Enabled: openCategories });
+  const {
+    productTypes,
+    loading: productTypesLoading,
+    scrollerRef: scrollerProductTypesRef,
+  } = useInfiniteProductTypes({ Enabled: openProductTypes });
 
   const { handleSubmit, control } = useForm({
     defaultValues: {
@@ -25,8 +124,15 @@ export default function CreateProductModal() {
       category: "",
       product_type: "",
       description: "",
+      csrfmiddlewaretoken: csrfToken,
     },
   });
+
+  useEffect(() => {
+    getCsrfToken().then((token) => {
+      setCsrfToken(token as string);
+    });
+  }, []);
 
   return (
     <CustomModal
@@ -52,6 +158,11 @@ export default function CreateProductModal() {
       }}
     >
       <Form className="flex flex-col gap-4">
+        <input
+          name="csrfmiddlewaretoken"
+          type="hidden"
+          defaultValue={csrfToken}
+        />
         <Controller
           control={control}
           name="name"
@@ -89,16 +200,18 @@ export default function CreateProductModal() {
               errorMessage={error?.message}
               isInvalid={invalid}
               isLoading={categoriesLoading}
-              items={categoriesData?.results}
+              items={categories}
               label="Categoría"
               labelPlacement="outside"
               name={name}
+              scrollRef={scrollerCategoriesRef}
               validationBehavior="aria"
               value={value}
+              onChange={onChange}
               variant="bordered"
               // Let React Hook Form handle validation instead of the browser.
               onBlur={onBlur}
-              onChange={onChange}
+              onOpenChange={setOpenCategories}
             >
               {(item) => <SelectItem key={item.id}>{item.name}</SelectItem>}
             </Select>
@@ -118,16 +231,18 @@ export default function CreateProductModal() {
               errorMessage={error?.message}
               isInvalid={invalid}
               isLoading={productTypesLoading}
-              items={productTypesData?.results}
+              items={productTypes}
               label="Tipo de Producto"
               labelPlacement="outside"
               name={name}
+              scrollRef={scrollerProductTypesRef}
               validationBehavior="aria"
               value={value}
+              onChange={onChange}
               variant="bordered"
               // Let React Hook Form handle validation instead of the browser.
               onBlur={onBlur}
-              onChange={onChange}
+              onOpenChange={setOpenProductTypes}
             >
               {(item) => <SelectItem key={item.id}>{item.name}</SelectItem>}
             </Select>

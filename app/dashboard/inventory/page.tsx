@@ -26,7 +26,7 @@ import { PaginationInterface } from "@/types/responses";
 import { ProductInterface } from "@/types/products";
 
 export default function Inventory() {
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(9);
   const [offset, setOffset] = useState(0);
   const { data, isLoading, error } = useSWR<
     PaginationInterface<ProductInterface>

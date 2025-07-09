@@ -37,7 +37,7 @@ export default function NavBar() {
   const effectiveHovered = isMediumUp ? hovered : true;
 
   return (
-    <div className="absolute w-full md:flex md:inset-x-0 bottom-0 md:bottom-4 justify-center items-center z-50 overflow-hidden">
+    <div className="fixed w-full md:flex md:inset-x-0 bottom-0 md:bottom-4 justify-center items-center z-50 overflow-hidden">
       <motion.nav
         animate={{
           height: isMediumUp ? (effectiveHovered ? "3.5rem" : "1rem") : "auto",

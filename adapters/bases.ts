@@ -49,7 +49,7 @@ class AuthHandler {
 class PaginationUrlParser {
   static parse(
     url: string | null,
-    baseUrl: string,
+    baseUrl: string
   ): { limit: number; offset: number } | null {
     if (!url) return null;
     let params: URLSearchParams;
@@ -129,7 +129,7 @@ class ApiClient {
 
     this.axiosInstance = AxiosFactory.createInstance(
       props.baseUrl ? props.baseUrl : BACKEND_API_URL,
-      headers,
+      headers
     );
   }
 
@@ -144,10 +144,23 @@ class ApiClient {
       throw error as AxiosError;
     }
   }
-  protected async post(subUrl: string, data: any) {
+  protected async post(subUrl: string, data: Record<string, any>) {
+    // Obtener el CSRF token de los datos (puede venir como propiedad o en un FormData)
+    let csrf =
+      data.csrfmiddlewaretoken ||
+      (typeof FormData !== "undefined" && data instanceof FormData
+        ? data.get("csrfmiddlewaretoken")
+        : undefined);
     try {
-      const response = await this.axiosInstance.post(subUrl, JSON.stringify(data));
-
+      const headers: Record<string, string> = {};
+      if (csrf) {
+        headers["X-CSRFToken"] = csrf;
+      }
+      const response = await this.axiosInstance.post(
+        subUrl,
+        JSON.stringify(data),
+        { headers }
+      );
       return response.data;
     } catch (error) {
       if (isAxiosError(error)) {
