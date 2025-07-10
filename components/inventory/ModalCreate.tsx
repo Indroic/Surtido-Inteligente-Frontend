@@ -103,7 +103,6 @@ function useInfiniteProductTypes({ Enabled }: { Enabled: boolean }) {
 
 // Componente principal
 export default function ModalCreate() {
-  const [csrfToken, setCsrfToken] = useState<string | undefined>();
   const [openCategories, setOpenCategories] = useState(false);
   const [openProductTypes, setOpenProductTypes] = useState(false);
   // Usar hooks personalizados
@@ -121,18 +120,11 @@ export default function ModalCreate() {
   const { handleSubmit, control } = useForm({
     defaultValues: {
       name: "",
-      category: "",
-      product_type: "",
+      category_id: "",
+      product_type_id: "",
       description: "",
-      csrfmiddlewaretoken: csrfToken,
     },
   });
-
-  useEffect(() => {
-    getCsrfToken().then((token) => {
-      setCsrfToken(token as string);
-    });
-  }, []);
 
   return (
     <CustomModal
@@ -142,27 +134,19 @@ export default function ModalCreate() {
       triggerProps={{ startContent: <IconPlus size={16} /> }}
       onConfirm={(closeModal) => {
         handleSubmit((data) => {
-          fetch("/api/inventory/products/create", {
-            method: "POST",
-            body: JSON.stringify(data),
-          })
-            .then((res) => {
-              if (res.ok) {
-                console.log(res);
-              }
-            })
-            .catch((error) => {
-              console.error(error);
+          let func = async () => {
+            const res = await fetch("/api/inventory/products", {
+              method: "POST",
+              body: JSON.stringify(data),
             });
+
+            console.log(await res.json());
+          };
+          func();
         })();
       }}
     >
       <Form className="flex flex-col gap-4">
-        <input
-          name="csrfmiddlewaretoken"
-          type="hidden"
-          defaultValue={csrfToken}
-        />
         <Controller
           control={control}
           name="name"
@@ -189,7 +173,7 @@ export default function ModalCreate() {
         />
         <Controller
           control={control}
-          name="category"
+          name="category_id"
           render={({
             field: { name, value, onChange, onBlur, ref },
             fieldState: { invalid, error },
@@ -200,7 +184,7 @@ export default function ModalCreate() {
               errorMessage={error?.message}
               isInvalid={invalid}
               isLoading={categoriesLoading}
-              items={categories}
+              items={categories ? categories : []}
               label="Categoría"
               labelPlacement="outside"
               name={name}
@@ -220,7 +204,7 @@ export default function ModalCreate() {
         />
         <Controller
           control={control}
-          name="product_type"
+          name="product_type_id"
           render={({
             field: { name, value, onChange, onBlur, ref },
             fieldState: { invalid, error },
@@ -231,7 +215,7 @@ export default function ModalCreate() {
               errorMessage={error?.message}
               isInvalid={invalid}
               isLoading={productTypesLoading}
-              items={productTypes}
+              items={productTypes ? productTypes : []}
               label="Tipo de Producto"
               labelPlacement="outside"
               name={name}

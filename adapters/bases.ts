@@ -145,21 +145,10 @@ class ApiClient {
     }
   }
   protected async post(subUrl: string, data: Record<string, any>) {
-    // Obtener el CSRF token de los datos (puede venir como propiedad o en un FormData)
-    let csrf =
-      data.csrfmiddlewaretoken ||
-      (typeof FormData !== "undefined" && data instanceof FormData
-        ? data.get("csrfmiddlewaretoken")
-        : undefined);
     try {
-      const headers: Record<string, string> = {};
-      if (csrf) {
-        headers["X-CSRFToken"] = csrf;
-      }
       const response = await this.axiosInstance.post(
         subUrl,
         JSON.stringify(data),
-        { headers }
       );
       return response.data;
     } catch (error) {
