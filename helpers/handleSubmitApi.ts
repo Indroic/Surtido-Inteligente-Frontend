@@ -1,5 +1,4 @@
 import { addToast, ToastProps } from "@heroui/toast";
-import { ToastOptions } from "@react-stately/toast";
 import { Path, UseFormReturn } from "react-hook-form";
 
 import { BaseErrorInterface, BaseInterface } from "@/types/bases";
@@ -15,9 +14,13 @@ const handleSubmitApi = async <T extends BaseInterface>({
 }: {
   form: T;
   url: string;
-  toast: ToastProps & ToastOptions;
+  toast: {
+    title: string;
+    description: string;
+    color: ToastProps["color"];
+  };
   type: "create" | "update";
-  reset: () => void;
+  reset: UseFormReturn<T>["reset"];
   setError: UseFormReturn<T>["setError"];
   successFunction?: () => void;
 }) => {

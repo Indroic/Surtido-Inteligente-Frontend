@@ -6,6 +6,7 @@ import { Input, Textarea } from "@heroui/input";
 import { Select, SelectItem } from "@heroui/select";
 import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
+import { Skeleton } from "@heroui/skeleton";
 
 import CustomModal from "@/components/bases/modal";
 import {
@@ -63,9 +64,7 @@ export default function ModalCreate() {
         setError,
         successFunction: closeModal,
       }),
-    )()
-      .then(() => setLoading(false))
-      .catch(() => setLoading(false));
+    )().finally(() => setLoading(false));
   };
 
   return (
@@ -107,29 +106,32 @@ export default function ModalCreate() {
           render={({
             field: { name, value, onChange, onBlur, ref },
             fieldState: { invalid, error },
-          }) => (
-            <Select
-              ref={ref}
-              isRequired
-              errorMessage={error?.message}
-              isDisabled={loading}
-              isInvalid={invalid}
-              isLoading={categoriesLoading}
-              items={categories ? categories : []}
-              label="Categoría"
-              labelPlacement="outside"
-              name={name}
-              scrollRef={scrollerCategoriesRef}
-              validationBehavior="aria"
-              value={value as string}
-              variant="bordered"
-              onBlur={onBlur}
-              onChange={onChange}
-              onOpenChange={setOpenCategories}
-            >
-              {(item) => <SelectItem key={item.id}>{item.name}</SelectItem>}
-            </Select>
-          )}
+          }) =>
+            categoriesLoading && categories.length === 0 ? (
+              <Skeleton className="h-10 w-full rounded-sm" />
+            ) : (
+              <Select
+                ref={ref}
+                isRequired
+                errorMessage={error?.message}
+                isDisabled={loading}
+                isInvalid={invalid}
+                isLoading={categoriesLoading}
+                items={categories ? categories : []}
+                label="Categoría"
+                name={name}
+                scrollRef={scrollerCategoriesRef}
+                validationBehavior="aria"
+                value={value as string}
+                variant="bordered"
+                onBlur={onBlur}
+                onChange={onChange}
+                onOpenChange={setOpenCategories}
+              >
+                {(item) => <SelectItem key={item.id}>{item.name}</SelectItem>}
+              </Select>
+            )
+          }
           rules={{ required: "La Categoría es Requerida" }}
         />
         <Controller
@@ -139,27 +141,32 @@ export default function ModalCreate() {
             field: { name, value, onChange, onBlur, ref },
             fieldState: { invalid, error },
           }) => (
-            <Select
-              ref={ref}
-              isRequired
-              errorMessage={error?.message}
-              isDisabled={loading}
-              isInvalid={invalid}
-              isLoading={productTypesLoading}
-              items={productTypes ? productTypes : []}
-              label="Tipo de Producto"
-              labelPlacement="outside"
-              name={name}
-              scrollRef={scrollerProductTypesRef}
-              validationBehavior="aria"
-              value={value as string}
-              variant="bordered"
-              onBlur={onBlur}
-              onChange={onChange}
-              onOpenChange={setOpenProductTypes}
+            <Skeleton
+              className="w-full h-full rounded-md"
+              isLoaded={!productTypesLoading}
             >
-              {(item) => <SelectItem key={item.id}>{item.name}</SelectItem>}
-            </Select>
+              <Select
+                ref={ref}
+                isRequired
+                className="w-full h-full"
+                errorMessage={error?.message}
+                isDisabled={loading}
+                isInvalid={invalid}
+                isLoading={productTypesLoading}
+                items={productTypes ? productTypes : []}
+                label="Tipo de Producto"
+                name={name}
+                scrollRef={scrollerProductTypesRef}
+                validationBehavior="aria"
+                value={value as string}
+                variant="bordered"
+                onBlur={onBlur}
+                onChange={onChange}
+                onOpenChange={setOpenProductTypes}
+              >
+                {(item) => <SelectItem key={item.id}>{item.name}</SelectItem>}
+              </Select>
+            </Skeleton>
           )}
           rules={{ required: "El Tipo de Producto es Requerido" }}
         />
