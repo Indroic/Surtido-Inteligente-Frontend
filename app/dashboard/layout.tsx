@@ -8,7 +8,7 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="relative flex flex-col h-full w-full">
+    <main className="relative flex flex-col min-h-full min-w-full max-w-full">
       <HeaderBar />
       <NavBar />
       <BreadCrump />

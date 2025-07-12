@@ -49,7 +49,7 @@ class AuthHandler {
 class PaginationUrlParser {
   static parse(
     url: string | null,
-    baseUrl: string
+    baseUrl: string,
   ): { limit: number; offset: number } | null {
     if (!url) return null;
     let params: URLSearchParams;
@@ -129,7 +129,7 @@ class ApiClient {
 
     this.axiosInstance = AxiosFactory.createInstance(
       props.baseUrl ? props.baseUrl : BACKEND_API_URL,
-      headers
+      headers,
     );
   }
 
@@ -150,6 +150,7 @@ class ApiClient {
         subUrl,
         JSON.stringify(data),
       );
+
       return response.data;
     } catch (error) {
       if (isAxiosError(error)) {

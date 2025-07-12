@@ -3,6 +3,7 @@
 import { Button, ButtonGroup } from "@heroui/button";
 import { IconPackage, IconSearch } from "@tabler/icons-react";
 import { Input } from "@heroui/input";
+import { NumberInput } from "@heroui/number-input";
 import Form from "next/form";
 import {
   Table,
@@ -26,7 +27,7 @@ import { PaginationInterface } from "@/types/responses";
 import { ProductInterface } from "@/types/products";
 
 export default function Inventory() {
-  const [limit, setLimit] = useState(9);
+  const [limit, setLimit] = useState(10);
   const [offset, setOffset] = useState(0);
   const { data, isLoading, error } = useSWR<
     PaginationInterface<ProductInterface>
@@ -84,7 +85,7 @@ export default function Inventory() {
           title="Productos"
         />
       </ResumeComponent>
-      <section className="flex flex-row w-full gap-12">
+      <section className="flex flex-row w-full gap-8 items-center justify-between">
         <Form action={"/dashboard/inventory"} className="flex flex-1 gap-1">
           <Input name="search" placeholder="Buscar" variant="bordered" />
           <Button
@@ -97,6 +98,17 @@ export default function Inventory() {
         <ButtonGroup>
           <Button>Filtrar</Button>
         </ButtonGroup>
+        <NumberInput
+          className="w-1/4"
+          defaultValue={10}
+          label="Limite"
+          max={100}
+          min={10}
+          name="limit"
+          size="sm"
+          value={limit}
+          onChange={(value) => setLimit(value as number)}
+        />
       </section>
       <Table
         removeWrapper
@@ -140,7 +152,9 @@ export default function Inventory() {
             <TableRow>
               <TableCell>{item.name}</TableCell>
               <TableCell>{item.variants}</TableCell>
-              <TableCell>{item.updated_at}</TableCell>
+              <TableCell>
+                {new Date(item.updated_at).toLocaleDateString()}
+              </TableCell>
               <TableCell>{item.stock}</TableCell>
               <TableCell>acciones</TableCell>
             </TableRow>

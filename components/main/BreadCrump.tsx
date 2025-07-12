@@ -38,9 +38,7 @@ export default function BreadCrump() {
       </Skeleton>
       <Skeleton className="rounded-md" isLoaded={loading}>
         <ButtonGroup>
-          {actions
-            ? actions.map((Action: React.ReactElement, index) => Action)
-            : null}
+          {actions ? actions.map((Action: React.ReactElement) => Action) : null}
         </ButtonGroup>
       </Skeleton>
     </div>

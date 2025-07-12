@@ -13,7 +13,7 @@ export default function AuthLayout({
   const { hideMainText } = useAuthLayoutContext();
 
   return (
-    <main className="flex flex-col items-center justify-center w-full h-full">
+    <main className="flex flex-col items-center justify-center min-h-screen min-w-screen max-w-screen">
       <section className="gap-5 flex flex-col md:w-auto md:h-[100dvh] lg:w-[70dvw] lg:max-h-min md:bg-content1 md:border-1 shadow-md border-divider px-6 flex-grow py-10 rounded-lg">
         <section className="flex flex-row">
           <Image

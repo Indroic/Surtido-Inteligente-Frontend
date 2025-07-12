@@ -8,3 +8,7 @@ export interface BasePayType extends BaseInterface {
   name: string;
   description: string;
 }
+
+export type BaseErrorInterface<T> = {
+  [P in keyof T]?: string[];
+};

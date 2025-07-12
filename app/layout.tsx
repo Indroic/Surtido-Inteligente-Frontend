@@ -47,9 +47,9 @@ export default async function RootLayout({
           session={session as any}
           themeProps={{ attribute: "class", defaultTheme: "dark" }}
         >
-          <div className="relative flex flex-col h-screen w-screen">
+          <main className="relative flex flex-col min-h-screen min-w-screen max-w-screen">
             <main className="flex-grow">{children}</main>
-          </div>
+          </main>
         </Providers>
       </body>
     </html>
