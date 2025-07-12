@@ -26,7 +26,7 @@ export default function BreadCrump() {
   }, [useAppSelector((state) => state.bread.items), actions]);
 
   return (
-    <div className="flex p-5 w-full items-center justify-between">
+    <div className="flex flex-col gap-5 md:flex-row md:items-center p-5 w-full items-start justify-between">
       <Skeleton className="rounded-md" isLoaded={loading}>
         <Breadcrumbs variant="solid">
           {useAppSelector((state) => state.bread.items).map((item, index) => (

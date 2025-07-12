@@ -48,7 +48,7 @@ export function Providers({ children, themeProps, session }: ProvidersProps) {
                     <BreadActionsProvider>
                       <SWRConfig
                         value={{
-                          revalidateOnFocus: false,
+                          revalidateOnFocus: true,
                           refreshInterval: 0,
                           fetcher: (url) =>
                             fetch(url).then((res) => res.json()),
