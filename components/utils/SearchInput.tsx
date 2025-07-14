@@ -2,18 +2,19 @@
 
 import { Input, InputProps } from "@heroui/input";
 import { IconSearch } from "@tabler/icons-react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import _ from "lodash";
 
 import createQueryString from "@/helpers/createQueryString";
 
 function SearchInput(props: InputProps) {
+  const searchParams = useSearchParams();
   const pathName = usePathname();
   const router = useRouter();
 
   const handleSearch = _.debounce(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newQuery = createQueryString({
+      const newQuery = createQueryString(searchParams, {
         search: event.target.value,
       });
 
@@ -25,7 +26,8 @@ function SearchInput(props: InputProps) {
   return (
     <Input
       className="flex w-full"
-      endContent={<IconSearch />}
+      color="primary"
+      endContent={<IconSearch className="text-default-400" />}
       name="search"
       placeholder="Buscar por nombre, categoria..."
       variant="bordered"

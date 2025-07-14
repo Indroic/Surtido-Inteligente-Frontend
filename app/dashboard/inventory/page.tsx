@@ -5,9 +5,9 @@ import { useEffect } from "react";
 import { useAppDispatch } from "@/store/hooks";
 import { addBread } from "@/store/features/breadcrump/BreadCrumpSlice";
 import { useBreadActions } from "@/context/ActionsContext";
-import CreateProductModal from "@/components/inventory/ModalCreate";
+import CreateProductModal from "@/components/inventory/CreateProduct";
 import ProductsList from "@/components/inventory/ProductsList";
-import SearchInput from "@/components/utils/SearchInput";
+import StatsComponent from "@/components/inventory/ProductsStats";
 
 export default function Inventory() {
   const dispatch = useAppDispatch();
@@ -18,14 +18,14 @@ export default function Inventory() {
       addBread([
         { id: "2", href: "/dashboard/inventory", label: "Inventario" },
         { id: "3", href: "/dashboard/inventory", label: "Productos Base" },
-      ]),
+      ])
     );
     setActions([<CreateProductModal key={"1"} />]);
   }, []);
 
   return (
     <main className="flex flex-1 flex-col gap-6">
-      <SearchInput />
+      <StatsComponent />
       <ProductsList />
     </main>
   );

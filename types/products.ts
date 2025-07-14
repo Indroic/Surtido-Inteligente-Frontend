@@ -17,6 +17,7 @@ export interface ProductInterface extends BaseInterface {
   category: CategoryInterface | string;
   stock?: number;
   variants?: number;
+  variants_obj?: ProductVariantInterface[];
 }
 
 export interface ProductVariantInterface extends BaseInterface {
@@ -25,4 +26,11 @@ export interface ProductVariantInterface extends BaseInterface {
   description: string;
   weight: number;
   stock?: number;
+}
+
+export interface ProductStatsInterface {
+  total_products: number;
+  total_variants: number;
+  total_stock: number;
+  total_categories: number;
 }

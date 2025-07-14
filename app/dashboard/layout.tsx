@@ -12,7 +12,7 @@ export default async function DashboardLayout({
       <HeaderBar />
       <NavBar />
       <BreadCrump />
-      <div className="flex flex-1 flex-grow m-0 p-5">{children}</div>
+      <div className="flex flex-1 flex-grow m-0 mb-5 p-5">{children}</div>
     </main>
   );
 }

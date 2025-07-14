@@ -42,7 +42,9 @@ export default function NavBar() {
         animate={{
           height: isMediumUp ? (effectiveHovered ? "3.5rem" : "1rem") : "auto",
         }}
-        className="flex flex-row gap-4 w-full max-w-full md:max-w-[60%] lg:max-w-[30%] shadow-lg  bg-content1/20 border-t-1 md:border-1 border-divider md:rounded-full items-center justify-between"
+        className={
+          "flex flex-row border-b-1 gap-4 w-full max-w-full md:max-w-[60%] lg:max-w-[30%] shadow-lg  bg-content1/20 border-t-1 md:border-1 border-divider md:rounded-full items-center justify-between"
+        }
         layout={isMediumUp}
         onMouseEnter={() => isMediumUp && setHovered(true)}
         onMouseLeave={() => isMediumUp && setHovered(false)}

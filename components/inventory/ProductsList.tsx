@@ -9,18 +9,17 @@ import {
   TableRow,
 } from "@heroui/table";
 import { Spinner } from "@heroui/spinner";
-import { Pagination } from "@heroui/pagination";
+
 import useSWR from "swr";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 import { ProductInterface } from "@/types/products";
 import { PaginationInterface } from "@/types/responses";
-import createQueryString from "@/helpers/createQueryString";
+import SearchInput from "../utils/SearchInput";
+import PaginateComponent from "../utils/PaginateComponent";
 
 function ProductsList() {
   const searchParams = useSearchParams();
-  const pathName = usePathname();
-  const router = useRouter();
   const limit = searchParams.get("limit") || "10";
   const offset = searchParams.get("offset") || "0";
   const search = searchParams.get("search") || "";
@@ -28,41 +27,31 @@ function ProductsList() {
   const { data, isLoading, error } = useSWR<
     PaginationInterface<ProductInterface>
   >(
-    `/api/inventory/products/list?limit=${limit}&offset=${offset}&${search ? `search=${search}` : null}`,
+    `/api/inventory/products/list?limit=${limit}&offset=${offset}&${search ? `search=${search}` : ""}`,
+    {
+      keepPreviousData: true,
+    }
   );
+  const loadingState =
+    isLoading || data?.results.length === 0 ? "loading" : "idle";
   const totalPages = data?.totalPages || 0;
   const page = data?.page || 1;
-  const handlePageChange = (page: number) => {
-    let offset = (page - 1) * 10;
-    const newQuery = createQueryString({
-      limit,
-      offset: offset.toString(),
-      search,
-    });
-
-    router.push(`${pathName}?${newQuery}`);
-  };
 
   return (
     <Table
       removeWrapper
       aria-label="Lista de productos"
-      bottomContent={
-        totalPages > 0 ? (
-          <div className="flex w-full justify-center">
-            <Pagination
-              isCompact
-              showControls
-              showShadow
-              color="primary"
-              page={page}
-              total={totalPages}
-              onChange={handlePageChange}
-            />
-          </div>
-        ) : null
+      classNames={{
+        wrapper: "max-w-full border-1 border-divider",
+      }}
+      topContent={
+        <div className="flex flex-col md:flex-row  max-w-full gap-2 items-center justify-between">
+          <SearchInput />
+          <PaginateComponent page={page} totalPages={totalPages} />
+        </div>
       }
-      className="flex max-w-screen"
+      topContentPlacement="outside"
+      maxTableHeight={100}
     >
       <TableHeader>
         <TableColumn>PRODUCTO</TableColumn>
@@ -74,16 +63,9 @@ function ProductsList() {
         <TableColumn>ACCIONES</TableColumn>
       </TableHeader>
       <TableBody
-        className="flex min-h-full max-w-screen"
-        emptyContent={
-          isLoading ? (
-            <Spinner label="Cargando..." variant="wave" />
-          ) : error ? (
-            "Error al cargar"
-          ) : (
-            "No Hay Nada que Mostrar"
-          )
-        }
+        emptyContent={"No se encontraron productos"}
+        loadingState={loadingState}
+        loadingContent={<Spinner variant="wave" />}
         items={data ? data.results : []}
       >
         {(item) => (

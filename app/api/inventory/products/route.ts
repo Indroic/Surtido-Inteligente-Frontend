@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ProductInterface } from "@/types/products";
 import { ProductsAdapter } from "@/adapters/inventory";
 
-export async function create(req: NextRequest) {
+export async function POST(req: NextRequest) {
   const token = await getToken({ req });
   const adapter = new ProductsAdapter(token as JWT);
 
@@ -24,5 +24,3 @@ export async function create(req: NextRequest) {
     return new NextResponse(JSON.stringify(error), { status: 500 });
   }
 }
-
-export { create as POST };
