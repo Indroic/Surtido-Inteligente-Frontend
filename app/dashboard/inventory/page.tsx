@@ -5,9 +5,9 @@ import { useEffect } from "react";
 import { useAppDispatch } from "@/store/hooks";
 import { addBread } from "@/store/features/breadcrump/BreadCrumpSlice";
 import { useBreadActions } from "@/context/ActionsContext";
-import CreateProductModal from "@/components/inventory/CreateProduct";
-import ProductsList from "@/components/inventory/ProductsList";
-import StatsComponent from "@/components/inventory/ProductsStats";
+import CreateProductModal from "@/components/ui/inventory/CreateProduct";
+import ProductsList from "@/components/ui/inventory/ProductsList";
+import StatsComponent from "@/components/ui/inventory/ProductsStats";
 
 export default function Inventory() {
   const dispatch = useAppDispatch();

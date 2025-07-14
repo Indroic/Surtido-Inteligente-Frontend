@@ -1,7 +1,12 @@
-import ResumeComponent from "@/components/inventory/ResumeComponent";
-import ResumeItem from "@/components/inventory/ResumeItem";
+import ResumeComponent from "@/components/common/resume/ResumeComponent";
+import ResumeItem from "@/components/common/resume/ResumeItem";
 import { ProductStatsInterface } from "@/types/products";
-import { IconPackage, IconTags, IconPackages, IconVersions } from "@tabler/icons-react";
+import {
+  IconPackage,
+  IconTags,
+  IconPackages,
+  IconVersions,
+} from "@tabler/icons-react";
 import useSWR from "swr";
 
 export default function StatsComponent() {

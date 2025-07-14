@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import ResumeItem from "@/components/inventory/ResumeItem";
+import ResumeItem from "@/components/common/resume/ResumeItem";
 
 type Props = {
   children: React.ReactElement<ResumeItem> | React.ReactElement<ResumeItem>[];
@@ -15,7 +15,7 @@ export default class ResumeComponent extends Component<Props> {
             ...child.props,
             key: index,
             indice: index,
-          } as any),
+          } as any)
         )}
       </ul>
     );

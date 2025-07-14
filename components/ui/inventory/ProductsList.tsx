@@ -15,8 +15,8 @@ import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 import { ProductInterface } from "@/types/products";
 import { PaginationInterface } from "@/types/responses";
-import SearchInput from "../utils/SearchInput";
-import PaginateComponent from "../utils/PaginateComponent";
+import SearchInput from "../../utils/SearchInput";
+import PaginateComponent from "../../utils/PaginateComponent";
 
 function ProductsList() {
   const searchParams = useSearchParams();
