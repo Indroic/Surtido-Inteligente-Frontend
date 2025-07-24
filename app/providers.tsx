@@ -12,6 +12,7 @@ import { useRouter } from "next/dist/client/router";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { SWRConfig } from "swr";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import { store, persistor } from "../store/store"; // Asegúrate de que la ruta sea correcta
 
@@ -54,7 +55,7 @@ export function Providers({ children, themeProps, session }: ProvidersProps) {
                             fetch(url).then((res) => res.json()),
                         }}
                       >
-                        {children}
+                        <NuqsAdapter>{children}</NuqsAdapter>
                       </SWRConfig>
                     </BreadActionsProvider>
                   </AuthTextProvider>

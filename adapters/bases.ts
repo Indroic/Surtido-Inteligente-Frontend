@@ -184,7 +184,9 @@ class BackendAdapter extends ApiClient {
     super(props);
     this.subUrl = subUrl.replace(/^\//, "");
   }
-  async list(req?: NextApiRequest): Promise<PaginationInterface<any>> {
+  async list(
+    req?: NextApiRequest | Request,
+  ): Promise<PaginationInterface<any>> {
     try {
       const params = req
         ? new URL(req.url as string).searchParams

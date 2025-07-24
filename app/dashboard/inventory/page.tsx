@@ -8,6 +8,7 @@ import { useBreadActions } from "@/context/ActionsContext";
 import CreateProductModal from "@/components/ui/inventory/CreateProduct";
 import ProductsList from "@/components/ui/inventory/ProductsList";
 import StatsComponent from "@/components/ui/inventory/ProductsStats";
+import ProductDetails from "@/components/ui/inventory/ProductDetails";
 
 export default function Inventory() {
   const dispatch = useAppDispatch();
@@ -18,7 +19,7 @@ export default function Inventory() {
       addBread([
         { id: "2", href: "/dashboard/inventory", label: "Inventario" },
         { id: "3", href: "/dashboard/inventory", label: "Productos Base" },
-      ])
+      ]),
     );
     setActions([<CreateProductModal key={"1"} />]);
   }, []);
@@ -27,6 +28,7 @@ export default function Inventory() {
     <main className="flex flex-1 flex-col gap-6">
       <StatsComponent />
       <ProductsList />
+      <ProductDetails />
     </main>
   );
 }

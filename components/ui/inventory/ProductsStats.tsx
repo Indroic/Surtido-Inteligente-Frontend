@@ -1,6 +1,3 @@
-import ResumeComponent from "@/components/common/resume/ResumeComponent";
-import ResumeItem from "@/components/common/resume/ResumeItem";
-import { ProductStatsInterface } from "@/types/products";
 import {
   IconPackage,
   IconTags,
@@ -9,35 +6,40 @@ import {
 } from "@tabler/icons-react";
 import useSWR from "swr";
 
+import ResumeComponent from "@/components/common/resume/ResumeComponent";
+import ResumeItem from "@/components/common/resume/ResumeItem";
+import { ProductStatsInterface } from "@/types/products";
+
 export default function StatsComponent() {
-  const { data, isLoading, error } = useSWR<ProductStatsInterface>(
-    "/api/inventory/products/stats"
+  const { data, isLoading } = useSWR<ProductStatsInterface>(
+    "/api/inventory/products/stats",
   );
+
   return (
     <ResumeComponent>
       <ResumeItem
-        title="Total de Productos Base"
+        Icon={IconPackage}
         content={data?.total_products.toString() || "0"}
         loading={isLoading}
-        Icon={IconPackage}
+        title="Total de Productos Base"
       />
       <ResumeItem
-        title="Categorias"
+        Icon={IconTags}
         content={data?.total_categories.toString() || "0"}
         loading={isLoading}
-        Icon={IconTags}
+        title="Categorias"
       />
       <ResumeItem
-        title="Variantes"
+        Icon={IconVersions}
         content={data?.total_variants.toString() || "0"}
         loading={isLoading}
-        Icon={IconVersions}
+        title="Variantes"
       />
       <ResumeItem
-        title="Stock"
+        Icon={IconPackages}
         content={data?.total_stock.toString() || "0"}
         loading={isLoading}
-        Icon={IconPackages}
+        title="Stock"
       />
     </ResumeComponent>
   );

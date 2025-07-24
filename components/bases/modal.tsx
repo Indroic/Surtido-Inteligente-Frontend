@@ -12,16 +12,16 @@ import {
 
 interface CustomModalProps {
   triggerLabel: string;
+  triggerProps?: React.ComponentProps<typeof Button>;
+  triggerIcon?: React.ReactNode;
   title: string;
   children: ReactNode;
   modalprops?: Omit<React.ComponentProps<typeof Modal>, "children">;
-  triggerIcon?: React.ReactNode;
   onConfirm?: (closeModal: () => void) => void;
   confirmLabel?: string;
   cancelLabel?: string;
   confirmColor?: "primary" | "danger" | "default";
   cancelColor?: "primary" | "danger" | "default";
-  triggerProps?: React.ComponentProps<typeof Button>;
   onOpen?: (isOpen: boolean, setOpen: (open: boolean) => void) => void;
   onClose?: (isOpen: boolean, setOpen: (open: boolean) => void) => void;
 }

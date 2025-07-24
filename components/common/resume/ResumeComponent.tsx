@@ -15,7 +15,7 @@ export default class ResumeComponent extends Component<Props> {
             ...child.props,
             key: index,
             indice: index,
-          } as any)
+          } as any),
         )}
       </ul>
     );

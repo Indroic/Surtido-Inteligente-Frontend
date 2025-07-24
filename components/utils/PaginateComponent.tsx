@@ -1,23 +1,27 @@
+import React, { useCallback } from "react";
 import { Pagination } from "@heroui/pagination";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import createQueryString from "@/helpers/createQueryString";
+
+import usePaginationQueryParams from "@/hooks/utils/usePaginationQueryParams";
+
 type Props = {
   page: number;
   totalPages: number;
 };
 
 export default function PaginateComponent({ page, totalPages }: Props) {
-  const searchParams = useSearchParams();
-  const pathName = usePathname();
-  const router = useRouter();
-  const handlePageChange = (page: number) => {
-    let offset = (page - 1) * 10;
-    const newQuery = createQueryString(searchParams, {
-      offset: offset.toString(),
-    });
+  const { setOffset } = usePaginationQueryParams();
 
-    router.push(`${pathName}?${newQuery}`);
-  };
+  // Using useCallback to memoize the handlePageChange function.
+  // This prevents unnecessary re-renders of the Pagination component
+  // if its other props remain the same.
+  const handlePageChange = useCallback(
+    (newPage: number) => {
+      let offset = (newPage - 1) * 10;
+
+      setOffset(offset);
+    },
+    [setOffset],
+  );
 
   return totalPages > 0 ? (
     <div className="flex max-w-content justify-center">
@@ -30,7 +34,7 @@ export default function PaginateComponent({ page, totalPages }: Props) {
         initialPage={1}
         page={page}
         total={totalPages}
-        onChange={handlePageChange}
+        onChange={handlePageChange} // Pass the memoized function
       />
     </div>
   ) : null;
