@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { NextApiRequest } from "next";
+import { NextRequest } from "next/server";
 import { getToken, JWT } from "next-auth/jwt";
 
 import { ProductsAdapter } from "@/adapters/inventory";
 import { ProductStatsInterface } from "@/types/products";
 
-export async function GET(req: NextApiRequest) {
+export async function GET(req: NextRequest) {
   const token = await getToken({ req });
   const adapter = new ProductsAdapter(token as JWT);
 

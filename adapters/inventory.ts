@@ -1,5 +1,5 @@
 import { JWT } from "next-auth/jwt";
-import { NextApiRequest } from "next";
+import { NextRequest } from "next/server";
 
 import { BackendAdapter } from "./bases";
 
@@ -16,7 +16,7 @@ export class ProductsAdapter extends BackendAdapter {
     super("inventory/products/", { token: token });
   }
   async list(
-    req?: NextApiRequest,
+    req?: NextRequest,
   ): Promise<PaginationInterface<ProductInterface>> {
     return (await super.list(req)) as PaginationInterface<ProductInterface>;
   }
@@ -43,18 +43,18 @@ export class CategoriesAdapter extends BackendAdapter {
     super("inventory/categories", { token: token });
   }
   async list(
-    req?: NextApiRequest,
+    req?: NextRequest,
   ): Promise<PaginationInterface<CategoryInterface>> {
-    return (await super.list(req)) as ProductStatsInterface;
+    return (await super.list(req)) as PaginationInterface<CategoryInterface>;
   }
   async retrieve(pk: string): Promise<CategoryInterface> {
-    return (await super.retrieve(pk)) as ProductStatsInterface;
+    return (await super.retrieve(pk)) as CategoryInterface;
   }
-  async create(data: ProductStatsInterface): Promise<CategoryInterface> {
-    return (await super.create(data)) as ProductStatsInterface;
+  async create(data: CategoryInterface): Promise<CategoryInterface> {
+    return (await super.create(data)) as CategoryInterface;
   }
-  async update(data: ProductStatsInterface): Promise<CategoryInterface> {
-    return (await super.update(data)) as ProductStatsInterface;
+  async update(data: CategoryInterface): Promise<CategoryInterface> {
+    return (await super.update(data)) as CategoryInterface;
   }
 }
 
@@ -63,17 +63,17 @@ export class ProductTypesAdapter extends BackendAdapter {
     super("inventory/product-types", { token: token });
   }
   async list(
-    req?: NextApiRequest,
+    req?: NextRequest,
   ): Promise<PaginationInterface<ProductTypeInterface>> {
-    return (await super.list(req)) as ProductStatsInterface;
+    return (await super.list(req)) as PaginationInterface<ProductTypeInterface>;
   }
   async retrieve(pk: string): Promise<ProductTypeInterface> {
-    return (await super.retrieve(pk)) as ProductStatsInterface;
+    return (await super.retrieve(pk)) as ProductTypeInterface;
   }
-  async create(data: ProductStatsInterface): Promise<ProductTypeInterface> {
-    return (await super.create(data)) as ProductStatsInterface;
+  async create(data: ProductTypeInterface): Promise<ProductTypeInterface> {
+    return (await super.create(data)) as ProductTypeInterface;
   }
-  async update(data: ProductStatsInterface): Promise<ProductTypeInterface> {
-    return (await super.update(data)) as ProductStatsInterface;
+  async update(data: ProductTypeInterface): Promise<ProductTypeInterface> {
+    return (await super.update(data)) as ProductTypeInterface;
   }
 }

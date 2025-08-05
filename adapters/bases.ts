@@ -1,9 +1,10 @@
 import axios, { AxiosError, AxiosInstance, isAxiosError } from "axios";
 import { JWT } from "next-auth/jwt";
-import { NextApiRequest } from "next";
+
 
 import { PaginationInterface, PaginationResponse } from "@/types/responses";
 import { BACKEND_API_URL, BACKEND_URL } from "@/globals";
+import { NextRequest } from "next/server";
 
 export type PaginationType = {
   limit: number;
@@ -185,7 +186,7 @@ class BackendAdapter extends ApiClient {
     this.subUrl = subUrl.replace(/^\//, "");
   }
   async list(
-    req?: NextApiRequest | Request,
+    req?: NextRequest | Request,
   ): Promise<PaginationInterface<any>> {
     try {
       const params = req

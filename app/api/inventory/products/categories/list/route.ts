@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
-import { NextApiRequest } from "next";
+import { NextRequest } from "next/server";
 import { getToken, JWT } from "next-auth/jwt";
 
 import { CategoriesAdapter } from "@/adapters/inventory";
 import { PaginationInterface } from "@/types/responses";
 import { CategoryInterface } from "@/types/products";
 
-export async function GET(req: NextApiRequest) {
+export async function GET(req: NextRequest) {
   const token = await getToken({ req });
   const adapter = new CategoriesAdapter(token as JWT);
 
