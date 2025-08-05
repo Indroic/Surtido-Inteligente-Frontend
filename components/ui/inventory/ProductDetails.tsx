@@ -1,6 +1,5 @@
 "use client";
 
-import { Skeleton } from "@heroui/skeleton";
 import { useCallback } from "react";
 import useSWR from "swr";
 

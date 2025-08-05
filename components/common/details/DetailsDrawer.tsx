@@ -1,10 +1,10 @@
 "use client";
 
 import { useCallback } from "react";
+import { Skeleton } from "@heroui/skeleton";
 
 import CustomDrawer, { CustomDrawerProps } from "@/components/bases/drawer";
 import useDrawerDetails from "@/hooks/common/details/useDetailsDrawer";
-import { Skeleton } from "@heroui/skeleton";
 
 export type DrawerDetailsProps = {
   children: React.ReactNode;
@@ -20,7 +20,7 @@ function DrawerDetails({
   onCloseDrawer,
   headerChildren,
   hiddeCloseButton,
-  isLoaded=true,
+  isLoaded = true,
 }: DrawerDetailsProps) {
   const { openDetails, setOpenDetails } = useDrawerDetails();
 
