@@ -7,13 +7,14 @@ import {
 } from "@heroui/drawer";
 import { Button } from "@heroui/button";
 
-type CustomDrawerProps = {
+export type CustomDrawerProps = {
   children: React.ReactNode;
+  hideCloseButton?: boolean;
   triggerLabel?: string;
   hideTrigger?: boolean;
   triggerProps?: React.ComponentProps<typeof Button>;
   title?: string;
-  headerChildren?: React.ReactNode;
+  headerChildren?: (onCloseDrawer: () => void) => React.ReactNode;
   headerProps?: React.ComponentProps<typeof DrawerHeader>;
   drawerProps?: React.ComponentProps<typeof Drawer>;
   bodyDrawerProps?: React.ComponentProps<typeof DrawerBody>;
@@ -35,6 +36,7 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({
   open: controlledOpen,
   onOpen: onOpenProp,
   onClose: onCloseProp,
+  hideCloseButton = false,
 }) => {
   const [internalIsOpen, setInternalIsOpen] = useState(controlledOpen ?? false);
 
@@ -90,17 +92,18 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({
       ) : null}
 
       <Drawer
+        hideCloseButton={hideCloseButton}
         isOpen={isOpen}
         placement="left"
         onOpenChange={handleOpenChange}
         {...drawerProps}
       >
         <DrawerContent>
-          {() => (
+          {(onClose) => (
             <>
               <DrawerHeader {...headerProps}>
                 {headerChildren ? (
-                  headerChildren
+                  headerChildren(onClose)
                 ) : (
                   <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
                     {title}

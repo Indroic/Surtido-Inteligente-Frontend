@@ -2,16 +2,26 @@
 
 import { useCallback } from "react";
 
-import CustomDrawer from "@/components/bases/drawer";
+import CustomDrawer, { CustomDrawerProps } from "@/components/bases/drawer";
 import useDrawerDetails from "@/hooks/common/details/useDetailsDrawer";
+import { Skeleton } from "@heroui/skeleton";
+
+export type DrawerDetailsProps = {
+  children: React.ReactNode;
+  hiddeCloseButton?: boolean;
+  onCloseDrawer?: (handleCloseDrawer: () => void) => void;
+  headerChildren?: CustomDrawerProps["headerChildren"];
+  headerProps?: CustomDrawerProps["headerProps"];
+  isLoaded?: boolean;
+};
 
 function DrawerDetails({
   children,
   onCloseDrawer,
-}: {
-  children: React.ReactNode;
-  onCloseDrawer?: (handleCloseDrawer: () => void) => void;
-}) {
+  headerChildren,
+  hiddeCloseButton,
+  isLoaded=true,
+}: DrawerDetailsProps) {
   const { openDetails, setOpenDetails } = useDrawerDetails();
 
   const handleCloseDrawer = useCallback(() => {
@@ -21,6 +31,8 @@ function DrawerDetails({
   return (
     <CustomDrawer
       hideTrigger
+      headerChildren={headerChildren}
+      hideCloseButton={hiddeCloseButton}
       open={openDetails}
       onClose={
         onCloseDrawer
@@ -28,7 +40,9 @@ function DrawerDetails({
           : handleCloseDrawer
       }
     >
-      {children}
+      <Skeleton className="rounded-md h-full w-full" isLoaded={isLoaded}>
+        {children}
+      </Skeleton>
     </CustomDrawer>
   );
 }

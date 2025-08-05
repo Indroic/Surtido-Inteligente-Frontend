@@ -6,6 +6,7 @@ import useSWR from "swr";
 
 import useProductDetails from "@/hooks/inventory/products/useProductDetails";
 import DrawerDetails from "@/components/common/details/DetailsDrawer";
+import EditModeDrawerHeader from "@/components/common/details/EditModeDrawerHeader";
 
 function ProductDetails() {
   const { productId, setProductId } = useProductDetails();
@@ -23,11 +24,17 @@ function ProductDetails() {
   );
 
   return (
-    <DrawerDetails onCloseDrawer={handleCloseDrawer}>
-      <Skeleton className="rounded-md" isLoaded={!isLoading}>
-        <h1 className="text-2xl font-bold">{data?.name}</h1>
-        <p className="text-lg">{data?.description}</p>
-      </Skeleton>
+    <DrawerDetails
+      hiddeCloseButton
+      headerChildren={(onClose) => (
+        <EditModeDrawerHeader isLoading={isLoading} onClose={onClose}>
+          <h1 className="text-xl font-semibold">{data?.name}</h1>
+        </EditModeDrawerHeader>
+      )}
+      isLoaded={!isLoading}
+      onCloseDrawer={handleCloseDrawer}
+    >
+      <p className="text-lg">{data?.description}</p>
     </DrawerDetails>
   );
 }
