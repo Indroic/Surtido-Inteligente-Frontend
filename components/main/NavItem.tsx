@@ -21,7 +21,7 @@ export default function NavItem({
           variant="light"
           onPress={() => onPress?.()}
         >
-          <Icon size={28} stroke={1} />
+          {Icon && <Icon size={28} stroke={1} />}
         </Button>
       </Tooltip>
     </Link>
