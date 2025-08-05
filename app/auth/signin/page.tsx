@@ -27,7 +27,7 @@ export default function SignIn() {
   }
 
   return (
-    <Skeleton className="rounded-md">
+    <Skeleton isLoaded className="rounded-md">
       <Button
         key={"surtido-inteligente"}
         className="w-full"
