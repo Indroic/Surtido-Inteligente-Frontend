@@ -3,7 +3,7 @@ import { Metadata, Viewport } from "next";
 import { getServerSession } from "next-auth";
 import clsx from "clsx";
 
-import { authOptions } from "./api/auth/[...nextauth]/route";
+import { authOptions } from "./api/auth/[...nextauth]/config";
 import { Providers } from "./providers";
 
 import { defaultSiteConfig } from "@/config/site";
