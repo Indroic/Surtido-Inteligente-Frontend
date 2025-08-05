@@ -1,7 +1,6 @@
 import { BaseInterface } from "./bases";
 import { BuyPayType } from "./finanzas";
 import { DocumentTypeInterface } from "./legal";
-import { PaginationInterface } from "./responses";
 
 export interface ProveedorInterface extends BaseInterface {
   name: string;
@@ -24,12 +23,4 @@ export interface BuyBillInterface extends BaseInterface {
   total_reference: number;
   pay_type: string | BuyPayType;
   photo?: string;
-}
-
-export interface ProveedoresPaginationInterface extends PaginationInterface {
-  results: ProveedorInterface[];
-}
-
-export interface BuyBillPaginationInterface extends PaginationInterface {
-  results: BuyBillInterface[];
 }
