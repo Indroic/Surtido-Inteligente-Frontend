@@ -4,6 +4,7 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerBody,
+  DrawerProps,
 } from "@heroui/drawer";
 import { Button } from "@heroui/button";
 
@@ -16,7 +17,7 @@ export type CustomDrawerProps = {
   title?: string;
   headerChildren?: (onCloseDrawer: () => void) => React.ReactNode;
   headerProps?: React.ComponentProps<typeof DrawerHeader>;
-  drawerProps?: React.ComponentProps<typeof Drawer>;
+  drawerProps?: Omit<DrawerProps, "children">;
   bodyDrawerProps?: React.ComponentProps<typeof DrawerBody>;
   open?: boolean;
   onOpen?: () => void;

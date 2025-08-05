@@ -30,10 +30,17 @@ function EditModeDrawerHeader({
   }, [mainOnClose, setEditMode]);
 
   return (
-    <div className="flex flex-row justify-between items-center min-h-full w-full gap-5">
-      <Skeleton className="min-h-full w-full rounded-md" isLoaded={!isLoading}>
-        {children ? children : <div />}
-      </Skeleton>
+    <div
+      className={`flex flex-row ${children ? "justify-between" : "justify-end"} items-center min-h-full w-full gap-5`}
+    >
+      {children ? (
+        <Skeleton
+          className="min-h-full w-full rounded-md"
+          isLoaded={!isLoading}
+        >
+          {children}
+        </Skeleton>
+      ) : undefined}
       <ButtonGroup>
         <Button
           color="primary"

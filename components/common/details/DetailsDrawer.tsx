@@ -31,6 +31,9 @@ function DrawerDetails({
   return (
     <CustomDrawer
       hideTrigger
+      drawerProps={{
+        size: "xl",
+      }}
       headerChildren={headerChildren}
       hideCloseButton={hiddeCloseButton}
       open={openDetails}
