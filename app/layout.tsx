@@ -8,7 +8,6 @@ import { Providers } from "./providers";
 
 import { defaultSiteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
-import SessionErrorHandler from "@/components/auth/SessionErrorHandler";
 
 export const metadata: Metadata = {
   title: {
@@ -44,7 +43,6 @@ export default async function RootLayout({
           fontSans.variable,
         )}
       >
-        <SessionErrorHandler />
         <Providers
           session={session as any}
           themeProps={{ attribute: "class", defaultTheme: "dark" }}

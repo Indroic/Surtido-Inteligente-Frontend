@@ -20,6 +20,7 @@ import { NavBarProvider } from "@/context/NavBarContext";
 import { AuthLayoutProvider } from "@/context/AuthLayoutContext";
 import { AuthTextProvider } from "@/context/AuthTextLayoutCOntext";
 import { BreadActionsProvider } from "@/context/ActionsContext";
+import SessionErrorHandler from "@/components/auth/SessionErrorHandler";
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -37,34 +38,37 @@ declare module "@react-types/shared" {
 
 export function Providers({ children, themeProps, session }: ProvidersProps) {
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <HeroUIProvider>
-          <ToastProvider />
-          <SessionProvider session={session}>
-            <NextThemesProvider {...themeProps}>
-              <NavBarProvider>
-                <AuthLayoutProvider>
-                  <AuthTextProvider>
-                    <BreadActionsProvider>
-                      <SWRConfig
-                        value={{
-                          revalidateOnFocus: true,
-                          refreshInterval: 0,
-                          fetcher: (url) =>
-                            fetch(url).then((res) => res.json()),
-                        }}
-                      >
-                        <NuqsAdapter>{children}</NuqsAdapter>
-                      </SWRConfig>
-                    </BreadActionsProvider>
-                  </AuthTextProvider>
-                </AuthLayoutProvider>
-              </NavBarProvider>
-            </NextThemesProvider>
-          </SessionProvider>
-        </HeroUIProvider>
-      </PersistGate>
-    </Provider>
+    <>
+      <SessionErrorHandler />
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <HeroUIProvider>
+            <ToastProvider />
+            <SessionProvider session={session}>
+              <NextThemesProvider {...themeProps}>
+                <NavBarProvider>
+                  <AuthLayoutProvider>
+                    <AuthTextProvider>
+                      <BreadActionsProvider>
+                        <SWRConfig
+                          value={{
+                            revalidateOnFocus: true,
+                            refreshInterval: 0,
+                            fetcher: (url) =>
+                              fetch(url).then((res) => res.json()),
+                          }}
+                        >
+                          <NuqsAdapter>{children}</NuqsAdapter>
+                        </SWRConfig>
+                      </BreadActionsProvider>
+                    </AuthTextProvider>
+                  </AuthLayoutProvider>
+                </NavBarProvider>
+              </NextThemesProvider>
+            </SessionProvider>
+          </HeroUIProvider>
+        </PersistGate>
+      </Provider>
+    </>
   );
 }
