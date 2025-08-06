@@ -11,6 +11,7 @@ export default function SignIn() {
   const { status } = useSession();
   const queryParams = useSearchParams();
   const error = queryParams.get("error");
+  const callbackURL = queryParams.get("callbackUrl");
 
   useEffect(() => {
     if (error) {
@@ -23,7 +24,7 @@ export default function SignIn() {
   }, [status, error]);
 
   if (status === "authenticated") {
-    return redirect("/dashboard");
+    return redirect(callbackURL || "/dashboard");
   }
 
   return (
