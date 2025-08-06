@@ -17,9 +17,10 @@ declare module "next-auth" {
   interface Session {
     user?: Profile;
     expires: ISODateString;
-    expiresAt?: Date;
+    expiresAt?: number; // timestamp en ms
     accessToken?: string;
     refreshToken?: string;
+    error?: string; // para manejar errores de refresh
   }
 
   interface OAuthConfig<T> extends DefaultOAuthConfig<T> {
@@ -32,7 +33,8 @@ declare module "next-auth/jwt" {
     profile?: Profile;
     accessToken?: string;
     refreshToken?: string;
-    expiresAt?: Date;
+    expiresAt?: number; // timestamp en ms
     tokenType?: string;
+    error?: string;
   }
 }

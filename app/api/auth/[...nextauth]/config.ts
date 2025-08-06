@@ -1,5 +1,6 @@
 import type { NextAuthOptions, Profile } from "next-auth";
 
+// Extiende el tipo de sesión para permitir el campo error
 import { OAuthConfig } from "next-auth/providers";
 
 import {
@@ -32,20 +33,21 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, profile, account }) {
       // Solo la primera vez, después del login
       if (account) {
-        // Asignamos el access_token, refresh_token y expires_at al token JWT interno de NextAuth
         (token as any).accessToken = account.access_token;
         (token as any).refreshToken = account.refresh_token;
-        (token as any).expiresAt = new Date(
-          account.expires_at ? account.expires_at * 1000 : 0,
-        );
+        // Guardar expiresAt como timestamp en ms
+        (token as any).expiresAt = account.expires_at
+          ? account.expires_at * 1000
+          : 0;
         (token as any).tokenType = account.token_type;
+        (token as any).error = undefined;
       }
       if (profile) {
         token.profile = profile;
       }
 
-      // verifica que el token no haya expirado
-      if (token.expiresAt && token.expiresAt < new Date()) {
+      // Verifica que el token no haya expirado (timestamp en ms)
+      if (typeof token.expiresAt === "number" && Date.now() > token.expiresAt) {
         // refresca el token
         try {
           const res = await fetch(`${BACKEND_API_URL}/o/token/`, {
@@ -56,16 +58,23 @@ export const authOptions: NextAuthOptions = {
             body: new URLSearchParams({
               grant_type: "refresh_token",
               refresh_token: token.refreshToken as string,
+              client_id: BACKEND_OAUTH_CLIENT_ID,
+              client_secret: BACKEND_OAUTH_CLIENT_SECRET,
             }),
           });
           const data = await res.json();
 
+          if (!res.ok) throw data;
           (token as any).accessToken = data.access_token;
-          (token as any).refreshToken = data.refresh_token;
-          (token as any).expiresAt = data.expires_at;
+          (token as any).refreshToken =
+            data.refresh_token ?? token.refreshToken;
+          (token as any).expiresAt = data.expires_in
+            ? Date.now() + data.expires_in * 1000
+            : Date.now() + 3600 * 1000;
           (token as any).tokenType = data.token_type;
+          (token as any).error = undefined;
         } catch {
-          throw new Error("Error al refrescar el token");
+          (token as any).error = "RefreshAccessTokenError";
         }
       }
 
@@ -83,7 +92,10 @@ export const authOptions: NextAuthOptions = {
         session.refreshToken = token.refreshToken as string;
       }
       if (token.expiresAt) {
-        session.expiresAt = token.expiresAt as Date;
+        session.expiresAt = token.expiresAt as number;
+      }
+      if (token.error) {
+        session.error = token.error as string;
       }
 
       return session;
