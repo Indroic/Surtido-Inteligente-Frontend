@@ -33,6 +33,7 @@ export default function useProductBaseForm(
   const [openCategories, setOpenCategories] = useState(false);
   const [openProductTypes, setOpenProductTypes] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [onChargedDefaultsValues, setOnChargedDefaultsValues] = useState(false); // Este State Evita que se reinicie el formulario
 
   // Usar hooks personalizados
   const {
@@ -54,11 +55,16 @@ export default function useProductBaseForm(
 
   const { handleSubmit, control, setError, reset, getValues } =
     useForm<ProductInterface>({
-      defaultValues: defaultValues,
+      defaultValues,
     });
 
   useEffect(() => {
-    if (defaultValues && !isEqual(getValues(), defaultValues)) {
+    if (
+      defaultValues &&
+      !isEqual(getValues(), defaultValues) &&
+      !onChargedDefaultsValues
+    ) {
+      setOnChargedDefaultsValues(true);
       reset(defaultValues);
     }
   }, [defaultValues, reset, getValues]);

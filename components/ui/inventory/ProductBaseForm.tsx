@@ -12,6 +12,7 @@ import { Controller } from "react-hook-form";
 import { useEffect, useState } from "react";
 
 import useProductBaseForm from "@/hooks/inventory/products/useProductBaseForm";
+import { CategoryInterface } from "@/types/products";
 
 type Props = {
   deactivated?: boolean;
@@ -72,6 +73,11 @@ function ProductBaseForm({
             <Select
               ref={field.ref}
               isRequired
+              defaultSelectedKeys={
+                control._defaultValues.category
+                  ? [control._defaultValues.category as string]
+                  : []
+              }
               errorMessage={error?.message}
               isDisabled={disabled && !loading}
               isInvalid={invalid}
@@ -80,13 +86,16 @@ function ProductBaseForm({
               label="Categoría"
               name={field.name}
               scrollRef={scrollerCategoriesRef}
-              selectedKeys={field.value ? [field.value as string] : []}
               validationBehavior="aria"
+              value={field.value as string}
               variant="bordered"
+              onBlur={field.onBlur}
+              onChange={field.onChange}
               onOpenChange={setOpenCategories}
-              onSelectionChange={(keys) => field.onChange(Array.from(keys)[0])}
             >
-              {(item) => <SelectItem key={item.id}>{item.name}</SelectItem>}
+              {(item: CategoryInterface) => (
+                <SelectItem key={item.id}>{item.name}</SelectItem>
+              )}
             </Select>
           )
         }
@@ -104,6 +113,11 @@ function ProductBaseForm({
               ref={field.ref}
               isRequired
               className="w-full h-full"
+              defaultSelectedKeys={
+                control._defaultValues.product_type
+                  ? [control._defaultValues.product_type as string]
+                  : []
+              }
               errorMessage={error?.message}
               isDisabled={disabled && !loading}
               isInvalid={invalid}
@@ -112,11 +126,12 @@ function ProductBaseForm({
               label="Tipo de Producto"
               name={field.name}
               scrollRef={scrollerProductTypesRef}
-              selectedKeys={field.value ? [field.value as string] : []}
               validationBehavior="aria"
+              value={field.value as string}
               variant="bordered"
+              onBlur={field.onBlur}
+              onChange={field.onChange}
               onOpenChange={setOpenProductTypes}
-              onSelectionChange={(keys) => field.onChange(Array.from(keys)[0])}
             >
               {(item) => <SelectItem key={item.id}>{item.name}</SelectItem>}
             </Select>
