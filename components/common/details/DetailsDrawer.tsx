@@ -72,8 +72,8 @@ function DrawerDetails({
             <ResumeCards resumeCards={resumeCardsData} />
           </Tab>
           <Tab key={"general"} className="flex flex-col gap-4" title="General">
+            {editForm}
             <div className="flex flex-row w-full items-center justify-end">
-              {editForm}
               <ButtonGroup>
                 <Button
                   color="danger"
