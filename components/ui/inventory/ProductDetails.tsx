@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import useSWR from "swr";
 import { Tab } from "@heroui/react";
 
@@ -15,18 +15,16 @@ import handleSubmitApi from "@/helpers/handleSubmitApi";
 function ProductDetails() {
   const { productId, setProductId } = useProductDetails();
   const { editMode, setEditMode } = useEditMode();
-  const { data, isLoading, mutate } = useSWR<ProductInterface>(
+  const {
+    data,
+    isLoading,
+    mutate: mutateProduct,
+  } = useSWR<ProductInterface>(
     productId ? `/api/inventory/products?productID=${productId}` : null,
   );
 
   const formHook = useProductBaseForm({
     deactivated: !editMode && !isLoading,
-    defaultValues: {
-      category: data?.category.toString() || "",
-      product_type: data?.product_type.toString() || "",
-      name: data?.name || "",
-      description: data?.description || "",
-    },
   });
 
   const handleCloseDrawer = useCallback(
@@ -37,13 +35,22 @@ function ProductDetails() {
     [setProductId],
   );
 
+  useEffect(() => {
+    if (data) {
+      formHook.reset({
+        category: data.category.toString() || "",
+        product_type: data.product_type.toString() || "",
+        name: data.name || "",
+        description: data.description || "",
+      });
+    }
+  }, [data, formHook.reset]);
+
   const handleSubmit = useCallback(() => {
     const success = async (data?: ProductInterface) => {
       setEditMode(false);
 
-      await mutate(data);
-
-      return;
+      await mutateProduct(data);
     };
 
     formHook.setLoading(true);
@@ -64,7 +71,7 @@ function ProductDetails() {
         }),
       )()
       .finally(() => formHook.setLoading(false));
-  }, [formHook]);
+  }, [formHook, mutateProduct, productId, setEditMode]);
 
   return (
     <DrawerDetails
