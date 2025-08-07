@@ -212,14 +212,14 @@ class BackendAdapter extends ApiClient {
   }
   async update(pk: string, data: any): Promise<Record<string, any>> {
     try {
-      return this.put(`${this.subUrl}/${pk}`, data);
+      return this.put(`${this.subUrl}/${pk}/`, data);
     } catch (error) {
       throw error as AxiosError;
     }
   }
   async delete(pk: string): Promise<any> {
     try {
-      return this.delete(`${this.subUrl}/${pk}`);
+      return this.delete(`${this.subUrl}/${pk}/`);
     } catch (error) {
       throw error as AxiosError;
     }

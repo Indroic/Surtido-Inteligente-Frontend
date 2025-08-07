@@ -14,8 +14,8 @@ import handleSubmitApi from "@/helpers/handleSubmitApi";
 
 function ProductDetails() {
   const { productId, setProductId } = useProductDetails();
-  const { editMode } = useEditMode();
-  const { data, isLoading } = useSWR<ProductInterface>(
+  const { editMode, setEditMode } = useEditMode();
+  const { data, isLoading, mutate } = useSWR<ProductInterface>(
     productId ? `/api/inventory/products?productID=${productId}` : null,
   );
 
@@ -38,6 +38,14 @@ function ProductDetails() {
   );
 
   const handleSubmit = useCallback(() => {
+    const success = async (data?: ProductInterface) => {
+      setEditMode(false);
+
+      await mutate(data);
+
+      return;
+    };
+
     formHook.setLoading(true);
     formHook
       .handleSubmit((form) =>
@@ -52,6 +60,7 @@ function ProductDetails() {
           type: "update",
           reset: formHook.reset,
           setError: formHook.setError,
+          successFunction: success,
         }),
       )()
       .finally(() => formHook.setLoading(false));

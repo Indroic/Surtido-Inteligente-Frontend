@@ -22,7 +22,7 @@ const handleSubmitApi = async <T extends BaseInterface>({
   type: "create" | "update";
   reset: UseFormReturn<T>["reset"];
   setError: UseFormReturn<T>["setError"];
-  successFunction?: () => void;
+  successFunction?: (data?: T) => void;
 }) => {
   const res = await fetch(url, {
     method: type === "create" ? "POST" : "PUT",
@@ -31,16 +31,16 @@ const handleSubmitApi = async <T extends BaseInterface>({
 
   if (res.ok) {
     addToast(toast);
-    successFunction?.();
 
     if (type === "update") {
       const data: T = await res.json();
 
+      successFunction?.(data);
       reset(data);
 
       return;
     }
-
+    successFunction?.();
     reset();
 
     return;
