@@ -1,10 +1,11 @@
 import { IconPlus } from "@tabler/icons-react";
 
-import ProductBaseForm from "./ProductBaseForm";
+import ProductBaseForm from "../../forms/inventory/ProductBaseForm";
 
 import CustomModal from "@/components/bases/modal";
 import handleSubmitApi from "@/helpers/handleSubmitApi";
 import useProductBaseForm from "@/hooks/inventory/products/useProductBaseForm";
+import { ProductInterface } from "@/types/products";
 
 export default function ModalCreate() {
   const formHook = useProductBaseForm();
@@ -13,7 +14,7 @@ export default function ModalCreate() {
     formHook.setLoading(true);
     formHook
       .handleSubmit((data) =>
-        handleSubmitApi({
+        handleSubmitApi<ProductInterface>({
           form: data,
           url: "/api/inventory/products/",
           toast: {
