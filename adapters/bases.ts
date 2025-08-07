@@ -210,9 +210,9 @@ class BackendAdapter extends ApiClient {
       throw error as AxiosError;
     }
   }
-  async update(data: any): Promise<Record<string, any>> {
+  async update(pk: string, data: any): Promise<Record<string, any>> {
     try {
-      return this.put(this.subUrl, data);
+      return this.put(`${this.subUrl}/${pk}`, data);
     } catch (error) {
       throw error as AxiosError;
     }

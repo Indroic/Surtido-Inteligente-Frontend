@@ -33,8 +33,8 @@ export class ProductsAdapter extends BackendAdapter {
     return (await super.create(data)) as ProductInterface;
   }
 
-  async update(data: ProductInterface): Promise<ProductInterface> {
-    return (await super.update(data)) as ProductInterface;
+  async update(pk: string, data: ProductInterface): Promise<ProductInterface> {
+    return (await super.update(pk, data)) as ProductInterface;
   }
 }
 
@@ -53,8 +53,11 @@ export class CategoriesAdapter extends BackendAdapter {
   async create(data: CategoryInterface): Promise<CategoryInterface> {
     return (await super.create(data)) as CategoryInterface;
   }
-  async update(data: CategoryInterface): Promise<CategoryInterface> {
-    return (await super.update(data)) as CategoryInterface;
+  async update(
+    pk: string,
+    data: CategoryInterface,
+  ): Promise<CategoryInterface> {
+    return (await super.update(pk, data)) as CategoryInterface;
   }
 }
 
@@ -73,7 +76,10 @@ export class ProductTypesAdapter extends BackendAdapter {
   async create(data: ProductTypeInterface): Promise<ProductTypeInterface> {
     return (await super.create(data)) as ProductTypeInterface;
   }
-  async update(data: ProductTypeInterface): Promise<ProductTypeInterface> {
-    return (await super.update(data)) as ProductTypeInterface;
+  async update(
+    pk: string,
+    data: ProductTypeInterface,
+  ): Promise<ProductTypeInterface> {
+    return (await super.update(pk, data)) as ProductTypeInterface;
   }
 }

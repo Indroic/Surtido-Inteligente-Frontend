@@ -9,6 +9,8 @@ export interface BasePayType extends BaseInterface {
   description: string;
 }
 
-export type BaseErrorInterface<T> = {
+export type BaseErrorInterface<T = unknown> = {
   [P in keyof T]?: string[];
+} & {
+  formError?: string;
 };

@@ -50,6 +50,8 @@ const handleSubmitApi = async <T extends BaseInterface>({
     const data: BaseErrorInterface<T> = await res.json();
 
     Object.keys(data).forEach((key) => {
+      if (key === "formError") return;
+
       const fieldKey: Path<T> = key as Path<T>;
 
       setError(fieldKey, {
@@ -57,6 +59,14 @@ const handleSubmitApi = async <T extends BaseInterface>({
         message: data[fieldKey]?.join(", "),
       });
     });
+
+    if (data.formError) {
+      addToast({
+        title: "Error",
+        description: data.formError,
+        color: "danger",
+      });
+    }
 
     return;
   }

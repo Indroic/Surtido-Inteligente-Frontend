@@ -43,7 +43,7 @@ function ProductDetails() {
       .handleSubmit((form) =>
         handleSubmitApi<ProductInterface>({
           form: form,
-          url: `/api/inventory/products/${data?.id}/`,
+          url: `/api/inventory/products?productID=${productId}`,
           toast: {
             title: "Producto Actualizado",
             description: "El producto se ha actualizado correctamente.",
