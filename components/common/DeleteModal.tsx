@@ -110,8 +110,8 @@ function DeleteModal({
         startContent: <IconTrash size={16} />,
         variant: "light",
       }}
-      onConfirm={onSubmit}
       onCancel={onCancel}
+      onConfirm={onSubmit}
     >
       <Form className="flex flex-col gap-4">
         <Controller

@@ -88,6 +88,11 @@ function ProductsList() {
                   secondarySegurityText="Eliminar Mi Producto"
                   segurityText={`Producto Base/${item.name}`}
                   title="Eliminar Producto"
+                  toastProps={{
+                    title: "Producto Eliminado",
+                    description: "El producto se ha eliminado correctamente.",
+                    color: "success",
+                  }}
                   url={`/api/inventory/products?productID=${item.id}`}
                 />
                 <ButtonSetDetails productID={item.id} />
