@@ -10,8 +10,7 @@ import {
 } from "@heroui/table";
 import { Spinner } from "@heroui/spinner";
 import useSWR from "swr";
-import { Button, ButtonGroup } from "@heroui/button";
-import { IconTrash } from "@tabler/icons-react";
+import { ButtonGroup } from "@heroui/button";
 
 import SearchInput from "../../utils/SearchInput";
 import PaginateComponent from "../../utils/PaginateComponent";
@@ -22,6 +21,7 @@ import { ProductInterface } from "@/types/products";
 import { PaginationInterface } from "@/types/responses";
 import usePaginationQueryParams from "@/hooks/utils/usePaginationQueryParams";
 import { useSearchQueryParams } from "@/hooks/utils/useSearchQueryParams";
+import DeleteModal from "@/components/common/DeleteModal";
 
 function ProductsList() {
   const { search } = useSearchQueryParams();
@@ -73,7 +73,7 @@ function ProductsList() {
       >
         {(item) => (
           <TableRow>
-            <TableCell>{item.name}</TableCell>
+            <TableCell className="capitalize">{item.name}</TableCell>
             <TableCell className="hidden md:table-cell">
               {item.variants}
             </TableCell>
@@ -83,13 +83,13 @@ function ProductsList() {
             <TableCell>{item.stock}</TableCell>
             <TableCell>
               <ButtonGroup size="sm">
-                <Button
-                  color="danger"
-                  startContent={<IconTrash size={16} />}
-                  variant="light"
-                >
-                  Eliminar
-                </Button>
+                <DeleteModal
+                  description="Esta accion eliminara todo lo referente con este Producto Base"
+                  secondarySegurityText="Eliminar Mi Producto"
+                  segurityText={`Producto Base/${item.name}`}
+                  title="Eliminar Producto"
+                  url={`/api/inventory/products?productID=${item.id}`}
+                />
                 <ButtonSetDetails productID={item.id} />
               </ButtonGroup>
             </TableCell>

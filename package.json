@@ -39,6 +39,7 @@
     "@heroui/tooltip": "^2.2.21",
     "@heroui/use-infinite-scroll": "^2.2.10",
     "@heroui/user": "^2.2.20",
+    "@hookform/resolvers": "^5.2.1",
     "@react-aria/ssr": "3.9.8",
     "@react-aria/visually-hidden": "3.8.22",
     "@reduxjs/toolkit": "^2.8.2",
@@ -61,7 +62,8 @@
     "react-hook-form": "^7.60.0",
     "react-redux": "^9.2.0",
     "redux-persist": "^6.0.0",
-    "swr": "^2.3.4"
+    "swr": "^2.3.4",
+    "yup": "^1.7.0"
   },
   "devDependencies": {
     "@eslint/compat": "1.2.8",

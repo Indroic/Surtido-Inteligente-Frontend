@@ -25,7 +25,20 @@ export async function GET(req: any) {
 
     return NextResponse.json(result, { status: 200 });
   } catch {
-    return NextResponse.json({ error: "failed to load data" }, { status: 500 });
+    const data: PaginationInterface<ProductInterface> = {
+      count: 0,
+      next: null,
+      previous: null,
+      results: [],
+      page: 0,
+      totalPages: 0,
+      hasNext: false,
+      hasPrevious: false,
+      limit: 0,
+      offset: 0,
+    };
+
+    return NextResponse.json(data, { status: 500 });
   }
 }
 
@@ -68,6 +81,35 @@ export async function PUT(req: NextRequest) {
     const result: ProductInterface = await adapter.update(productID, body);
 
     return new NextResponse(JSON.stringify(result), { status: 200 });
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return new NextResponse(JSON.stringify(error.response?.data), {
+        status: error.response?.status,
+      });
+    }
+
+    return new NextResponse(JSON.stringify(error), { status: 500 });
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  const token = await getToken({ req });
+  const adapter = new ProductsAdapter(token as JWT);
+  const { productID } = loadProductsParams(req);
+
+  if (!productID) {
+    return new NextResponse(
+      JSON.stringify({
+        formError: "product ID Missing",
+      } as BaseErrorInterface),
+      { status: 400, statusText: "Product ID Missing" },
+    );
+  }
+
+  try {
+    await adapter.delete(productID);
+
+    return new NextResponse(JSON.stringify({}), { status: 200 });
   } catch (error) {
     if (isAxiosError(error)) {
       return new NextResponse(JSON.stringify(error.response?.data), {

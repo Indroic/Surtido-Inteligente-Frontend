@@ -217,9 +217,9 @@ class BackendAdapter extends ApiClient {
       throw error as AxiosError;
     }
   }
-  async delete(pk: string): Promise<any> {
+  async delete(pk: string): Promise<null> {
     try {
-      return this.delete(`${this.subUrl}/${pk}/`);
+      return super.delete(`${this.subUrl}/${pk}/`);
     } catch (error) {
       throw error as AxiosError;
     }

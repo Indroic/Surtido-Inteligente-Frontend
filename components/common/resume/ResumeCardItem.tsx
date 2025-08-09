@@ -18,7 +18,7 @@ export default function ResumeCardItem({
     <div className="flex flex-row justify-between items-center w-full">
       <p className="text-md font-bold capitalize">{title}:</p>
       <div
-        className={`p-2 ${color === "default" ? "bg-default-100" : `bg-${color}-50`} text-${color}-500 rounded-xl capitalize text-sm font-medium`}
+        className={`p-2 ${color === "default" ? "bg-default-100" : `bg-${color}-50`} text-${color}-foreground rounded-xl capitalize text-sm font-medium`}
       >
         <Skeleton isLoaded={!loading}>{content}</Skeleton>
       </div>

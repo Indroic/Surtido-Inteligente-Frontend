@@ -9,6 +9,7 @@ import {
   ModalBody,
   ModalFooter,
 } from "@heroui/modal";
+import { VariantProps } from "@heroui/theme";
 
 interface CustomModalProps {
   triggerLabel: string;
@@ -16,12 +17,17 @@ interface CustomModalProps {
   triggerIcon?: React.ReactNode;
   title: string;
   children: ReactNode;
+  headerChildren?: ReactNode;
   modalprops?: Omit<React.ComponentProps<typeof Modal>, "children">;
   onConfirm?: (closeModal: () => void) => void;
+  onCancel?: (closeModal: () => void) => void;
   confirmLabel?: string;
+  confirmProps?: React.ComponentProps<typeof Button>;
   cancelLabel?: string;
-  confirmColor?: "primary" | "danger" | "default";
-  cancelColor?: "primary" | "danger" | "default";
+  cancelProps?: React.ComponentProps<typeof Button>;
+  confirmColor?: VariantProps<typeof Button>["color"];
+  cancelColor?: VariantProps<typeof Button>["color"];
+  triggerColor?: VariantProps<typeof Button>["color"];
   onOpen?: (isOpen: boolean, setOpen: (open: boolean) => void) => void;
   onClose?: (isOpen: boolean, setOpen: (open: boolean) => void) => void;
 }
@@ -53,6 +59,16 @@ export default class CustomModal extends React.Component<CustomModalProps> {
     }
   };
 
+  handleCancel = () => {
+    if (this.props.onCancel) {
+      // Si hay onConfirm, solo se cierra si el usuario llama a closeModal
+      this.props.onCancel(this.handleClose);
+    } else {
+      // Si no hay onCancel, se cierra por defecto
+      this.handleClose();
+    }
+  };
+
   render() {
     const {
       triggerLabel,
@@ -63,14 +79,17 @@ export default class CustomModal extends React.Component<CustomModalProps> {
       cancelLabel = "Cancelar",
       confirmColor = "primary",
       cancelColor = "danger",
+      triggerColor = "primary",
       triggerProps = {},
+      confirmProps = {},
+      cancelProps = {},
     } = this.props;
     const { isOpen } = this.state;
 
     return (
       <>
         <Button
-          color="primary"
+          color={triggerColor}
           size="sm"
           startContent={triggerIcon}
           {...triggerProps}
@@ -93,8 +112,9 @@ export default class CustomModal extends React.Component<CustomModalProps> {
           <ModalContent>
             {(onClose) => (
               <>
-                <ModalHeader className="flex flex-col gap-1">
-                  {title}
+                <ModalHeader className="flex flex-col gap-5">
+                  <h1>{title}</h1>
+                  {this.props.headerChildren}
                 </ModalHeader>
                 <ModalBody>{children}</ModalBody>
                 <ModalFooter>
@@ -103,10 +123,15 @@ export default class CustomModal extends React.Component<CustomModalProps> {
                       color={cancelColor}
                       variant="light"
                       onPress={onClose || this.handleClose}
+                      {...cancelProps}
                     >
                       {cancelLabel}
                     </Button>
-                    <Button color={confirmColor} onPress={this.handleConfirm}>
+                    <Button
+                      color={confirmColor}
+                      onPress={this.handleConfirm}
+                      {...confirmProps}
+                    >
                       {confirmLabel}
                     </Button>
                   </ButtonGroup>
