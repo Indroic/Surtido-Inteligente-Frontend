@@ -14,7 +14,6 @@ import { ButtonGroup } from "@heroui/button";
 
 import SearchInput from "../../../utils/SearchInput";
 import PaginateComponent from "../../../utils/PaginateComponent";
-
 import ButtonSetDetails from "../../../common/details/ButtonSetDetails";
 
 import { ProductInterface } from "@/types/products";
@@ -23,8 +22,6 @@ import usePaginationQueryParams from "@/hooks/utils/usePaginationQueryParams";
 import { useSearchQueryParams } from "@/hooks/utils/useSearchQueryParams";
 import DeleteModal from "@/components/common/DeleteModal";
 import useProductDetails from "@/hooks/inventory/products/useProductDetails";
-
-
 
 function ProductsList() {
   const { search } = useSearchQueryParams();
@@ -35,7 +32,7 @@ function ProductsList() {
     `/api/inventory/products?limit=${limit}&offset=${offset}&${search ? `search=${search}` : ""}`,
     {
       keepPreviousData: true,
-    }
+    },
   );
   const loadingState =
     isLoading || data?.results.length === 0 ? "loading" : "idle";
@@ -99,7 +96,7 @@ function ProductsList() {
                   }}
                   url={`/api/inventory/products?productID=${item.id}`}
                 />
-                <ButtonSetDetails value={item.id} callBack={setProductId} />
+                <ButtonSetDetails callBack={setProductId} value={item.id} />
               </ButtonGroup>
             </TableCell>
           </TableRow>

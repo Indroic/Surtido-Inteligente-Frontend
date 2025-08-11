@@ -19,7 +19,7 @@ export default function Inventory() {
       addBread([
         { id: "2", href: "/dashboard/inventory", label: "Inventario" },
         { id: "3", href: "/dashboard/inventory", label: "Productos Base" },
-      ])
+      ]),
     );
     setActions([<CreateProductModal key={"1"} />]);
   }, []);

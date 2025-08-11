@@ -26,7 +26,7 @@ export default function ModalCreate() {
           reset: formHook.reset,
           setError: formHook.setError,
           successFunction: closeModal,
-        })
+        }),
       )()
       .finally(() => formHook.setLoading(false));
   };
