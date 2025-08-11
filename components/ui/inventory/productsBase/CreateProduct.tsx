@@ -1,6 +1,6 @@
 import { IconPlus } from "@tabler/icons-react";
 
-import ProductBaseForm from "../../forms/inventory/ProductBaseForm";
+import ProductBaseForm from "../../../forms/inventory/ProductBaseForm";
 
 import CustomModal from "@/components/bases/modal";
 import handleSubmitApi from "@/helpers/handleSubmitApi";
@@ -26,7 +26,7 @@ export default function ModalCreate() {
           reset: formHook.reset,
           setError: formHook.setError,
           successFunction: closeModal,
-        }),
+        })
       )()
       .finally(() => formHook.setLoading(false));
   };

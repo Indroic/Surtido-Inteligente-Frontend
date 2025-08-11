@@ -44,7 +44,7 @@ function ProductDetails() {
         description: data.description || "",
       });
     }
-  }, [data, formHook.reset]);
+  }, [data, formHook.reset, isLoading]);
 
   const handleSubmit = useCallback(() => {
     const success = async (data?: ProductInterface) => {

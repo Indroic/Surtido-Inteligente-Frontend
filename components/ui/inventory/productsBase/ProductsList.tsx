@@ -12,8 +12,8 @@ import { Spinner } from "@heroui/spinner";
 import useSWR from "swr";
 import { ButtonGroup } from "@heroui/button";
 
-import SearchInput from "../../utils/SearchInput";
-import PaginateComponent from "../../utils/PaginateComponent";
+import SearchInput from "../../../utils/SearchInput";
+import PaginateComponent from "../../../utils/PaginateComponent";
 
 import ButtonSetDetails from "./ButtonSetDetails";
 
@@ -31,7 +31,7 @@ function ProductsList() {
     `/api/inventory/products?limit=${limit}&offset=${offset}&${search ? `search=${search}` : ""}`,
     {
       keepPreviousData: true,
-    },
+    }
   );
   const loadingState =
     isLoading || data?.results.length === 0 ? "loading" : "idle";
