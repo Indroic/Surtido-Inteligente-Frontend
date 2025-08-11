@@ -30,7 +30,7 @@ function EditModeDrawerHeader({
   }, [mainOnClose, setEditMode]);
 
   return (
-    <div
+    <header
       className={`flex flex-row ${children ? "justify-between" : "justify-end"} items-center min-h-full w-full gap-5`}
     >
       {children ? (
@@ -56,7 +56,7 @@ function EditModeDrawerHeader({
           <IconX size={16} />
         </Button>
       </ButtonGroup>
-    </div>
+    </header>
   );
 }
 

@@ -3,21 +3,19 @@
 import { Button } from "@heroui/button";
 import { useCallback } from "react";
 
-import useProductDetails from "@/hooks/inventory/products/useProductDetails";
 import useDrawerDetails from "@/hooks/common/details/useDetailsDrawer";
 
 type Props = {
-  productID: string;
+  value: string;
+  callBack: (value: string) => Promise<URLSearchParams>;
 };
 
-function ButtonSetDetails({ productID }: Props) {
+function ButtonSetDetails({ value, callBack }: Props) {
   const { setOpenDetails } = useDrawerDetails();
-  const { setProductId } = useProductDetails();
-
   const handleOpenDrawer = useCallback(() => {
     setOpenDetails(true);
-    setProductId(productID);
-  }, [setOpenDetails, setProductId]);
+    callBack(value);
+  }, [setOpenDetails, callBack, value]);
 
   return (
     <Button color="primary" onPress={handleOpenDrawer}>
