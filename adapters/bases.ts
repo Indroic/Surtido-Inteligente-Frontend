@@ -178,13 +178,13 @@ class ApiClient {
   }
 }
 
-class BackendAdapter extends ApiClient {
+class BackendAdapter<T = unknown> extends ApiClient {
   subUrl: string;
   constructor(subUrl: string, props: ApiClientProps) {
     super(props);
     this.subUrl = subUrl.replace(/^\//, "");
   }
-  async list(req?: NextRequest | Request): Promise<PaginationInterface<any>> {
+  async list(req?: NextRequest | Request): Promise<PaginationInterface<T>> {
     try {
       const params = req
         ? new URL(req.url as string).searchParams
@@ -196,21 +196,21 @@ class BackendAdapter extends ApiClient {
       throw error as AxiosError;
     }
   }
-  async retrieve(pk: string): Promise<Record<string, any>> {
+  async retrieve(pk: string): Promise<T> {
     try {
       return this.get(`${this.subUrl}/${pk}`);
     } catch (error) {
       throw error as AxiosError;
     }
   }
-  async create(data: any): Promise<Record<string, any>> {
+  async create(data: any): Promise<T> {
     try {
       return this.post(this.subUrl, data);
     } catch (error) {
       throw error as AxiosError;
     }
   }
-  async update(pk: string, data: any): Promise<Record<string, any>> {
+  async update(pk: string, data: any): Promise<T> {
     try {
       return this.put(`${this.subUrl}/${pk}/`, data);
     } catch (error) {

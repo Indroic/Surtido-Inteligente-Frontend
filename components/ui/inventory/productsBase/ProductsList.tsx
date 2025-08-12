@@ -14,7 +14,6 @@ import { useSearchQueryParams } from "@/hooks/utils/useSearchQueryParams";
 import DeleteModal from "@/components/common/DeleteModal";
 import useIDParam from "@/hooks/common/details/useIDSearchParam";
 
-
 function ProductsList() {
   const { search } = useSearchQueryParams();
   const { offset, limit } = usePaginationQueryParams();
@@ -61,7 +60,7 @@ function ProductsList() {
               description: "El producto se ha eliminado correctamente.",
               color: "success",
             }}
-            url={`/api/inventory/products?productID=${item.id}`}
+            url={`/api/inventory/products?id=${item.id}`}
           />
           <ButtonSetDetails callBack={setID} value={item.id} />
         </ButtonGroup>

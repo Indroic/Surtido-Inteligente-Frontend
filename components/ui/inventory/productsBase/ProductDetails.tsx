@@ -19,9 +19,7 @@ function ProductDetails() {
     data,
     isLoading,
     mutate: mutateProduct,
-  } = useSWR<ProductInterface>(
-    id ? `/api/inventory/products?id=${id}` : null
-  );
+  } = useSWR<ProductInterface>(id ? `/api/inventory/products?id=${id}` : null);
 
   const formHook = useProductBaseForm({
     deactivated: !editMode && !isLoading,
@@ -32,7 +30,7 @@ function ProductDetails() {
       setID(null);
       handleCloseDrawer();
     },
-    [setID]
+    [setID],
   );
 
   useEffect(() => {
