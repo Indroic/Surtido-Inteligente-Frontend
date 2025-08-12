@@ -35,14 +35,13 @@ export default function useProductBaseForm(
   const [loading, setLoading] = useState(false);
   const [onChargedDefaultsValues, setOnChargedDefaultsValues] = useState(false); // Este State Evita que se reinicie el formulario
 
-  // Usar hooks personalizados
   const {
     items: categories,
     loading: categoriesLoading,
     scrollerRef: scrollerCategoriesRef,
   } = useInfiniteScroll<CategoryInterface>({
     Enabled: openCategories,
-    url: "/api/inventory/products/categories/list",
+    url: "/api/inventory/products/categories",
   });
   const {
     items: productTypes,
@@ -50,7 +49,7 @@ export default function useProductBaseForm(
     scrollerRef: scrollerProductTypesRef,
   } = useInfiniteScroll<ProductTypeInterface>({
     Enabled: openProductTypes,
-    url: "/api/inventory/products/productTypes/list",
+    url: "/api/inventory/products/productTypes",
   });
 
   const { handleSubmit, control, setError, reset, getValues } =

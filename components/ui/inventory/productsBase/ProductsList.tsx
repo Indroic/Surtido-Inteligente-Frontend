@@ -12,12 +12,13 @@ import { PaginationInterface } from "@/types/responses";
 import usePaginationQueryParams from "@/hooks/utils/usePaginationQueryParams";
 import { useSearchQueryParams } from "@/hooks/utils/useSearchQueryParams";
 import DeleteModal from "@/components/common/DeleteModal";
-import useProductDetails from "@/hooks/inventory/products/useProductDetails";
+import useIDParam from "@/hooks/common/details/useIDSearchParam";
+
 
 function ProductsList() {
   const { search } = useSearchQueryParams();
   const { offset, limit } = usePaginationQueryParams();
-  const { setProductId } = useProductDetails();
+  const { setID } = useIDParam();
 
   const { data, isLoading } = useSWR<PaginationInterface<ProductInterface>>(
     `/api/inventory/products?limit=${limit}&offset=${offset}&${search ? `search=${search}` : ""}`,
@@ -62,7 +63,7 @@ function ProductsList() {
             }}
             url={`/api/inventory/products?productID=${item.id}`}
           />
-          <ButtonSetDetails callBack={setProductId} value={item.id} />
+          <ButtonSetDetails callBack={setID} value={item.id} />
         </ButtonGroup>
       ),
     },

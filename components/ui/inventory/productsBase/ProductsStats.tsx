@@ -12,7 +12,7 @@ import { ProductStatsInterface } from "@/types/products";
 
 export default function StatsComponent() {
   const { data, isLoading } = useSWR<ProductStatsInterface>(
-    "/api/inventory/products/stats",
+    "/api/inventory/products?getstats=true",
   );
 
   return (

@@ -4,23 +4,23 @@ import { useCallback, useEffect } from "react";
 import useSWR from "swr";
 import { Tab } from "@heroui/react";
 
-import useProductDetails from "@/hooks/inventory/products/useProductDetails";
 import DrawerDetails from "@/components/common/details/DetailsDrawer";
-import useProductBaseForm from "@/hooks/inventory/products/useProductBaseForm";
+import useProductBaseForm from "@/hooks/inventory/base_products/useProductBaseForm";
 import useEditMode from "@/hooks/common/details/useEditMode";
 import { ProductInterface } from "@/types/products";
 import ProductBaseForm from "@/components/forms/inventory/ProductBaseForm";
 import handleSubmitApi from "@/helpers/handleSubmitApi";
+import useIDParam from "@/hooks/common/details/useIDSearchParam";
 
 function ProductDetails() {
-  const { productId, setProductId } = useProductDetails();
+  const { id, setID } = useIDParam();
   const { editMode, setEditMode } = useEditMode();
   const {
     data,
     isLoading,
     mutate: mutateProduct,
   } = useSWR<ProductInterface>(
-    productId ? `/api/inventory/products?productID=${productId}` : null,
+    id ? `/api/inventory/products?id=${id}` : null
   );
 
   const formHook = useProductBaseForm({
@@ -29,10 +29,10 @@ function ProductDetails() {
 
   const handleCloseDrawer = useCallback(
     (handleCloseDrawer: () => void) => {
-      setProductId(null);
+      setID(null);
       handleCloseDrawer();
     },
-    [setProductId],
+    [setID]
   );
 
   useEffect(() => {
@@ -58,7 +58,7 @@ function ProductDetails() {
       .handleSubmit((form) =>
         handleSubmitApi<ProductInterface>({
           form: form,
-          url: `/api/inventory/products?productID=${productId}`,
+          url: `/api/inventory/products?id=${id}`,
           toast: {
             title: "Producto Actualizado",
             description: "El producto se ha actualizado correctamente.",
@@ -71,7 +71,7 @@ function ProductDetails() {
         }),
       )()
       .finally(() => formHook.setLoading(false));
-  }, [formHook, mutateProduct, productId, setEditMode]);
+  }, [formHook, mutateProduct, id, setEditMode]);
 
   return (
     <DrawerDetails

@@ -4,7 +4,7 @@ import ProductBaseForm from "../../../forms/inventory/ProductBaseForm";
 
 import CustomModal from "@/components/bases/modal";
 import handleSubmitApi from "@/helpers/handleSubmitApi";
-import useProductBaseForm from "@/hooks/inventory/products/useProductBaseForm";
+import useProductBaseForm from "@/hooks/inventory/base_products/useProductBaseForm";
 import { ProductInterface } from "@/types/products";
 
 export default function ModalCreate() {

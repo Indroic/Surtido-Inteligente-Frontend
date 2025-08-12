@@ -33,7 +33,7 @@ function TableList<T>({
   topContent,
   loadingContent = <Spinner variant="wave" />,
 }: GenericTableProps<T>) {
-  const loadingState = loading || data.length === 0 ? "loading" : "idle";
+  const loadingState = loading ? "loading" : "idle";
 
   return (
     <Table
