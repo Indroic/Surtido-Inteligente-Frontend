@@ -18,7 +18,7 @@ class ResumeItem extends Component<Props> {
       <li
         className={`flex flex-col justify-start items-start px-8 py-7 w-full min-w-max gap-1 ${this.border()}`}
       >
-        <section className="flex-1 flex flex-row w-full justify-between items-center">
+        <section className="flex-1 flex flex-row w-full justify-between items-center gap-8">
           <span className="text-lg font-semibold">{title}</span>
           {<Icon />}
         </section>

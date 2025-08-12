@@ -1,21 +1,12 @@
 "use client";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow,
-} from "@heroui/table";
-import { Spinner } from "@heroui/spinner";
 import useSWR from "swr";
 import { ButtonGroup } from "@heroui/button";
 
-import SearchInput from "../../../utils/SearchInput";
-import PaginateComponent from "../../../utils/PaginateComponent";
-import ButtonSetDetails from "../../../common/details/ButtonSetDetails";
-
+import SearchInput from "@/components/utils/SearchInput";
+import PaginateComponent from "@/components/utils/PaginateComponent";
+import ButtonSetDetails from "@/components/common/details/ButtonSetDetails";
+import TableList from "@/components/common/TableList";
 import { ProductInterface } from "@/types/products";
 import { PaginationInterface } from "@/types/responses";
 import usePaginationQueryParams from "@/hooks/utils/usePaginationQueryParams";
@@ -34,75 +25,62 @@ function ProductsList() {
       keepPreviousData: true,
     },
   );
-  const loadingState =
-    isLoading || data?.results.length === 0 ? "loading" : "idle";
   const totalPages = data?.totalPages || 0;
   const page = data?.page || 1;
 
+  const columns = [
+    { key: "name", label: "PRODUCTO", className: "capitalize" },
+    {
+      key: "variants",
+      label: "VARIANTES",
+      align: "center" as const,
+      className: "hidden md:table-cell",
+    },
+    {
+      key: "updated_at",
+      label: "ULT. ACTUALIZACION",
+      className: "hidden md:table-cell",
+      render: (item: ProductInterface) =>
+        new Date(item.updated_at).toLocaleDateString(),
+    },
+    { key: "stock", label: "STOCK BASE", align: "center" as const },
+    {
+      key: "actions",
+      label: "",
+      align: "end" as const,
+      render: (item: ProductInterface) => (
+        <ButtonGroup size="sm">
+          <DeleteModal
+            description="Esta accion eliminara todo lo referente con este Producto Base"
+            secondarySegurityText="Eliminar Mi Producto"
+            segurityText={`Producto Base/${item.name}`}
+            title="Eliminar Producto"
+            toastProps={{
+              title: "Producto Eliminado",
+              description: "El producto se ha eliminado correctamente.",
+              color: "success",
+            }}
+            url={`/api/inventory/products?productID=${item.id}`}
+          />
+          <ButtonSetDetails callBack={setProductId} value={item.id} />
+        </ButtonGroup>
+      ),
+    },
+  ];
+
   return (
-    <Table
-      removeWrapper
-      aria-label="Lista de productos"
-      classNames={{
-        wrapper: "max-w-full border-1 border-divider",
-      }}
-      maxTableHeight={100}
+    <TableList
+      columns={columns}
+      data={data ? data.results : []}
+      emptyContent="No se encontraron productos"
+      loading={isLoading}
       topContent={
         <div className="flex flex-col md:flex-row  max-w-full gap-2 items-center justify-between">
           <SearchInput />
           <PaginateComponent page={page} totalPages={totalPages} />
         </div>
       }
-      topContentPlacement="outside"
-    >
-      <TableHeader>
-        <TableColumn>PRODUCTO</TableColumn>
-        <TableColumn align="center" className="hidden md:table-cell">
-          VARIANTES
-        </TableColumn>
-        <TableColumn className="hidden md:table-cell">
-          ULT. ACTUALIZACION
-        </TableColumn>
-        <TableColumn align="center">STOCK BASE</TableColumn>
-        <TableColumn align="end">{""}</TableColumn>
-      </TableHeader>
-      <TableBody
-        emptyContent={"No se encontraron productos"}
-        items={data ? data.results : []}
-        loadingContent={<Spinner variant="wave" />}
-        loadingState={loadingState}
-      >
-        {(item) => (
-          <TableRow>
-            <TableCell className="capitalize">{item.name}</TableCell>
-            <TableCell className="hidden md:table-cell">
-              {item.variants}
-            </TableCell>
-            <TableCell className="hidden md:table-cell">
-              {new Date(item.updated_at).toLocaleDateString()}
-            </TableCell>
-            <TableCell>{item.stock}</TableCell>
-            <TableCell>
-              <ButtonGroup size="sm">
-                <DeleteModal
-                  description="Esta accion eliminara todo lo referente con este Producto Base"
-                  secondarySegurityText="Eliminar Mi Producto"
-                  segurityText={`Producto Base/${item.name}`}
-                  title="Eliminar Producto"
-                  toastProps={{
-                    title: "Producto Eliminado",
-                    description: "El producto se ha eliminado correctamente.",
-                    color: "success",
-                  }}
-                  url={`/api/inventory/products?productID=${item.id}`}
-                />
-                <ButtonSetDetails callBack={setProductId} value={item.id} />
-              </ButtonGroup>
-            </TableCell>
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    />
   );
 }
 
