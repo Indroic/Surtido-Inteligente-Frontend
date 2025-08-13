@@ -8,7 +8,7 @@ import {
 } from "@heroui/table";
 import { Spinner } from "@heroui/spinner";
 
-interface ColumnConfig<T> {
+export interface ColumnConfig<T> {
   key: string;
   label: string;
   align?: "start" | "center" | "end";

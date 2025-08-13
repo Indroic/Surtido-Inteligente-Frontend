@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { isEqual } from "lodash";
+import { useState } from "react";
+import { DefaultValues } from "react-hook-form";
 
+import useBaseFormHook, { BaseFormHookProps } from "@/hooks/baseFormHook";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import {
   CategoryInterface,
@@ -9,31 +9,25 @@ import {
   ProductTypeInterface,
 } from "@/types/products";
 
-type Props = {
-  deactivated?: boolean;
-  defaultValues?: {
-    category: string;
-    product_type: string;
-    name: string;
-    description: string;
-  };
+const defaultProductValues: DefaultValues<ProductInterface> = {
+  category: "",
+  name: "",
+  description: "",
+  product_type: "",
 };
 
 export default function useProductBaseForm(
   {
-    deactivated = false,
-    defaultValues = {
-      category: "",
-      product_type: "",
-      name: "",
-      description: "",
-    },
-  }: Props = { defaultValues: undefined },
+    defaultValues = defaultProductValues,
+  }: BaseFormHookProps<ProductInterface> = {
+    defaultValues: undefined,
+  },
 ) {
+  const baseHook = useBaseFormHook<ProductInterface>({
+    defaultValues,
+  });
   const [openCategories, setOpenCategories] = useState(false);
   const [openProductTypes, setOpenProductTypes] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [onChargedDefaultsValues, setOnChargedDefaultsValues] = useState(false); // Este State Evita que se reinicie el formulario
 
   const {
     items: categories,
@@ -52,33 +46,11 @@ export default function useProductBaseForm(
     url: "/api/inventory/products/productTypes",
   });
 
-  const { handleSubmit, control, setError, reset, getValues } =
-    useForm<ProductInterface>({
-      defaultValues,
-    });
-
-  useEffect(() => {
-    if (
-      defaultValues &&
-      !isEqual(getValues(), defaultValues) &&
-      !onChargedDefaultsValues
-    ) {
-      setOnChargedDefaultsValues(true);
-      reset(defaultValues);
-    }
-  }, [defaultValues, reset, getValues]);
-
   return {
-    handleSubmit,
-    control,
-    setError,
-    reset,
-    loading,
     openCategories,
     setOpenCategories,
     openProductTypes,
     setOpenProductTypes,
-    setLoading,
     categoriesData: {
       categories,
       categoriesLoading,
@@ -89,6 +61,6 @@ export default function useProductBaseForm(
       productTypesLoading,
       scrollerProductTypesRef,
     },
-    deactivated,
+    ...baseHook,
   };
 }

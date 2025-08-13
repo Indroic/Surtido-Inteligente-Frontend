@@ -1,35 +1,34 @@
 "use client";
 
 import TableList, { ColumnConfig } from "@/components/common/table/TableList";
-import { ProductInterface } from "@/types/products";
 import useIDParam from "@/hooks/common/details/useIDSearchParam";
 import useList from "@/hooks/common/list/useList";
 import TableActions from "@/components/common/table/TableActions";
 import TableTopContent from "@/components/common/table/TableTopContent";
-import { PRODUCT_BASE_API_URL } from "@/components/ui/UrlPaths";
+import { ImpuestoInterface } from "@/types/legal";
 
-function ProductsList() {
+function ImpuestosList() {
   const { setID } = useIDParam();
   const { data, isLoading, page, totalPages, search } =
-    useList<ProductInterface>({
-      apiPath: PRODUCT_BASE_API_URL,
+    useList<ImpuestoInterface>({
+      apiPath: "/api/legal/impuestos",
     });
 
-  const columns: ColumnConfig<ProductInterface>[] = [
-    { key: "name", label: "PRODUCTO", className: "capitalize" },
+  const columns: ColumnConfig<ImpuestoInterface>[] = [
+    { key: "nombre", label: "IMPUESTO", className: "capitalize" },
     {
-      key: "variants",
-      label: "VARIANTES",
-      align: "center" as const,
-      className: "hidden md:table-cell",
+      key: "impuesto",
+      label: "Porcentaje",
+      className: "capitalize",
+      align: "center",
+      render: (item) => `${item.impuesto}%`,
     },
     {
       key: "updated_at",
       label: "ULT. ACTUALIZACION",
       className: "hidden md:table-cell",
-      render: (item) => new Date(item.updated_at).toLocaleDateString(),
+      render: (item) => item.created_at,
     },
-    { key: "stock", label: "STOCK BASE", align: "center" as const },
     {
       key: "actions",
       label: "",
@@ -38,16 +37,16 @@ function ProductsList() {
         <TableActions
           deleteOptions={{
             description:
-              "Esta accion eliminara todo lo referente con este Producto Base",
-            secondarySegurityText: "Eliminar Mi Producto",
-            segurityText: `Producto Base/${item.name}`,
-            title: "Eliminar Producto",
+              "Esta accion eliminara todo lo referente con este Impuesto",
+            secondarySegurityText: "Eliminar Mi Impuesto",
+            segurityText: `Impuesto/${item.nombre}`,
+            title: "Eliminar Impuesto",
             toastProps: {
-              title: "Producto Eliminado",
-              description: "El producto se ha eliminado correctamente.",
+              title: "Impuesto Eliminado",
+              description: "El impuesto se ha eliminado correctamente.",
               color: "success",
             },
-            url: PRODUCT_BASE_API_URL,
+            url: "/api/legal/impuestos",
           }}
           item={item}
           setID={setID}
@@ -60,11 +59,11 @@ function ProductsList() {
     <TableList
       columns={columns}
       data={data ? data.results : []}
-      emptyContent={search ? "No se encontraron productos" : "No hay productos"}
+      emptyContent={search ? "No se encontraron Impuestos" : "No hay Impuestos"}
       loading={isLoading}
       topContent={<TableTopContent page={page} totalPages={totalPages} />}
     />
   );
 }
 
-export default ProductsList;
+export default ImpuestosList;

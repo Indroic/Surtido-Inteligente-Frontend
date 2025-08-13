@@ -1,35 +1,32 @@
 "use client";
 
 import TableList, { ColumnConfig } from "@/components/common/table/TableList";
-import { ProductInterface } from "@/types/products";
+import { ProductTypeInterface } from "@/types/products";
 import useIDParam from "@/hooks/common/details/useIDSearchParam";
 import useList from "@/hooks/common/list/useList";
 import TableActions from "@/components/common/table/TableActions";
 import TableTopContent from "@/components/common/table/TableTopContent";
-import { PRODUCT_BASE_API_URL } from "@/components/ui/UrlPaths";
+import { PRODUCT_TYPE_API_URL } from "@/components/ui/UrlPaths";
 
-function ProductsList() {
+export default function ProductsTypesList() {
   const { setID } = useIDParam();
   const { data, isLoading, page, totalPages, search } =
-    useList<ProductInterface>({
-      apiPath: PRODUCT_BASE_API_URL,
+    useList<ProductTypeInterface>({
+      apiPath: PRODUCT_TYPE_API_URL,
     });
 
-  const columns: ColumnConfig<ProductInterface>[] = [
-    { key: "name", label: "PRODUCTO", className: "capitalize" },
-    {
-      key: "variants",
-      label: "VARIANTES",
-      align: "center" as const,
-      className: "hidden md:table-cell",
-    },
+  const columns: ColumnConfig<ProductTypeInterface>[] = [
+    { key: "name", label: "TIPO DE PRODUCTO", className: "capitalize" },
     {
       key: "updated_at",
       label: "ULT. ACTUALIZACION",
-      className: "hidden md:table-cell",
       render: (item) => new Date(item.updated_at).toLocaleDateString(),
     },
-    { key: "stock", label: "STOCK BASE", align: "center" as const },
+    {
+      key: "impuesto",
+      label: "ULT. ACTUALIZACION",
+      render: (item) => `${item.impuesto}%`,
+    },
     {
       key: "actions",
       label: "",
@@ -38,16 +35,16 @@ function ProductsList() {
         <TableActions
           deleteOptions={{
             description:
-              "Esta accion eliminara todo lo referente con este Producto Base",
-            secondarySegurityText: "Eliminar Mi Producto",
-            segurityText: `Producto Base/${item.name}`,
-            title: "Eliminar Producto",
+              "Esta accion eliminara todo lo referente con este Tipo de Producto",
+            secondarySegurityText: "Eliminar Mi Tipo de Producto",
+            segurityText: `Tipo de Producto/${item.name}`,
+            title: "Eliminar Tipo de Producto",
             toastProps: {
-              title: "Producto Eliminado",
-              description: "El producto se ha eliminado correctamente.",
+              title: "Tipo de Producto Eliminado",
+              description: "El Tipo de Producto se ha eliminado correctamente.",
               color: "success",
             },
-            url: PRODUCT_BASE_API_URL,
+            url: PRODUCT_TYPE_API_URL,
           }}
           item={item}
           setID={setID}
@@ -60,11 +57,13 @@ function ProductsList() {
     <TableList
       columns={columns}
       data={data ? data.results : []}
-      emptyContent={search ? "No se encontraron productos" : "No hay productos"}
+      emptyContent={
+        search
+          ? "No se encontraron tipos de producto"
+          : "No hay tipos de producto"
+      }
       loading={isLoading}
       topContent={<TableTopContent page={page} totalPages={totalPages} />}
     />
   );
 }
-
-export default ProductsList;

@@ -11,7 +11,7 @@ import {
 import { Controller } from "react-hook-form";
 import { useEffect, useState } from "react";
 
-import useProductBaseForm from "@/hooks/inventory/base_products/useProductBaseForm";
+import useProductBaseForm from "@/hooks/inventory/useProductBaseForm";
 import { CategoryInterface } from "@/types/products";
 
 type Props = {

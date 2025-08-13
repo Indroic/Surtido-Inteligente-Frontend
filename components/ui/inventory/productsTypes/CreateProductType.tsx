@@ -1,26 +1,26 @@
 import { IconPlus } from "@tabler/icons-react";
 
-import ProductBaseForm from "../../../forms/inventory/ProductBaseForm";
-import { PRODUCT_BASE_API_URL } from "../../UrlPaths";
+import { PRODUCT_TYPE_API_URL } from "../../UrlPaths";
 
 import CustomModal from "@/components/bases/modal";
 import handleSubmitApi from "@/helpers/handleSubmitApi";
-import useProductBaseForm from "@/hooks/inventory/useProductBaseForm";
-import { ProductInterface } from "@/types/products";
+import { ProductTypeInterface } from "@/types/products";
+import useProductTypeForm from "@/hooks/inventory/useProductTypeForm";
+import ProductTypeForm from "@/components/forms/inventory/ProductTypeForm";
 
-export default function ModalCreate() {
-  const formHook = useProductBaseForm();
+export default function CreateProductType() {
+  const formHook = useProductTypeForm();
 
   const onSubmit = (closeModal: () => void) => {
     formHook.setLoading(true);
     formHook
       .handleSubmit((data) =>
-        handleSubmitApi<ProductInterface>({
+        handleSubmitApi<ProductTypeInterface>({
           form: data,
-          url: PRODUCT_BASE_API_URL,
+          url: PRODUCT_TYPE_API_URL,
           toast: {
-            title: "Producto Creado",
-            description: "El producto se ha creado correctamente.",
+            title: "Tipo de Producto Creado",
+            description: "El Tipo de Producto se ha creado correctamente.",
             color: "success",
           },
           type: "create",
@@ -35,12 +35,12 @@ export default function ModalCreate() {
   return (
     <CustomModal
       modalprops={{ size: "xl", scrollBehavior: "inside" }}
-      title="Nuevo Producto"
-      triggerLabel="Nuevo Producto"
+      title="Nuevo Tipo de Producto"
+      triggerLabel="Nuevo Tipo de Producto"
       triggerProps={{ startContent: <IconPlus size={16} /> }}
       onConfirm={(closeModal) => onSubmit(closeModal)}
     >
-      <ProductBaseForm {...formHook} />
+      <ProductTypeForm {...formHook} />
     </CustomModal>
   );
 }

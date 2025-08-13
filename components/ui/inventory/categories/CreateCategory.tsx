@@ -1,26 +1,26 @@
 import { IconPlus } from "@tabler/icons-react";
 
-import ProductBaseForm from "../../../forms/inventory/ProductBaseForm";
-import { PRODUCT_BASE_API_URL } from "../../UrlPaths";
+import { CATEGORY_API_URL } from "../../UrlPaths";
 
 import CustomModal from "@/components/bases/modal";
 import handleSubmitApi from "@/helpers/handleSubmitApi";
-import useProductBaseForm from "@/hooks/inventory/useProductBaseForm";
-import { ProductInterface } from "@/types/products";
+import { CategoryInterface } from "@/types/products";
+import useCategoryForm from "@/hooks/inventory/useCategorieForm";
+import CategoryForm from "@/components/forms/inventory/CategoryForm";
 
-export default function ModalCreate() {
-  const formHook = useProductBaseForm();
+export default function CreateCategory() {
+  const formHook = useCategoryForm();
 
   const onSubmit = (closeModal: () => void) => {
     formHook.setLoading(true);
     formHook
       .handleSubmit((data) =>
-        handleSubmitApi<ProductInterface>({
+        handleSubmitApi<CategoryInterface>({
           form: data,
-          url: PRODUCT_BASE_API_URL,
+          url: CATEGORY_API_URL,
           toast: {
-            title: "Producto Creado",
-            description: "El producto se ha creado correctamente.",
+            title: "Categoria Creado",
+            description: "La Categoria se ha creado correctamente.",
             color: "success",
           },
           type: "create",
@@ -35,12 +35,12 @@ export default function ModalCreate() {
   return (
     <CustomModal
       modalprops={{ size: "xl", scrollBehavior: "inside" }}
-      title="Nuevo Producto"
-      triggerLabel="Nuevo Producto"
+      title="Nuevo Categoria"
+      triggerLabel="Nuevo Categoria"
       triggerProps={{ startContent: <IconPlus size={16} /> }}
       onConfirm={(closeModal) => onSubmit(closeModal)}
     >
-      <ProductBaseForm {...formHook} />
+      <CategoryForm {...formHook} />
     </CustomModal>
   );
 }
