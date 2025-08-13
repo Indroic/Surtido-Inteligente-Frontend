@@ -1,21 +1,21 @@
 "use client";
 
-import { IMPUESTOS_API_URL } from "../../UrlPaths";
+import { DOCUMENTS_TYPES_API_URL } from "../../UrlPaths";
 
 import DrawerDetails from "@/components/common/details/DetailsDrawer";
 import useDetails from "@/hooks/common/details/useDetails";
-import { ImpuestoInterface } from "@/types/legal";
-import useImpuestoForm from "@/hooks/legal/useImpuestoForm";
-import ImpuestoForm from "@/components/forms/legal/ImpuestoForm";
+import { DocumentTypeInterface } from "@/types/legal";
+import useDocumentTypeForm from "@/hooks/legal/useDocumentTypeForm";
+import DocumentTypeForm from "@/components/forms/legal/DocumentTypeForm";
 
-function ImpuestoDetails() {
-  const useDetailsContext = useDetails<ImpuestoInterface>({
-    apiPath: IMPUESTOS_API_URL,
-    useFormHook: useImpuestoForm,
+export default function DocumentTypeDetails() {
+  const useDetailsContext = useDetails<DocumentTypeInterface>({
+    apiPath: DOCUMENTS_TYPES_API_URL,
+    useFormHook: useDocumentTypeForm,
     toastMessages: {
       update: {
-        title: "Impuesto Actualizado",
-        description: "El impuesto se ha actualizado correctamente.",
+        title: "Tipo de Documento Actualizado",
+        description: "El Tipo de Documento se ha actualizado correctamente.",
         color: "success",
       },
     },
@@ -28,7 +28,7 @@ function ImpuestoDetails() {
     <DrawerDetails
       hiddeCloseButton
       editForm={
-        <ImpuestoForm
+        <DocumentTypeForm
           {...useDetailsContext.formHook}
           deactivated={deactivated}
         />
@@ -40,5 +40,3 @@ function ImpuestoDetails() {
     />
   );
 }
-
-export default ImpuestoDetails;

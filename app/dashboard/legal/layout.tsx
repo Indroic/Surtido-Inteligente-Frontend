@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { /*IconFileCertificate,*/ IconPercentage } from "@tabler/icons-react";
+import { IconFileCertificate, IconPercentage } from "@tabler/icons-react";
 
 import { useNavBar } from "@/context/NavBarContext";
 import { useAppDispatch } from "@/store/hooks";
@@ -22,11 +22,11 @@ export default function InventoryLayout({
         label: "Impuestos",
         Icon: IconPercentage,
       },
-      /*{
+      {
         href: "/dashboard/legal/documents-types",
         label: "Tipos de Documento",
         Icon: IconFileCertificate,
-      },*/
+      },
     ];
 
     setItems(inventoryItems);

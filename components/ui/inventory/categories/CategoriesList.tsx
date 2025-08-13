@@ -17,7 +17,7 @@ export default function CategoriesList() {
     });
 
   const columns: ColumnConfig<ProductInterface>[] = [
-    { key: "name", label: "PRODUCTO", className: "capitalize" },
+    { key: "name", label: "CATEGORIA", className: "capitalize" },
     {
       key: "updated_at",
       label: "ULT. ACTUALIZACION",
@@ -57,7 +57,13 @@ export default function CategoriesList() {
         search ? "No se encontraron categorias" : "No hay categorias"
       }
       loading={isLoading}
-      topContent={<TableTopContent page={page} totalPages={totalPages} />}
+      topContent={
+        <TableTopContent
+          page={page}
+          searchPlaceholder="Buscar Categoria"
+          totalPages={totalPages}
+        />
+      }
     />
   );
 }

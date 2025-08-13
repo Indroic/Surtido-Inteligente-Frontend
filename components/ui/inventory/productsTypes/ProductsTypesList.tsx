@@ -24,8 +24,8 @@ export default function ProductsTypesList() {
     },
     {
       key: "impuesto",
-      label: "ULT. ACTUALIZACION",
-      render: (item) => `${item.impuesto}%`,
+      label: "Impuesto",
+      render: (item) => `${item.impuesto}%`, //Aqui hay que obtener el Tipo de Impuesto o establecer en el backend que lo devuelva completo con algun query param
     },
     {
       key: "actions",
@@ -63,7 +63,13 @@ export default function ProductsTypesList() {
           : "No hay tipos de producto"
       }
       loading={isLoading}
-      topContent={<TableTopContent page={page} totalPages={totalPages} />}
+      topContent={
+        <TableTopContent
+          page={page}
+          searchPlaceholder="Buscar Tipo de Producto"
+          totalPages={totalPages}
+        />
+      }
     />
   );
 }

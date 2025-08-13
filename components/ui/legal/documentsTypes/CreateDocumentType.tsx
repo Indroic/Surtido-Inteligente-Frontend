@@ -1,26 +1,26 @@
 import { IconPlus } from "@tabler/icons-react";
 
-import { IMPUESTOS_API_URL } from "../../UrlPaths";
+import { DOCUMENTS_TYPES_API_URL } from "../../UrlPaths";
 
 import CustomModal from "@/components/bases/modal";
 import handleSubmitApi from "@/helpers/handleSubmitApi";
-import { ImpuestoInterface } from "@/types/legal";
-import useImpuestoForm from "@/hooks/legal/useImpuestoForm";
-import ImpuestoForm from "@/components/forms/legal/ImpuestoForm";
+import { DocumentTypeInterface } from "@/types/legal";
+import useDocumentTypeForm from "@/hooks/legal/useDocumentTypeForm";
+import DocumentTypeForm from "@/components/forms/legal/DocumentTypeForm";
 
-export default function CreateImpuesto() {
-  const formHook = useImpuestoForm();
+export default function CreateDocumentType() {
+  const formHook = useDocumentTypeForm();
 
   const onSubmit = (closeModal: () => void) => {
     formHook.setLoading(true);
     formHook
       .handleSubmit((data) =>
-        handleSubmitApi<ImpuestoInterface>({
+        handleSubmitApi<DocumentTypeInterface>({
           form: data,
-          url: IMPUESTOS_API_URL,
+          url: DOCUMENTS_TYPES_API_URL,
           toast: {
-            title: "Impuesto Creado",
-            description: "El impuesto se ha creado correctamente.",
+            title: "Tipo de Documento Creado",
+            description: "El Tipo de Documento se ha creado correctamente.",
             color: "success",
           },
           type: "create",
@@ -35,12 +35,12 @@ export default function CreateImpuesto() {
   return (
     <CustomModal
       modalprops={{ size: "xl", scrollBehavior: "inside" }}
-      title="Nuevo Impuesto"
-      triggerLabel="Nuevo Impuesto"
+      title="Nuevo Tipo de Documento"
+      triggerLabel="Nuevo Tipo de Documento"
       triggerProps={{ startContent: <IconPlus size={16} /> }}
       onConfirm={(closeModal) => onSubmit(closeModal)}
     >
-      <ImpuestoForm {...formHook} />
+      <DocumentTypeForm {...formHook} />
     </CustomModal>
   );
 }

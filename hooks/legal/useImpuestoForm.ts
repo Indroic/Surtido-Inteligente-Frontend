@@ -10,14 +10,12 @@ const defaultProductValues: DefaultValues<ImpuestoInterface> = {
 
 export default function useImpuestoForm(
   {
-    deactivated = false,
     defaultValues = defaultProductValues,
   }: BaseFormHookProps<ImpuestoInterface> = {
     defaultValues: undefined,
   },
 ) {
   const baseHook = useBaseFormHook<ImpuestoInterface>({
-    deactivated,
     defaultValues,
   });
 

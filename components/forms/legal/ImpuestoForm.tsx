@@ -4,7 +4,7 @@ import { Form, Input, NumberInput } from "@heroui/react";
 import { Controller } from "react-hook-form";
 import { useEffect, useState } from "react";
 
-import useImpuestoForm from "@/hooks/legal/impuestos/useImpuestoForm";
+import useImpuestoForm from "@/hooks/legal/useImpuestoForm";
 
 type Props = {
   deactivated?: boolean;

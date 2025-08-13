@@ -62,7 +62,13 @@ function ProductsList() {
       data={data ? data.results : []}
       emptyContent={search ? "No se encontraron productos" : "No hay productos"}
       loading={isLoading}
-      topContent={<TableTopContent page={page} totalPages={totalPages} />}
+      topContent={
+        <TableTopContent
+          page={page}
+          searchPlaceholder="Buscar Producto por Nombre y Categoria"
+          totalPages={totalPages}
+        />
+      }
     />
   );
 }

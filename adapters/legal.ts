@@ -34,7 +34,7 @@ export class ImpuestosAdapter extends BackendAdapter {
 
 export class DocumentsStypesAdapter extends BackendAdapter {
   constructor(token: JWT) {
-    super("legal/documents", { token: token });
+    super("legal/documents/", { token: token });
   }
   async list(
     req?: NextRequest,
