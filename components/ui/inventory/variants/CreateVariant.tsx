@@ -21,6 +21,7 @@ export default function CreateVariant({
   const formHook = useProductVariantForm({
     defaultValues: {
       product: productBaseID,
+      weight: 1,
     },
   });
 
