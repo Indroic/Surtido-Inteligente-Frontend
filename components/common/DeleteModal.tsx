@@ -11,13 +11,15 @@ import handleDeleteApi, {
   HandleDeleteApiProps,
 } from "@/helpers/handleDeleteApi";
 
-type Props = {
+export type DeleteModalProps = {
   url: string;
+  item?: any;
   title: string;
   description: string;
   segurityText: string;
   secondarySegurityText: string;
   toastProps?: HandleDeleteApiProps["toast"];
+  successFunction?: (item: any) => void;
 };
 
 function DeleteModal({
@@ -31,7 +33,9 @@ function DeleteModal({
     description: "El Item se ha eliminado correctamente.",
     color: "success",
   },
-}: Props) {
+  item,
+  successFunction,
+}: DeleteModalProps) {
   const validationSchema = yup
     .object({
       segurityText: yup
@@ -59,7 +63,12 @@ function DeleteModal({
         handleDeleteApi({
           url: url,
           toast: toastProps,
-          successFunction: closeModal,
+          successFunction: (item) => {
+            closeModal();
+
+            successFunction?.(item);
+          },
+          item,
         }),
       )();
     },

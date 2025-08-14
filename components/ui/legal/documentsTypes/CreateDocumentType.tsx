@@ -1,7 +1,6 @@
 import { IconPlus } from "@tabler/icons-react";
 
-import { DOCUMENTS_TYPES_API_URL } from "../../UrlPaths";
-
+import { DOCUMENTS_TYPES_API_URL } from "@/components/ui/UrlPaths";
 import CustomModal from "@/components/bases/modal";
 import handleSubmitApi from "@/helpers/handleSubmitApi";
 import { DocumentTypeInterface } from "@/types/legal";

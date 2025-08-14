@@ -1,7 +1,6 @@
 "use client";
 
-import { IMPUESTOS_API_URL } from "../../UrlPaths";
-
+import { IMPUESTOS_API_URL } from "@/components/ui/UrlPaths";
 import TableList, { ColumnConfig } from "@/components/common/table/TableList";
 import useIDParam from "@/hooks/common/details/useIDSearchParam";
 import useList from "@/hooks/common/list/useList";
@@ -11,7 +10,7 @@ import { ImpuestoInterface } from "@/types/legal";
 
 function ImpuestosList() {
   const { setID } = useIDParam();
-  const { data, isLoading, page, totalPages, search } =
+  const { data, isLoading, page, totalPages, search, mutate } =
     useList<ImpuestoInterface>({
       apiPath: IMPUESTOS_API_URL,
     });
@@ -49,6 +48,7 @@ function ImpuestosList() {
               color: "success",
             },
             url: "/api/legal/impuestos",
+            successFunction: () => mutate(),
           }}
           item={item}
           setID={setID}

@@ -1,9 +1,9 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import useSWR from "swr";
 import { ToastProps } from "@heroui/toast";
 
-import useDefaultDetailsController from "./useDefaultDrawerStateController";
-import useDefaultDrawerIDController from "./useDefaultDrawerIDController";
+import useDefaultDetailsController from "../../controllers/common/details/useDefaultDrawerStateController";
+import useDefaultDrawerIDController from "../../controllers/common/details/useDefaultDrawerIDController";
 
 import { DrawerController, DrawerIDController } from "@/types/details";
 import handleSubmitApi from "@/helpers/handleSubmitApi";
@@ -36,8 +36,11 @@ export default function useDetails<TEntity extends BaseInterface>({
   stateController = useDefaultDetailsController,
   idController = useDefaultDrawerIDController,
 }: UseDetailsProps<TEntity>) {
-  const { editMode, setEditMode } = stateController();
-  const { id, setID } = idController();
+  const refStateController = useRef(stateController);
+  const refIDController = useRef(idController);
+
+  const { editMode, setEditMode } = refStateController.current();
+  const { id, setID } = refIDController.current();
 
   const {
     data,
@@ -106,5 +109,6 @@ export default function useDetails<TEntity extends BaseInterface>({
     handleClose,
     submit,
     formHook,
+    mutateEntity,
   };
 }

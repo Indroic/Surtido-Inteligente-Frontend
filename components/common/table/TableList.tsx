@@ -9,7 +9,7 @@ import {
 import { Spinner } from "@heroui/spinner";
 
 export interface ColumnConfig<T> {
-  key: string;
+  key: keyof T | "actions";
   label: string;
   align?: "start" | "center" | "end";
   className?: string;
@@ -47,7 +47,7 @@ function TableList<T>({
       <TableHeader>
         {columns.map((col) => (
           <TableColumn
-            key={col.key}
+            key={col.key as string}
             align={col.align}
             className={col.className}
           >
@@ -62,9 +62,9 @@ function TableList<T>({
         loadingState={loadingState}
       >
         {(item) => (
-          <TableRow>
+          <TableRow key={(item as any).id}>
             {columns.map((col) => (
-              <TableCell key={col.key} className={col.className}>
+              <TableCell key={col.key as string} className={col.className}>
                 {col.render ? col.render(item) : (item as any)[col.key]}
               </TableCell>
             ))}

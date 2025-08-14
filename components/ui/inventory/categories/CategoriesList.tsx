@@ -1,7 +1,6 @@
 "use client";
 
-import { CATEGORY_API_URL } from "../../UrlPaths";
-
+import { CATEGORY_API_URL } from "@/components/ui/UrlPaths";
 import TableList, { ColumnConfig } from "@/components/common/table/TableList";
 import { ProductInterface } from "@/types/products";
 import useIDParam from "@/hooks/common/details/useIDSearchParam";
@@ -11,7 +10,7 @@ import TableTopContent from "@/components/common/table/TableTopContent";
 
 export default function CategoriesList() {
   const { setID } = useIDParam();
-  const { data, isLoading, page, totalPages, search } =
+  const { data, isLoading, page, totalPages, search, mutate } =
     useList<ProductInterface>({
       apiPath: "/api/inventory/products/categories",
     });
@@ -41,6 +40,7 @@ export default function CategoriesList() {
               color: "success",
             },
             url: CATEGORY_API_URL,
+            successFunction: () => mutate(),
           }}
           item={item}
           setID={setID}

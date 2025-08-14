@@ -1,5 +1,4 @@
-import useIDParam from "./useIDSearchParam";
-
+import useIDParam from "@/hooks/common/details/useIDSearchParam";
 import { DrawerIDController } from "@/types/details";
 
 const useDefaultDrawerIDController: DrawerIDController = () => {

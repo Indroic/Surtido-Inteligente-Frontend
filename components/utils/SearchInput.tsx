@@ -3,17 +3,27 @@
 import { Input, InputProps } from "@heroui/input";
 import { IconSearch } from "@tabler/icons-react";
 import _ from "lodash";
+import { useRef } from "react";
 
-import { useSearchQueryParams } from "@/hooks/utils/useSearchQueryParams";
+import { SearchController } from "@/types/list";
+import useDefaultSearchListController from "@/hooks/controllers/common/list/useDefaultSearchListController";
 
-function SearchInput(props: InputProps) {
-  const { setSearch } = useSearchQueryParams();
+export type Props = {
+  searchController?: SearchController;
+} & InputProps;
+
+function SearchInput({
+  searchController = useDefaultSearchListController,
+  ...props
+}: Props) {
+  const refSearchController = useRef(searchController);
+  const { setSearch } = refSearchController.current();
   const handleSearch = _.debounce(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       if (event.target.value !== "") {
         setSearch(event.target.value);
       } else {
-        setSearch(null);
+        setSearch("");
       }
     },
     300,
@@ -25,7 +35,6 @@ function SearchInput(props: InputProps) {
       color="primary"
       endContent={<IconSearch className="text-default-400" />}
       name="search"
-      placeholder="Buscar por nombre, categoria..."
       variant="bordered"
       onChange={handleSearch}
       {...props}

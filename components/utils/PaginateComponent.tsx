@@ -1,15 +1,22 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useRef } from "react";
 import { Pagination } from "@heroui/pagination";
 
-import usePaginationQueryParams from "@/hooks/utils/usePaginationQueryParams";
+import { PaginationController } from "@/types/list";
+import useDefaultPaginationListController from "@/hooks/controllers/common/list/useDefaultPaginationListController";
 
 type Props = {
   page: number;
   totalPages: number;
+  paginationController?: PaginationController;
 };
 
-export default function PaginateComponent({ page, totalPages }: Props) {
-  const { setOffset } = usePaginationQueryParams();
+export default function PaginateComponent({
+  page,
+  totalPages,
+  paginationController = useDefaultPaginationListController,
+}: Props) {
+  const refPaginationController = useRef(paginationController);
+  const { setOffset } = refPaginationController.current();
 
   // Using useCallback to memoize the handlePageChange function.
   // This prevents unnecessary re-renders of the Pagination component

@@ -1,10 +1,10 @@
 "use client";
 
 import { Button } from "@heroui/button";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 
 import { DrawerController } from "@/types/details";
-import useDefaultDetailsController from "@/hooks/common/details/useDefaultDrawerStateController";
+import useDefaultDetailsController from "@/hooks/controllers/common/details/useDefaultDrawerStateController";
 
 type Props = {
   value: string;
@@ -17,7 +17,9 @@ function ButtonSetDetails({
   callBack,
   detailsDrawerStateController = useDefaultDetailsController,
 }: Props) {
-  const { setIsOpen: setOpenDetails } = detailsDrawerStateController();
+  const refDefaultController = useRef(detailsDrawerStateController);
+
+  const { setIsOpen: setOpenDetails } = refDefaultController.current();
 
   const handleOpenDrawer = useCallback(() => {
     setOpenDetails(true);

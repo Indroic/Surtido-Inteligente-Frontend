@@ -25,6 +25,7 @@ export interface ProductVariantInterface extends BaseInterface {
   name: string;
   description: string;
   weight: number;
+  separate_stock: boolean;
   stock?: number;
 }
 
@@ -33,4 +34,9 @@ export interface ProductStatsInterface {
   total_variants: number;
   total_stock: number;
   total_categories: number;
+}
+
+export interface ProductVariantImageInterface extends BaseInterface {
+  product: string | ProductVariantInterface;
+  image: string;
 }

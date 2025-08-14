@@ -1,7 +1,7 @@
 import { IconPlus } from "@tabler/icons-react";
+import { useCallback } from "react";
 
-import { PRODUCT_TYPE_API_URL } from "../../UrlPaths";
-
+import { PRODUCT_TYPE_API_URL } from "@/components/ui/UrlPaths";
 import CustomModal from "@/components/bases/modal";
 import handleSubmitApi from "@/helpers/handleSubmitApi";
 import { ProductTypeInterface } from "@/types/products";
@@ -11,26 +11,29 @@ import ProductTypeForm from "@/components/forms/inventory/ProductTypeForm";
 export default function CreateProductType() {
   const formHook = useProductTypeForm();
 
-  const onSubmit = (closeModal: () => void) => {
-    formHook.setLoading(true);
-    formHook
-      .handleSubmit((data) =>
-        handleSubmitApi<ProductTypeInterface>({
-          form: data,
-          url: PRODUCT_TYPE_API_URL,
-          toast: {
-            title: "Tipo de Producto Creado",
-            description: "El Tipo de Producto se ha creado correctamente.",
-            color: "success",
-          },
-          type: "create",
-          reset: formHook.reset,
-          setError: formHook.setError,
-          successFunction: closeModal,
-        }),
-      )()
-      .finally(() => formHook.setLoading(false));
-  };
+  const onSubmit = useCallback(
+    (closeModal: () => void) => {
+      formHook.setLoading(true);
+      formHook
+        .handleSubmit((data) =>
+          handleSubmitApi<ProductTypeInterface>({
+            form: data,
+            url: PRODUCT_TYPE_API_URL,
+            toast: {
+              title: "Tipo de Producto Creado",
+              description: "El Tipo de Producto se ha creado correctamente.",
+              color: "success",
+            },
+            type: "create",
+            reset: formHook.reset,
+            setError: formHook.setError,
+            successFunction: closeModal,
+          }),
+        )()
+        .finally(() => formHook.setLoading(false));
+    },
+    [formHook],
+  );
 
   return (
     <CustomModal

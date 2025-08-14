@@ -1,7 +1,6 @@
 "use client";
 
-import { PRODUCT_TYPE_API_URL } from "../../UrlPaths";
-
+import { PRODUCT_TYPE_API_URL } from "@/components/ui/UrlPaths";
 import DrawerDetails from "@/components/common/details/DetailsDrawer";
 import useDetails from "@/hooks/common/details/useDetails";
 import { ProductTypeInterface } from "@/types/products";

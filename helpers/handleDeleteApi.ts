@@ -1,22 +1,24 @@
 import { addToast, ToastProps } from "@heroui/toast";
 
-export type HandleDeleteApiProps = {
+export type HandleDeleteApiProps<T = any> = {
   url: string;
   toast: {
     title: string;
     description: string;
     color: ToastProps["color"];
   };
-  successFunction?: () => void;
+  successFunction?: (deletedItem?: T) => void;
   errorFunction?: (error: any) => void;
+  item?: T;
 };
 
-const handleDeleteApi = async ({
+const handleDeleteApi = async <T = any>({
   url,
   toast,
   successFunction,
   errorFunction,
-}: HandleDeleteApiProps) => {
+  item,
+}: HandleDeleteApiProps<T>) => {
   try {
     const res = await fetch(url, {
       method: "DELETE",
@@ -24,7 +26,7 @@ const handleDeleteApi = async ({
 
     if (res.ok) {
       addToast(toast);
-      successFunction?.();
+      successFunction?.(item);
 
       return;
     }

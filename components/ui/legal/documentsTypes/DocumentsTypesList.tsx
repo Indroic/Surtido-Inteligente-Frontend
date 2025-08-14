@@ -1,7 +1,6 @@
 "use client";
 
-import { DOCUMENTS_TYPES_API_URL } from "../../UrlPaths";
-
+import { DOCUMENTS_TYPES_API_URL } from "@/components/ui/UrlPaths";
 import TableList, { ColumnConfig } from "@/components/common/table/TableList";
 import useIDParam from "@/hooks/common/details/useIDSearchParam";
 import useList from "@/hooks/common/list/useList";
@@ -11,7 +10,7 @@ import { DocumentTypeInterface } from "@/types/legal";
 
 export default function DocumentTypesList() {
   const { setID } = useIDParam();
-  const { data, isLoading, page, totalPages, search } =
+  const { data, isLoading, page, totalPages, search, mutate } =
     useList<DocumentTypeInterface>({
       apiPath: DOCUMENTS_TYPES_API_URL,
     });
@@ -49,6 +48,7 @@ export default function DocumentTypesList() {
               color: "success",
             },
             url: DOCUMENTS_TYPES_API_URL,
+            successFunction: () => mutate(),
           }}
           item={item}
           setID={setID}

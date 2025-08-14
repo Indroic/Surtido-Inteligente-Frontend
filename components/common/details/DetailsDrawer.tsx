@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import { Skeleton } from "@heroui/skeleton";
-import { Button, ButtonGroup, Tab, Tabs } from "@heroui/react";
+import { Button, ButtonGroup, DrawerProps, Tab, Tabs } from "@heroui/react";
 import { IconBook } from "@tabler/icons-react";
 
 import EditModeDrawerHeader from "./EditModeDrawerHeader";
@@ -12,7 +12,7 @@ import ResumeCards, {
   resumeCardProps,
 } from "@/components/common/resume/ResumeCards";
 import { DrawerController } from "@/types/details";
-import useDefaultDetailsController from "@/hooks/common/details/useDefaultDrawerStateController";
+import useDefaultDetailsController from "@/hooks/controllers/common/details/useDefaultDrawerStateController";
 
 export type DrawerDetailsProps = {
   title?: string;
@@ -26,6 +26,7 @@ export type DrawerDetailsProps = {
   headerProps?: CustomDrawerProps["headerProps"];
   isLoaded?: boolean;
   stateController?: DrawerController;
+  drawerProps?: Omit<DrawerProps, "children">;
 };
 
 function DrawerDetails({
@@ -39,17 +40,28 @@ function DrawerDetails({
   hiddeCloseButton,
   isLoaded = true,
   stateController = useDefaultDetailsController,
+  drawerProps,
 }: DrawerDetailsProps) {
-  const state = stateController();
+  const refDefaultController = useRef(stateController);
+
+  const state = refDefaultController.current();
 
   return (
     <CustomDrawer
       hideTrigger
-      drawerProps={{
-        size: "xl",
-      }}
+      drawerProps={
+        drawerProps
+          ? drawerProps
+          : {
+              size: "xl",
+            }
+      }
       headerChildren={(onClose) => (
-        <EditModeDrawerHeader isLoading={!isLoaded} onClose={onClose}>
+        <EditModeDrawerHeader
+          isLoading={!isLoaded}
+          stateDrawerController={stateController}
+          onClose={onClose}
+        >
           <h1 className="flex items-center justify-start text-2xl font-semibold">
             {title}
           </h1>

@@ -1,24 +1,28 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { Button, ButtonGroup } from "@heroui/button";
 import { Skeleton } from "@heroui/skeleton";
 import { IconEdit, IconX } from "@tabler/icons-react";
 
-import useEditMode from "@/hooks/common/details/useEditMode";
+import useDefaultDetailsController from "@/hooks/controllers/common/details/useDefaultDrawerStateController";
+import { DrawerController } from "@/types/details";
 
 type Props = {
   children?: React.ReactNode;
   isLoading?: boolean;
   onClose: () => void;
+  stateDrawerController?: DrawerController;
 };
 
 function EditModeDrawerHeader({
   isLoading = true,
   onClose: mainOnClose,
   children,
+  stateDrawerController = useDefaultDetailsController,
 }: Props) {
-  const { editMode, setEditMode } = useEditMode();
+  const refStateDrawerController = useRef(stateDrawerController);
+  const { editMode, setEditMode } = refStateDrawerController.current();
 
   const changeEditMode = useCallback(() => {
     setEditMode(!editMode);

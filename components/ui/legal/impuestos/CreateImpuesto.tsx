@@ -1,7 +1,6 @@
 import { IconPlus } from "@tabler/icons-react";
 
-import { IMPUESTOS_API_URL } from "../../UrlPaths";
-
+import { IMPUESTOS_API_URL } from "@/components/ui/UrlPaths";
 import CustomModal from "@/components/bases/modal";
 import handleSubmitApi from "@/helpers/handleSubmitApi";
 import { ImpuestoInterface } from "@/types/legal";

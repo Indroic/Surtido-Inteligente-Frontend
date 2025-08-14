@@ -10,7 +10,7 @@ import { PRODUCT_BASE_API_URL } from "@/components/ui/UrlPaths";
 
 function ProductsList() {
   const { setID } = useIDParam();
-  const { data, isLoading, page, totalPages, search } =
+  const { data, isLoading, page, totalPages, search, mutate } =
     useList<ProductInterface>({
       apiPath: PRODUCT_BASE_API_URL,
     });
@@ -48,6 +48,7 @@ function ProductsList() {
               color: "success",
             },
             url: PRODUCT_BASE_API_URL,
+            successFunction: () => mutate(),
           }}
           item={item}
           setID={setID}

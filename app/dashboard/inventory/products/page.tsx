@@ -9,6 +9,7 @@ import CreateProductModal from "@/components/ui/inventory/productsBase/CreatePro
 import ProductsList from "@/components/ui/inventory/productsBase/ProductsList";
 import StatsComponent from "@/components/ui/inventory/productsBase/ProductsStats";
 import ProductDetails from "@/components/ui/inventory/productsBase/ProductDetails";
+import VariantDetails from "@/components/ui/inventory/variants/VariantDetails";
 
 export default function ProductsBase() {
   const dispatch = useAppDispatch();
@@ -33,6 +34,7 @@ export default function ProductsBase() {
       <StatsComponent />
       <ProductsList />
       <ProductDetails />
+      <VariantDetails />
     </main>
   );
 }

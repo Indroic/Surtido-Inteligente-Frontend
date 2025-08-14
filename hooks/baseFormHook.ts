@@ -1,10 +1,5 @@
-import { useEffect, useState } from "react";
-import {
-  DefaultValues,
-  FieldValues,
-  useForm,
-  useFormState,
-} from "react-hook-form";
+import { useState } from "react";
+import { DefaultValues, FieldValues, useForm } from "react-hook-form";
 
 export type BaseFormHookProps<T> = {
   defaultValues?: DefaultValues<T>;
@@ -18,14 +13,6 @@ export default function useBaseFormHook<T extends FieldValues>({
   const { handleSubmit, control, setError, reset } = useForm<T>({
     defaultValues,
   });
-
-  const { isDirty } = useFormState({ control });
-
-  useEffect(() => {
-    if (defaultValues && !isDirty) {
-      reset(defaultValues);
-    }
-  }, [defaultValues, reset, isDirty]);
 
   return {
     handleSubmit,

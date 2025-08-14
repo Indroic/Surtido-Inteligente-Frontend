@@ -2,6 +2,8 @@
 
 import { Tab } from "@heroui/react";
 
+import CreateVariant from "@/components/ui/inventory/variants/CreateVariant";
+import VariantsList from "@/components/ui/inventory/variants/VariantsList";
 import DrawerDetails from "@/components/common/details/DetailsDrawer";
 import useProductBaseForm from "@/hooks/inventory/useProductBaseForm";
 import ProductBaseForm from "@/components/forms/inventory/ProductBaseForm";
@@ -28,6 +30,11 @@ function ProductDetails() {
   return (
     <DrawerDetails
       hiddeCloseButton
+      drawerProps={{
+        size: "2xl",
+        scrollBehavior: "inside",
+        placement: "right",
+      }}
       editForm={
         <ProductBaseForm
           {...useDetailsContext.formHook}
@@ -39,7 +46,18 @@ function ProductDetails() {
       title={useDetailsContext.data?.name}
       onCloseDrawer={useDetailsContext.handleClose}
     >
-      <Tab title="Variantes">Variantes</Tab>
+      <Tab className="flex flex-col" title="Variantes">
+        <main className="flex flex-col gap-4 items-end min-h-full min-w-full">
+          <CreateVariant
+            mutateProductBase={useDetailsContext.mutateEntity}
+            productBaseID={useDetailsContext.data?.id}
+          />
+          <VariantsList
+            items={useDetailsContext.data?.variants_obj || []}
+            productBaseMutate={useDetailsContext.mutateEntity}
+          />
+        </main>
+      </Tab>
     </DrawerDetails>
   );
 }

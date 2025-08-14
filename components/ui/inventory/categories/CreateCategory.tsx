@@ -1,7 +1,7 @@
 import { IconPlus } from "@tabler/icons-react";
+import { useCallback } from "react";
 
-import { CATEGORY_API_URL } from "../../UrlPaths";
-
+import { CATEGORY_API_URL } from "@/components/ui/UrlPaths";
 import CustomModal from "@/components/bases/modal";
 import handleSubmitApi from "@/helpers/handleSubmitApi";
 import { CategoryInterface } from "@/types/products";
@@ -11,26 +11,29 @@ import CategoryForm from "@/components/forms/inventory/CategoryForm";
 export default function CreateCategory() {
   const formHook = useCategoryForm();
 
-  const onSubmit = (closeModal: () => void) => {
-    formHook.setLoading(true);
-    formHook
-      .handleSubmit((data) =>
-        handleSubmitApi<CategoryInterface>({
-          form: data,
-          url: CATEGORY_API_URL,
-          toast: {
-            title: "Categoria Creado",
-            description: "La Categoria se ha creado correctamente.",
-            color: "success",
-          },
-          type: "create",
-          reset: formHook.reset,
-          setError: formHook.setError,
-          successFunction: closeModal,
-        }),
-      )()
-      .finally(() => formHook.setLoading(false));
-  };
+  const onSubmit = useCallback(
+    (closeModal: () => void) => {
+      formHook.setLoading(true);
+      formHook
+        .handleSubmit((data) =>
+          handleSubmitApi<CategoryInterface>({
+            form: data,
+            url: CATEGORY_API_URL,
+            toast: {
+              title: "Categoria Creado",
+              description: "La Categoria se ha creado correctamente.",
+              color: "success",
+            },
+            type: "create",
+            reset: formHook.reset,
+            setError: formHook.setError,
+            successFunction: closeModal,
+          }),
+        )()
+        .finally(() => formHook.setLoading(false));
+    },
+    [formHook],
+  );
 
   return (
     <CustomModal

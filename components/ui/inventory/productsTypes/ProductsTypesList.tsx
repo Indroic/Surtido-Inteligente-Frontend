@@ -10,7 +10,7 @@ import { PRODUCT_TYPE_API_URL } from "@/components/ui/UrlPaths";
 
 export default function ProductsTypesList() {
   const { setID } = useIDParam();
-  const { data, isLoading, page, totalPages, search } =
+  const { data, isLoading, page, totalPages, search, mutate } =
     useList<ProductTypeInterface>({
       apiPath: PRODUCT_TYPE_API_URL,
     });
@@ -45,6 +45,7 @@ export default function ProductsTypesList() {
               color: "success",
             },
             url: PRODUCT_TYPE_API_URL,
+            successFunction: () => mutate(),
           }}
           item={item}
           setID={setID}

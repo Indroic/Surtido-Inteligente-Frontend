@@ -1,7 +1,6 @@
 "use client";
 
-import { DOCUMENTS_TYPES_API_URL } from "../../UrlPaths";
-
+import { DOCUMENTS_TYPES_API_URL } from "@/components/ui/UrlPaths";
 import DrawerDetails from "@/components/common/details/DetailsDrawer";
 import useDetails from "@/hooks/common/details/useDetails";
 import { DocumentTypeInterface } from "@/types/legal";

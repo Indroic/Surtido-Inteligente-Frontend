@@ -1,8 +1,8 @@
 import { useQueryState } from "nuqs";
 import { parseAsString, createLoader } from "nuqs/server";
 
-export const useSearchQueryParams = () => {
-  const key = "search";
+export const useSearchVariantParam = () => {
+  const key = "searchVariant";
   const [search, setSearch] = useQueryState(key, { defaultValue: "" });
 
   return {
@@ -12,4 +12,4 @@ export const useSearchQueryParams = () => {
   };
 };
 
-export const loader = createLoader({ search: parseAsString });
+export const loader = createLoader({ searchVariant: parseAsString });

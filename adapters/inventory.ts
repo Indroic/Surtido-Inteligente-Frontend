@@ -8,6 +8,7 @@ import {
   ProductInterface,
   ProductStatsInterface,
   ProductTypeInterface,
+  ProductVariantInterface,
 } from "@/types/products";
 import { PaginationInterface } from "@/types/responses";
 
@@ -40,7 +41,7 @@ export class ProductsAdapter extends BackendAdapter {
 
 export class CategoriesAdapter extends BackendAdapter {
   constructor(token: JWT) {
-    super("inventory/categories", { token: token });
+    super("inventory/categories/", { token: token });
   }
   async list(
     req?: NextRequest,
@@ -63,7 +64,7 @@ export class CategoriesAdapter extends BackendAdapter {
 
 export class ProductTypesAdapter extends BackendAdapter {
   constructor(token: JWT) {
-    super("inventory/product-types", { token: token });
+    super("inventory/product-types/", { token: token });
   }
   async list(
     req?: NextRequest,
@@ -81,5 +82,33 @@ export class ProductTypesAdapter extends BackendAdapter {
     data: ProductTypeInterface,
   ): Promise<ProductTypeInterface> {
     return (await super.update(pk, data)) as ProductTypeInterface;
+  }
+}
+
+export class VariantsAdapter extends BackendAdapter {
+  constructor(token: JWT) {
+    super("inventory/product-variants/", { token: token });
+  }
+  async list(
+    req?: NextRequest,
+  ): Promise<PaginationInterface<ProductVariantInterface>> {
+    return (await super.list(
+      req,
+    )) as PaginationInterface<ProductVariantInterface>;
+  }
+  async retrieve(pk: string): Promise<ProductVariantInterface> {
+    return (await super.retrieve(pk)) as ProductVariantInterface;
+  }
+
+  async create(
+    data: ProductVariantInterface,
+  ): Promise<ProductVariantInterface> {
+    return (await super.create(data)) as ProductVariantInterface;
+  }
+  async update(
+    pk: string,
+    data: ProductVariantInterface,
+  ): Promise<ProductVariantInterface> {
+    return (await super.update(pk, data)) as ProductVariantInterface;
   }
 }

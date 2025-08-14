@@ -1,42 +1,36 @@
 import { ButtonGroup } from "@heroui/button";
-import { ToastProps } from "@heroui/toast";
 
 import ButtonSetDetails from "@/components/common/details/ButtonSetDetails";
-import DeleteModal from "@/components/common/DeleteModal";
+import DeleteModal, { DeleteModalProps } from "@/components/common/DeleteModal";
 import { addIDQuery } from "@/helpers/apiStringsPathsHelpers";
 import { BaseInterface } from "@/types/bases";
-
-type DeleteOptions = {
-  url: string;
-  title: string;
-  description: string;
-  segurityText: string;
-  secondarySegurityText: string;
-  toastProps: {
-    title: string;
-    description: string;
-    color: ToastProps["color"];
-  };
-};
+import { DrawerController } from "@/types/details";
 
 type TableActionsProps<T extends BaseInterface> = {
   item: T;
   setID: (id: string) => Promise<URLSearchParams>;
-  deleteOptions: DeleteOptions;
+  deleteOptions: DeleteModalProps;
+  detailsDrawerStateController?: DrawerController;
 };
 
 export default function TableActions<T extends BaseInterface>({
   item,
   setID,
   deleteOptions,
+  detailsDrawerStateController,
 }: TableActionsProps<T>) {
   return (
     <ButtonGroup size="sm">
       <DeleteModal
         {...deleteOptions}
+        item={item}
         url={addIDQuery(deleteOptions.url, item.id)}
       />
-      <ButtonSetDetails callBack={setID} value={item.id} />
+      <ButtonSetDetails
+        callBack={setID}
+        detailsDrawerStateController={detailsDrawerStateController}
+        value={item.id}
+      />
     </ButtonGroup>
   );
 }
