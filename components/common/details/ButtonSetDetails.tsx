@@ -3,15 +3,22 @@
 import { Button } from "@heroui/button";
 import { useCallback } from "react";
 
-import useDrawerDetails from "@/hooks/common/details/useDetailsDrawer";
+import { DrawerController } from "@/types/details";
+import useDefaultDetailsController from "@/hooks/common/details/useDefaultDrawerStateController";
 
 type Props = {
   value: string;
   callBack: (value: string) => Promise<URLSearchParams>;
+  detailsDrawerStateController?: DrawerController;
 };
 
-function ButtonSetDetails({ value, callBack }: Props) {
-  const { setOpenDetails } = useDrawerDetails();
+function ButtonSetDetails({
+  value,
+  callBack,
+  detailsDrawerStateController = useDefaultDetailsController,
+}: Props) {
+  const { setIsOpen: setOpenDetails } = detailsDrawerStateController();
+
   const handleOpenDrawer = useCallback(() => {
     setOpenDetails(true);
     callBack(value);

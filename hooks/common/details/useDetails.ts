@@ -2,9 +2,10 @@ import { useCallback, useEffect } from "react";
 import useSWR from "swr";
 import { ToastProps } from "@heroui/toast";
 
-import useEditMode from "./useEditMode";
-import useIDParam from "./useIDSearchParam";
+import useDefaultDetailsController from "./useDefaultDrawerStateController";
+import useDefaultDrawerIDController from "./useDefaultDrawerIDController";
 
+import { DrawerController, DrawerIDController } from "@/types/details";
 import handleSubmitApi from "@/helpers/handleSubmitApi";
 import { BaseFormHookProps } from "@/hooks/baseFormHook";
 import { BaseInterface } from "@/types/bases";
@@ -22,6 +23,8 @@ type UseDetailsProps<TEntity> = {
   };
   onSuccess?: (data?: TEntity) => void | Promise<void>;
   formProps?: BaseFormHookProps<TEntity>;
+  stateController?: DrawerController;
+  idController?: DrawerIDController;
 };
 
 export default function useDetails<TEntity extends BaseInterface>({
@@ -30,9 +33,11 @@ export default function useDetails<TEntity extends BaseInterface>({
   toastMessages,
   onSuccess,
   formProps,
+  stateController = useDefaultDetailsController,
+  idController = useDefaultDrawerIDController,
 }: UseDetailsProps<TEntity>) {
-  const { id, setID } = useIDParam();
-  const { editMode, setEditMode } = useEditMode();
+  const { editMode, setEditMode } = stateController();
+  const { id, setID } = idController();
 
   const {
     data,
@@ -71,7 +76,7 @@ export default function useDetails<TEntity extends BaseInterface>({
     handleSubmit((form: TEntity) =>
       handleSubmitApi<TEntity>({
         form,
-        url: addIDQuery(apiPath, id),
+        url: addIDQuery(apiPath, id ? id : ""),
         toast: toastMessages.update,
         type: "update",
         reset,

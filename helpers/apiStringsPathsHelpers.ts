@@ -1,7 +1,8 @@
-export const addIDQuery: (url: string, id: string) => string = (
+export const addIDQuery: (url: string, id: string, key?: string) => string = (
   url: string,
   id: string,
-) => `${url}?id=${id}`;
+  key: string = "id",
+) => `${url}?${key}=${id}`;
 
 export const addGetStatsQuery: (url: string, get?: boolean) => string = (
   url: string,

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback } from "react";
+import React from "react";
 import { Skeleton } from "@heroui/skeleton";
 import { Button, ButtonGroup, Tab, Tabs } from "@heroui/react";
 import { IconBook } from "@tabler/icons-react";
@@ -8,11 +8,11 @@ import { IconBook } from "@tabler/icons-react";
 import EditModeDrawerHeader from "./EditModeDrawerHeader";
 
 import CustomDrawer, { CustomDrawerProps } from "@/components/bases/drawer";
-import useDrawerDetails from "@/hooks/common/details/useDetailsDrawer";
-import useEditMode from "@/hooks/common/details/useEditMode";
 import ResumeCards, {
   resumeCardProps,
 } from "@/components/common/resume/ResumeCards";
+import { DrawerController } from "@/types/details";
+import useDefaultDetailsController from "@/hooks/common/details/useDefaultDrawerStateController";
 
 export type DrawerDetailsProps = {
   title?: string;
@@ -25,6 +25,7 @@ export type DrawerDetailsProps = {
   onCloseDrawer?: (handleCloseDrawer: () => void) => void;
   headerProps?: CustomDrawerProps["headerProps"];
   isLoaded?: boolean;
+  stateController?: DrawerController;
 };
 
 function DrawerDetails({
@@ -37,13 +38,9 @@ function DrawerDetails({
   onCloseDrawer,
   hiddeCloseButton,
   isLoaded = true,
+  stateController = useDefaultDetailsController,
 }: DrawerDetailsProps) {
-  const { openDetails, setOpenDetails } = useDrawerDetails();
-  const { editMode } = useEditMode();
-
-  const handleCloseDrawer = useCallback(() => {
-    setOpenDetails(false);
-  }, [setOpenDetails]);
+  const state = stateController();
 
   return (
     <CustomDrawer
@@ -59,11 +56,9 @@ function DrawerDetails({
         </EditModeDrawerHeader>
       )}
       hideCloseButton={hiddeCloseButton}
-      open={openDetails}
+      open={state.isOpen}
       onClose={
-        onCloseDrawer
-          ? () => onCloseDrawer(handleCloseDrawer)
-          : handleCloseDrawer
+        onCloseDrawer ? () => onCloseDrawer(state.onClose) : state.onClose
       }
     >
       <Skeleton className="rounded-md h-full w-full" isLoaded={isLoaded}>
@@ -77,7 +72,7 @@ function DrawerDetails({
               <ButtonGroup>
                 <Button
                   color="danger"
-                  isDisabled={!editMode}
+                  isDisabled={!state.editMode}
                   variant="light"
                   onPress={() => resetForm?.()}
                 >
@@ -85,7 +80,7 @@ function DrawerDetails({
                 </Button>
                 <Button
                   color="primary"
-                  isDisabled={!editMode}
+                  isDisabled={!state.editMode}
                   startContent={<IconBook size={16} />}
                   onPress={() => submitForm()}
                 >
