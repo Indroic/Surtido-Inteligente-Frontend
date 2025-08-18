@@ -1,20 +1,20 @@
 "use client";
 
-import { CATEGORY_API_URL } from "@/UrlPaths";
 import DrawerDetails from "@/components/common/details/DetailsDrawer";
+import ProviderForm from "@/components/forms/entries/ProviderForm";
 import useDetails from "@/hooks/common/details/useDetails";
-import { CategoryInterface } from "@/types/products";
-import useCategoryForm from "@/hooks/inventory/useCategorieForm";
-import CategoryForm from "@/components/forms/inventory/CategoryForm";
+import useProviderForm from "@/hooks/entries/useProviderForm";
+import { ProveedorInterface } from "@/types/proveedores";
+import { PROVIDERS_API_URL } from "@/UrlPaths";
 
-export default function CategoryDetails() {
-  const useDetailsContext = useDetails<CategoryInterface>({
-    apiPath: CATEGORY_API_URL,
-    useFormHook: useCategoryForm,
+function ProviderDetails() {
+  const useDetailsContext = useDetails<ProveedorInterface>({
+    apiPath: PROVIDERS_API_URL,
+    useFormHook: useProviderForm,
     toastMessages: {
       update: {
-        title: "Categoria Actualizada",
-        description: "La Categoria se ha actualizado correctamente.",
+        title: "Proveedor Actualizado",
+        description: "El proveedor se ha actualizado correctamente.",
         color: "success",
       },
     },
@@ -27,7 +27,7 @@ export default function CategoryDetails() {
     <DrawerDetails
       hiddeCloseButton
       editForm={
-        <CategoryForm
+        <ProviderForm
           {...useDetailsContext.formHook}
           deactivated={deactivated}
         />
@@ -39,3 +39,5 @@ export default function CategoryDetails() {
     />
   );
 }
+
+export default ProviderDetails;

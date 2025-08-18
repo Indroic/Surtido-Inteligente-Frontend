@@ -1,4 +1,4 @@
-import useVariantIDParam from "@/hooks/inventory/useVariantIDQueryParam";
+import useVariantIDParam from "@/hooks/inventory/variants/useVariantIDQueryParam";
 import { DrawerIDController } from "@/types/details";
 
 const useVariantIDController: DrawerIDController = () => {

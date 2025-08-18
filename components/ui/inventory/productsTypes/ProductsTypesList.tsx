@@ -6,7 +6,8 @@ import useIDParam from "@/hooks/common/details/useIDSearchParam";
 import useList from "@/hooks/common/list/useList";
 import TableActions from "@/components/common/table/TableActions";
 import TableTopContent from "@/components/common/table/TableTopContent";
-import { PRODUCT_TYPE_API_URL } from "@/components/ui/UrlPaths";
+import { PRODUCT_TYPE_API_URL } from "@/UrlPaths";
+import { ImpuestoInterface } from "@/types/legal";
 
 export default function ProductsTypesList() {
   const { setID } = useIDParam();
@@ -25,7 +26,7 @@ export default function ProductsTypesList() {
     {
       key: "impuesto",
       label: "Impuesto",
-      render: (item) => `${item.impuesto}%`, //Aqui hay que obtener el Tipo de Impuesto o establecer en el backend que lo devuelva completo con algun query param
+      render: (item) => `${(item.impuesto as ImpuestoInterface).impuesto}%`,
     },
     {
       key: "actions",

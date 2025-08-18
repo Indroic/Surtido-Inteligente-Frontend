@@ -1,7 +1,7 @@
 import { IconPlus } from "@tabler/icons-react";
 import { useCallback } from "react";
 
-import { PRODUCT_TYPE_API_URL } from "@/components/ui/UrlPaths";
+import { PRODUCT_TYPE_API_URL } from "@/UrlPaths";
 import CustomModal from "@/components/bases/modal";
 import handleSubmitApi from "@/helpers/handleSubmitApi";
 import { ProductTypeInterface } from "@/types/products";

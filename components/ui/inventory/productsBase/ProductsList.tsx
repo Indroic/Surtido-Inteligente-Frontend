@@ -6,7 +6,7 @@ import useIDParam from "@/hooks/common/details/useIDSearchParam";
 import useList from "@/hooks/common/list/useList";
 import TableActions from "@/components/common/table/TableActions";
 import TableTopContent from "@/components/common/table/TableTopContent";
-import { PRODUCT_BASE_API_URL } from "@/components/ui/UrlPaths";
+import { PRODUCT_BASE_API_URL } from "@/UrlPaths";
 
 function ProductsList() {
   const { setID } = useIDParam();

@@ -8,6 +8,7 @@ import {
   ProductInterface,
   ProductTypeInterface,
 } from "@/types/products";
+import { CATEGORY_API_URL, PRODUCT_TYPE_API_URL } from "@/UrlPaths";
 
 const defaultProductValues: DefaultValues<ProductInterface> = {
   category: "",
@@ -35,7 +36,7 @@ export default function useProductBaseForm(
     scrollerRef: scrollerCategoriesRef,
   } = useInfiniteScroll<CategoryInterface>({
     Enabled: openCategories,
-    url: "/api/inventory/products/categories",
+    url: CATEGORY_API_URL,
   });
   const {
     items: productTypes,
@@ -43,7 +44,7 @@ export default function useProductBaseForm(
     scrollerRef: scrollerProductTypesRef,
   } = useInfiniteScroll<ProductTypeInterface>({
     Enabled: openProductTypes,
-    url: "/api/inventory/products/productTypes",
+    url: PRODUCT_TYPE_API_URL,
   });
 
   return {

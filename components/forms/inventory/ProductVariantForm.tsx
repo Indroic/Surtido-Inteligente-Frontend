@@ -4,7 +4,7 @@ import { Checkbox, Form, Input, NumberInput, Textarea } from "@heroui/react";
 import { Controller } from "react-hook-form";
 import { useEffect, useState } from "react";
 
-import useProductVariantForm from "@/hooks/inventory/useProductVariantForm";
+import useProductVariantForm from "@/hooks/inventory/variants/useProductVariantForm";
 
 type Props = {
   deactivated?: boolean;

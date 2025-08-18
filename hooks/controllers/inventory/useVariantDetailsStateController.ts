@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 
 import { DrawerController } from "@/types/details";
-import useVariantDetailsParam from "@/hooks/inventory/useVariantDetailsDrawer";
-import useVariantEditMode from "@/hooks/inventory/useVariantEditMode";
+import useVariantDetailsParam from "@/hooks/inventory/variants/useVariantDetailsDrawer";
+import useVariantEditMode from "@/hooks/inventory/variants/useVariantEditMode";
 
 const useVariantDetailsStateController: DrawerController = () => {
   const { openVariantDetails: isOpen, setOpenVariantDetails: setIsOpen } =

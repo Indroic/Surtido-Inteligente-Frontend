@@ -2,11 +2,11 @@ import { IconPlus } from "@tabler/icons-react";
 import { KeyedMutator } from "swr";
 import { useCallback } from "react";
 
-import { VARIANTS_API_URL } from "@/components/ui/UrlPaths";
+import { VARIANTS_API_URL } from "@/UrlPaths";
 import CustomModal from "@/components/bases/modal";
 import handleSubmitApi from "@/helpers/handleSubmitApi";
 import { ProductInterface, ProductVariantInterface } from "@/types/products";
-import useProductVariantForm from "@/hooks/inventory/useProductVariantForm";
+import useProductVariantForm from "@/hooks/inventory/variants/useProductVariantForm";
 import ProductVariantForm from "@/components/forms/inventory/ProductVariantForm";
 
 export type Props = {

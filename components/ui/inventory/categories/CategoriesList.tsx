@@ -1,6 +1,6 @@
 "use client";
 
-import { CATEGORY_API_URL } from "@/components/ui/UrlPaths";
+import { CATEGORY_API_URL } from "@/UrlPaths";
 import TableList, { ColumnConfig } from "@/components/common/table/TableList";
 import { ProductInterface } from "@/types/products";
 import useIDParam from "@/hooks/common/details/useIDSearchParam";
@@ -12,7 +12,7 @@ export default function CategoriesList() {
   const { setID } = useIDParam();
   const { data, isLoading, page, totalPages, search, mutate } =
     useList<ProductInterface>({
-      apiPath: "/api/inventory/products/categories",
+      apiPath: CATEGORY_API_URL,
     });
 
   const columns: ColumnConfig<ProductInterface>[] = [

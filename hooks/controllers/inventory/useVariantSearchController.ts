@@ -1,4 +1,4 @@
-import { useSearchVariantParam } from "@/hooks/inventory/useVariantSearchParam";
+import { useSearchVariantParam } from "@/hooks/inventory/variants/useVariantSearchParam";
 import { SearchController } from "@/types/list";
 
 const useVariantSearchController: SearchController = () => {

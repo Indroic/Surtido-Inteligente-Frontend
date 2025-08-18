@@ -6,6 +6,7 @@ import useInfiniteScroll from "../useInfiniteScroll";
 import useBaseFormHook, { BaseFormHookProps } from "@/hooks/baseFormHook";
 import { ProductTypeInterface } from "@/types/products";
 import { ImpuestoInterface } from "@/types/legal";
+import { IMPUESTOS_API_URL } from "@/UrlPaths";
 
 const defaultProductValues: DefaultValues<ProductTypeInterface> = {
   name: "",
@@ -30,7 +31,7 @@ export default function useProductTypeForm(
     scrollerRef: scrollerRefImpuestos,
   } = useInfiniteScroll<ImpuestoInterface>({
     Enabled: openImpuestos,
-    url: "/api/legal/impuestos",
+    url: IMPUESTOS_API_URL,
   });
 
   return {

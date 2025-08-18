@@ -1,4 +1,9 @@
-import { IconGavel, IconHome, IconPackage } from "@tabler/icons-react";
+import {
+  IconGavel,
+  IconHome,
+  IconPackage,
+  IconPackageImport,
+} from "@tabler/icons-react";
 
 import { NavBarItemType } from "@/types/navbar";
 
@@ -30,6 +35,11 @@ export const defaultSiteConfig: DefaultSiteConfigType = {
       label: "Legal",
       Icon: IconGavel,
       href: "/dashboard/legal",
+    },
+    {
+      label: "Entradas",
+      Icon: IconPackageImport,
+      href: "/dashboard/entries",
     },
   ],
 };

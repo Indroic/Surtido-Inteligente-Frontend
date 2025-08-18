@@ -1,27 +1,30 @@
 "use client";
 
-import { DOCUMENTS_TYPES_API_URL } from "@/UrlPaths";
 import TableList, { ColumnConfig } from "@/components/common/table/TableList";
 import useIDParam from "@/hooks/common/details/useIDSearchParam";
 import useList from "@/hooks/common/list/useList";
 import TableActions from "@/components/common/table/TableActions";
 import TableTopContent from "@/components/common/table/TableTopContent";
+import { ProveedorInterface } from "@/types/proveedores";
+import { PROVIDERS_API_URL } from "@/UrlPaths";
 import { DocumentTypeInterface } from "@/types/legal";
 
-export default function DocumentTypesList() {
+function ProvidersList() {
   const { setID } = useIDParam();
   const { data, isLoading, page, totalPages, search, mutate } =
-    useList<DocumentTypeInterface>({
-      apiPath: DOCUMENTS_TYPES_API_URL,
+    useList<ProveedorInterface>({
+      apiPath: PROVIDERS_API_URL,
     });
 
-  const columns: ColumnConfig<DocumentTypeInterface>[] = [
-    { key: "nombre", label: "TIPO DE DOCUMENTO", className: "capitalize" },
+  const columns: ColumnConfig<ProveedorInterface>[] = [
+    { key: "name", label: "PROVEEDOR", className: "capitalize" },
     {
-      key: "codigo",
-      label: "CODIGO",
+      key: "document",
+      label: "Documento",
       className: "capitalize",
       align: "center",
+      render: (item) =>
+        `${(item.document_type as DocumentTypeInterface).codigo}-${item.document}`,
     },
     {
       key: "updated_at",
@@ -37,17 +40,16 @@ export default function DocumentTypesList() {
         <TableActions
           deleteOptions={{
             description:
-              "Esta accion eliminara todo lo referente con este Tipo de Documento",
-            secondarySegurityText: "Eliminar Mi Tipo De Documento",
-            segurityText: `Tipo de Documento/${item.nombre}`,
-            title: "Eliminar Tipo de Documento",
+              "Esta accion eliminara todo lo referente con este Proveedor",
+            secondarySegurityText: "Eliminar Mi Proveedor",
+            segurityText: `Proveedor/${item.name}`,
+            title: "Eliminar Proveedor",
             toastProps: {
-              title: "Tipo de Documento Eliminado",
-              description:
-                "El Tipo de Documento se ha eliminado correctamente.",
+              title: "Proveedor Eliminado",
+              description: "El Proveedor se ha eliminado correctamente.",
               color: "success",
             },
-            url: DOCUMENTS_TYPES_API_URL,
+            url: PROVIDERS_API_URL,
             successFunction: () => mutate(),
           }}
           item={item}
@@ -62,18 +64,18 @@ export default function DocumentTypesList() {
       columns={columns}
       data={data ? data.results : []}
       emptyContent={
-        search
-          ? "No se encontraron Tipos de Documento"
-          : "No hay Tipos de Documento"
+        search ? "No se encontraron Proveedores" : "No hay Proveedores"
       }
       loading={isLoading}
       topContent={
         <TableTopContent
           page={page}
-          searchPlaceholder="Buscar Tipo de Documento"
+          searchPlaceholder="Buscar Impuesto"
           totalPages={totalPages}
         />
       }
     />
   );
 }
+
+export default ProvidersList;

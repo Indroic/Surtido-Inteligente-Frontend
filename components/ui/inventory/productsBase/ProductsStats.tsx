@@ -10,7 +10,7 @@ import ResumeComponent from "@/components/common/resume/ResumeComponent";
 import ResumeItem from "@/components/common/resume/ResumeItem";
 import { ProductStatsInterface } from "@/types/products";
 import { addGetStatsQuery } from "@/helpers/apiStringsPathsHelpers";
-import { PRODUCT_BASE_API_URL } from "@/components/ui/UrlPaths";
+import { PRODUCT_BASE_API_URL } from "@/UrlPaths";
 
 export default function StatsComponent() {
   const { data, isLoading } = useSWR<ProductStatsInterface>(

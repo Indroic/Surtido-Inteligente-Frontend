@@ -1,6 +1,6 @@
 "use client";
 
-import { IMPUESTOS_API_URL } from "@/components/ui/UrlPaths";
+import { IMPUESTOS_API_URL } from "@/UrlPaths";
 import TableList, { ColumnConfig } from "@/components/common/table/TableList";
 import useIDParam from "@/hooks/common/details/useIDSearchParam";
 import useList from "@/hooks/common/list/useList";
@@ -47,7 +47,7 @@ function ImpuestosList() {
               description: "El impuesto se ha eliminado correctamente.",
               color: "success",
             },
-            url: "/api/legal/impuestos",
+            url: IMPUESTOS_API_URL,
             successFunction: () => mutate(),
           }}
           item={item}

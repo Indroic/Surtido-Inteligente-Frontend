@@ -1,25 +1,25 @@
 import { IconPlus } from "@tabler/icons-react";
 
-import { IMPUESTOS_API_URL } from "@/UrlPaths";
 import CustomModal from "@/components/bases/modal";
 import handleSubmitApi from "@/helpers/handleSubmitApi";
-import { ImpuestoInterface } from "@/types/legal";
-import useImpuestoForm from "@/hooks/legal/useImpuestoForm";
-import ImpuestoForm from "@/components/forms/legal/ImpuestoForm";
+import { ProveedorInterface } from "@/types/proveedores";
+import useProviderForm from "@/hooks/entries/useProviderForm";
+import ProviderForm from "@/components/forms/entries/ProviderForm";
+import { PROVIDERS_API_URL } from "@/UrlPaths";
 
-export default function CreateImpuesto() {
-  const formHook = useImpuestoForm();
+export default function CreateProvider() {
+  const formHook = useProviderForm();
 
   const onSubmit = (closeModal: () => void) => {
     formHook.setLoading(true);
     formHook
       .handleSubmit((data) =>
-        handleSubmitApi<ImpuestoInterface>({
+        handleSubmitApi<ProveedorInterface>({
           form: data,
-          url: IMPUESTOS_API_URL,
+          url: PROVIDERS_API_URL,
           toast: {
-            title: "Impuesto Creado",
-            description: "El impuesto se ha creado correctamente.",
+            title: "Proveedor Creado",
+            description: "El proveedor se ha creado correctamente.",
             color: "success",
           },
           type: "create",
@@ -34,12 +34,12 @@ export default function CreateImpuesto() {
   return (
     <CustomModal
       modalprops={{ size: "xl", scrollBehavior: "inside" }}
-      title="Nuevo Impuesto"
-      triggerLabel="Nuevo Impuesto"
+      title="Nuevo Proveedor"
+      triggerLabel="Nuevo Proveedor"
       triggerProps={{ startContent: <IconPlus size={16} /> }}
       onConfirm={(closeModal) => onSubmit(closeModal)}
     >
-      <ImpuestoForm {...formHook} />
+      <ProviderForm {...formHook} />
     </CustomModal>
   );
 }

@@ -1,4 +1,4 @@
-import useVariantPagination from "@/hooks/inventory/useVariantPagination";
+import useVariantPagination from "@/hooks/inventory/variants/useVariantPagination";
 import { PaginationController } from "@/types/list";
 
 const useVariantPaginationController: PaginationController = () => {

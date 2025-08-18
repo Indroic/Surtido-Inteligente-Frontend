@@ -9,7 +9,7 @@ import useProductBaseForm from "@/hooks/inventory/useProductBaseForm";
 import ProductBaseForm from "@/components/forms/inventory/ProductBaseForm";
 import useDetails from "@/hooks/common/details/useDetails";
 import { ProductInterface } from "@/types/products";
-import { PRODUCT_BASE_API_URL } from "@/components/ui/UrlPaths";
+import { PRODUCT_BASE_API_URL } from "@/UrlPaths";
 
 function ProductDetails() {
   const useDetailsContext = useDetails<ProductInterface>({

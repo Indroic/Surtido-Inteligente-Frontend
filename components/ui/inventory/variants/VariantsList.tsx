@@ -2,13 +2,13 @@
 
 import { KeyedMutator } from "swr";
 
-import { VARIANTS_API_URL } from "@/components/ui/UrlPaths";
+import { VARIANTS_API_URL } from "@/UrlPaths";
 import TableList, { ColumnConfig } from "@/components/common/table/TableList";
 import useList from "@/hooks/common/list/useList";
 import TableActions from "@/components/common/table/TableActions";
 import TableTopContent from "@/components/common/table/TableTopContent";
 import { ProductInterface, ProductVariantInterface } from "@/types/products";
-import useVariantIDParam from "@/hooks/inventory/useVariantIDQueryParam";
+import useVariantIDParam from "@/hooks/inventory/variants/useVariantIDQueryParam";
 import useVariantSearchController from "@/hooks/controllers/inventory/useVariantSearchController";
 import useVariantPaginationController from "@/hooks/controllers/inventory/useVariantPaginationController";
 import useVariantDetailsStateController from "@/hooks/controllers/inventory/useVariantDetailsStateController";

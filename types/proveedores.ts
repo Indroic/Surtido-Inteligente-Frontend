@@ -4,7 +4,7 @@ import { DocumentTypeInterface } from "./legal";
 
 export interface ProveedorInterface extends BaseInterface {
   name: string;
-  document: number;
+  document: string;
   document_type: DocumentTypeInterface | string;
   phone: string;
   email: string;

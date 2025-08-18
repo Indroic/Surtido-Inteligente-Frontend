@@ -1,6 +1,6 @@
 "use client";
 
-import { Form, Input, Select, SelectItem, Skeleton } from "@heroui/react";
+import { Form, Input, Select, SelectItem } from "@heroui/react";
 import { Controller } from "react-hook-form";
 import { useEffect, useState } from "react";
 
@@ -53,39 +53,35 @@ export default function ProductTypeForm({
       <Controller
         control={control}
         name="impuesto"
-        render={({ field, fieldState: { invalid, error } }) =>
-          impuestosLoading && impuestos.length === 0 ? (
-            <Skeleton className="h-10 w-full rounded-sm" />
-          ) : (
-            <Select
-              ref={field.ref}
-              isRequired
-              defaultSelectedKeys={
-                control._defaultValues.impuesto
-                  ? [control._defaultValues.impuesto as string]
-                  : []
-              }
-              errorMessage={error?.message}
-              isDisabled={disabled && !loading}
-              isInvalid={invalid}
-              isLoading={impuestosLoading}
-              items={impuestos ? impuestos : []}
-              label="Impuesto"
-              name={field.name}
-              scrollRef={scrollerRefImpuestos}
-              validationBehavior="aria"
-              value={field.value as string}
-              variant="bordered"
-              onBlur={field.onBlur}
-              onChange={field.onChange}
-              onOpenChange={setOpenImpuestos}
-            >
-              {(item: ImpuestoInterface) => (
-                <SelectItem key={item.id}>{item.nombre}</SelectItem>
-              )}
-            </Select>
-          )
-        }
+        render={({ field, fieldState: { invalid, error } }) => (
+          <Select
+            ref={field.ref}
+            isRequired
+            defaultSelectedKeys={
+              control._defaultValues.impuesto
+                ? [control._defaultValues.impuesto as string]
+                : []
+            }
+            errorMessage={error?.message}
+            isDisabled={disabled && !loading}
+            isInvalid={invalid}
+            isLoading={impuestosLoading}
+            items={impuestos ? impuestos : []}
+            label="Impuesto"
+            name={field.name}
+            scrollRef={scrollerRefImpuestos}
+            validationBehavior="aria"
+            value={field.value as string}
+            variant="bordered"
+            onBlur={field.onBlur}
+            onChange={field.onChange}
+            onOpenChange={setOpenImpuestos}
+          >
+            {(item: ImpuestoInterface) => (
+              <SelectItem key={item.id}>{item.nombre}</SelectItem>
+            )}
+          </Select>
+        )}
         rules={{ required: "El Impuesto es requerido" }}
       />
     </Form>

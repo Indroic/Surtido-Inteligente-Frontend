@@ -1,10 +1,10 @@
 "use client";
 
-import { VARIANTS_API_URL } from "@/components/ui/UrlPaths";
+import { VARIANTS_API_URL } from "@/UrlPaths";
 import DrawerDetails from "@/components/common/details/DetailsDrawer";
 import useDetails from "@/hooks/common/details/useDetails";
 import { ProductVariantInterface } from "@/types/products";
-import useProductVariantForm from "@/hooks/inventory/useProductVariantForm";
+import useProductVariantForm from "@/hooks/inventory/variants/useProductVariantForm";
 import ProductVariantForm from "@/components/forms/inventory/ProductVariantForm";
 import useVariantDetailsStateController from "@/hooks/controllers/inventory/useVariantDetailsStateController";
 import useVariantIDController from "@/hooks/controllers/inventory/useVariantIDController";

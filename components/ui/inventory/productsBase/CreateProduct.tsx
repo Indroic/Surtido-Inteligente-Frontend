@@ -3,7 +3,7 @@ import { useCallback } from "react";
 
 import ProductBaseForm from "../../../forms/inventory/ProductBaseForm";
 
-import { PRODUCT_BASE_API_URL } from "@/components/ui/UrlPaths";
+import { PRODUCT_BASE_API_URL } from "@/UrlPaths";
 import CustomModal from "@/components/bases/modal";
 import handleSubmitApi from "@/helpers/handleSubmitApi";
 import useProductBaseForm from "@/hooks/inventory/useProductBaseForm";
