@@ -16,8 +16,7 @@ export interface ProductInterface extends BaseInterface {
   product_type: ProductTypeInterface | string;
   category: CategoryInterface | string;
   stock?: number;
-  variants?: number;
-  variants_obj?: ProductVariantInterface[];
+  variants?: ProductVariantInterface[];
 }
 
 export interface ProductVariantInterface extends BaseInterface {
@@ -27,6 +26,7 @@ export interface ProductVariantInterface extends BaseInterface {
   weight: number;
   separate_stock: boolean;
   stock?: number;
+  bar_code?: string;
 }
 
 export interface ProductStatsInterface {

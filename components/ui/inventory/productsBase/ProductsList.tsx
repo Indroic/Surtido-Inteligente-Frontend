@@ -21,13 +21,13 @@ function ProductsList() {
       key: "variants",
       label: "VARIANTES",
       align: "center" as const,
+      render: (item) => item.variants?.length || 0,
       className: "hidden md:table-cell",
     },
     {
       key: "updated_at",
       label: "ULT. ACTUALIZACION",
       className: "hidden md:table-cell",
-      render: (item) => new Date(item.updated_at).toLocaleDateString(),
     },
     { key: "stock", label: "STOCK BASE", align: "center" as const },
     {

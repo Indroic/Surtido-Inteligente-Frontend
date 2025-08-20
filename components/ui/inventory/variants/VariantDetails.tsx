@@ -34,6 +34,7 @@ export default function VariantDetails() {
       editForm={
         <ProductVariantForm
           {...useDetailsContext.formHook}
+          update
           deactivated={deactivated}
         />
       }

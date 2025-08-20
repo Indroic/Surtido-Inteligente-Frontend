@@ -8,12 +8,14 @@ import useProductVariantForm from "@/hooks/inventory/variants/useProductVariantF
 
 type Props = {
   deactivated?: boolean;
+  update?: boolean;
 } & ReturnType<typeof useProductVariantForm>;
 
 export default function ProductVariantForm({
   control,
   loading,
   deactivated = false,
+  update = false,
 }: Props) {
   const [disabled, setDisabled] = useState(deactivated);
 
@@ -73,6 +75,28 @@ export default function ProductVariantForm({
       />
       <Controller
         control={control}
+        name="bar_code"
+        render={({
+          field: { name, value, onChange, onBlur, ref },
+          fieldState: { invalid, error },
+        }) => (
+          <Input
+            ref={ref}
+            errorMessage={error?.message}
+            isDisabled={disabled && !loading}
+            isInvalid={invalid}
+            label="Codigo de Barras"
+            name={name}
+            validationBehavior="aria"
+            value={value ? value : ""}
+            variant="bordered"
+            onBlur={onBlur}
+            onChange={onChange}
+          />
+        )}
+      />
+      <Controller
+        control={control}
         name="weight"
         render={({
           field: { name, value, onChange, onBlur, ref },
@@ -107,6 +131,7 @@ export default function ProductVariantForm({
           <Checkbox
             ref={ref}
             isRequired
+            className={update ? "hidden" : ""}
             isDisabled={disabled && !loading}
             isInvalid={invalid}
             name={name}

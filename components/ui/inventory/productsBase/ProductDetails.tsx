@@ -53,7 +53,7 @@ function ProductDetails() {
             productBaseID={useDetailsContext.data?.id}
           />
           <VariantsList
-            items={useDetailsContext.data?.variants_obj || []}
+            items={useDetailsContext.data?.variants || []}
             productBaseMutate={useDetailsContext.mutateEntity}
           />
         </main>
