@@ -51,7 +51,7 @@ export default function CreateVariant({
                 return {
                   ...product,
                   variants_obj: [
-                    ...(product.variants_obj || []),
+                    ...(product.variants || []),
                     newVariant as any,
                   ],
                 };
