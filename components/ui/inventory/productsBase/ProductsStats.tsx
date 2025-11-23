@@ -21,25 +21,25 @@ export default function StatsComponent() {
     <ResumeComponent>
       <ResumeItem
         Icon={IconPackage}
-        content={data?.total_products.toString() || "0"}
+        content={(data?.total_products || "0").toString()}
         loading={isLoading}
         title="Total de Productos Base"
       />
       <ResumeItem
         Icon={IconTags}
-        content={data?.total_categories.toString() || "0"}
+        content={(data?.total_categories || "0").toString()}
         loading={isLoading}
         title="Categorias"
       />
       <ResumeItem
         Icon={IconVersions}
-        content={data?.total_variants.toString() || "0"}
+        content={(data?.total_variants || "0").toString()}
         loading={isLoading}
         title="Variantes"
       />
       <ResumeItem
         Icon={IconPackages}
-        content={data?.total_stock.toString() || "0"}
+        content={(data?.total_stock || "0").toString()}
         loading={isLoading}
         title="Stock"
       />
