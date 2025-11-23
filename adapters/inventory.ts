@@ -14,7 +14,7 @@ import { PaginationInterface } from "@/types/responses";
 
 export class ProductsAdapter extends BackendAdapter {
   constructor(token: JWT) {
-    super("inventory/products/", { token: token });
+    super("inventory/products", { token: token });
   }
   async list(
     req?: NextRequest,
