@@ -11,3 +11,7 @@ export const DOCUMENTS_TYPES_API_URL = "/api/legal/document-types";
 // Entries
 export const PROVIDERS_API_URL = "/api/entries/providers";
 export const BUY_BILLS_API_URL = "/api/entries/buybills";
+
+// Accounting
+export const PAY_TYPES_API_URL = "/api/accounting/paytypes";
+export const BUY_PAY_TYPES_API_URL = "/api/accounting/buypaytypes";

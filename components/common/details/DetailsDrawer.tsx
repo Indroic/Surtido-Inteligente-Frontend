@@ -54,6 +54,7 @@ function DrawerDetails({
           ? drawerProps
           : {
               size: "xl",
+              placement: "right",
             }
       }
       headerChildren={(onClose) => (

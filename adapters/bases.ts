@@ -182,7 +182,7 @@ class BackendAdapter<T = unknown> extends ApiClient {
   subUrl: string;
   constructor(subUrl: string, props: ApiClientProps) {
     super(props);
-    this.subUrl = subUrl.replace(/^\//, "");
+    this.subUrl = subUrl.replace(/^\/|\/$/g, "");
   }
   async list(req?: NextRequest | Request): Promise<PaginationInterface<T>> {
     try {

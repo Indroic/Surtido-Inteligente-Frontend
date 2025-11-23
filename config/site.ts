@@ -1,4 +1,5 @@
 import {
+  IconCoin,
   IconGavel,
   IconHome,
   IconPackage,
@@ -40,6 +41,11 @@ export const defaultSiteConfig: DefaultSiteConfigType = {
       label: "Entradas",
       Icon: IconPackageImport,
       href: "/dashboard/entries",
+    },
+    {
+      label: "Finanzas",
+      Icon: IconCoin,
+      href: "/dashboard/accouting",
     },
   ],
 };

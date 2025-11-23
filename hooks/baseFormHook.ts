@@ -14,10 +14,11 @@ export default function useBaseFormHook<T extends FieldValues>({
 }: BaseFormHookProps<T>) {
   const [loading, setLoading] = useState(false);
 
-  const { handleSubmit, control, setError, reset } = useForm<T>({
-    defaultValues,
-    resolver: validator_schema ? yupResolver(validator_schema) : undefined,
-  });
+  const { handleSubmit, control, setError, reset, watch, setValue } =
+    useForm<T>({
+      defaultValues,
+      resolver: validator_schema ? yupResolver(validator_schema) : undefined,
+    });
 
   return {
     handleSubmit,
@@ -26,5 +27,7 @@ export default function useBaseFormHook<T extends FieldValues>({
     reset,
     loading,
     setLoading,
+    watch,
+    setValue,
   };
 }
