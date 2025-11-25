@@ -5,6 +5,7 @@ import { Controller } from "react-hook-form";
 import { useEffect, useState } from "react";
 
 import useProductVariantForm from "@/hooks/inventory/variants/useProductVariantForm";
+import { ProductInterface } from "@/types/products";
 
 type Props = {
   deactivated?: boolean;
@@ -42,7 +43,7 @@ export default function ProductVariantForm({
             label="Nombre"
             name={name}
             validationBehavior="aria"
-            value={typeof value === "string" ? value : value.id}
+            value={update ? (value as ProductInterface).id : (value as string)}
             variant="bordered"
             onBlur={onBlur}
             onChange={onChange}

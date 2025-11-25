@@ -109,6 +109,11 @@ export class VariantsAdapter extends BackendAdapter {
     pk: string,
     data: ProductVariantInterface,
   ): Promise<ProductVariantInterface> {
-    return (await super.update(pk, data)) as ProductVariantInterface;
+    const correctData = {
+      ...data,
+      product: (data.product as ProductInterface).id,
+    };
+
+    return (await super.update(pk, correctData)) as ProductVariantInterface;
   }
 }
