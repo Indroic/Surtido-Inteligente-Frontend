@@ -41,7 +41,7 @@ export class ProductsAdapter extends BackendAdapter {
 
 export class CategoriesAdapter extends BackendAdapter {
   constructor(token: JWT) {
-    super("inventory/categories/", { token: token });
+    super("inventory/categories", { token: token });
   }
   async list(
     req?: NextRequest,
@@ -64,7 +64,7 @@ export class CategoriesAdapter extends BackendAdapter {
 
 export class ProductTypesAdapter extends BackendAdapter {
   constructor(token: JWT) {
-    super("inventory/product-types/", { token: token });
+    super("inventory/product-types", { token: token });
   }
   async list(
     req?: NextRequest,
@@ -87,7 +87,7 @@ export class ProductTypesAdapter extends BackendAdapter {
 
 export class VariantsAdapter extends BackendAdapter {
   constructor(token: JWT) {
-    super("inventory/product-variants/", { token: token });
+    super("inventory/product-variants", { token: token });
   }
   async list(
     req?: NextRequest,
