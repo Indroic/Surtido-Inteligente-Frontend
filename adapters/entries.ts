@@ -4,7 +4,11 @@ import { NextRequest } from "next/server";
 import { BackendAdapter } from "./bases";
 
 import { PaginationInterface } from "@/types/responses";
-import { BuyBillInterface, ProveedorInterface } from "@/types/proveedores";
+import {
+  BillPhotoInterface,
+  BuyBillInterface,
+  ProveedorInterface,
+} from "@/types/proveedores";
 
 export class ProveedoresAdapter extends BackendAdapter {
   constructor(token: JWT) {
@@ -46,6 +50,25 @@ export class BuyBillsAdapter extends BackendAdapter {
   }
   async create(data: BuyBillInterface): Promise<BuyBillInterface> {
     return (await super.create(data)) as BuyBillInterface;
+  }
+  async uploadBillPhoto(req: NextRequest): Promise<BillPhotoInterface> {
+    const incoming = await req.formData();
+
+    const outbound = new FormData();
+
+    incoming.forEach((value, key) => {
+      if (value instanceof File) {
+        outbound.append(key, value, value.name);
+      } else {
+        outbound.append(key, value);
+      }
+    });
+
+    return this.post(
+      "proveedores/buybills/upload-photo/",
+      outbound,
+      true,
+    ) as Promise<BillPhotoInterface>;
   }
   async update(pk: string, data: BuyBillInterface): Promise<BuyBillInterface> {
     return (await super.update(pk, data)) as BuyBillInterface;

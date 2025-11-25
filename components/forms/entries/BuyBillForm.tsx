@@ -1,12 +1,14 @@
 "use client";
 
-import { Form, Input, Select, SelectItem } from "@heroui/react";
+import { DateInput, Form, Input, Select, SelectItem } from "@heroui/react";
 import { Controller } from "react-hook-form";
 import { useEffect, useState } from "react";
+import { parseDate } from "@internationalized/date";
 
 import useBuyBillForm from "@/hooks/entries/useBuyBillForm";
 import { ProveedorInterface } from "@/types/proveedores";
 import { BuyPayType } from "@/types/finanzas";
+import useDateFormat from "@/hooks/utils/useDateFormat";
 
 type Props = {
   deactivated?: boolean;
@@ -22,6 +24,7 @@ function BuyBillForm({
   setOpenPayType,
 }: Props) {
   const [disabled, setDisabled] = useState(deactivated);
+  const { formatYYMMDD } = useDateFormat();
 
   useEffect(() => {
     setDisabled(deactivated);
@@ -33,7 +36,7 @@ function BuyBillForm({
         control={control}
         name="date"
         render={({ field, fieldState: { invalid, error } }) => (
-          <Input
+          <DateInput
             ref={field.ref as any}
             isRequired
             errorMessage={error?.message}
@@ -41,12 +44,13 @@ function BuyBillForm({
             isInvalid={invalid}
             label="Fecha"
             name={field.name}
-            type="date"
             validationBehavior="aria"
-            value={(field.value as Date)?.toISOString().substring(0, 10)}
+            value={(field.value ? parseDate(field.value) : null) as any}
             variant="bordered"
             onBlur={field.onBlur}
-            onChange={(e) => field.onChange(new Date(e.target.value))}
+            onChange={(value) =>
+              field.onChange(value ? formatYYMMDD(value as any) : "")
+            }
           />
         )}
       />
@@ -59,11 +63,6 @@ function BuyBillForm({
               ref={field.ref as any}
               isRequired
               className="w-1/2 h-full"
-              defaultSelectedKeys={
-                control._defaultValues.proveedor
-                  ? [control._defaultValues.proveedor as string]
-                  : []
-              }
               errorMessage={error?.message}
               isDisabled={disabled && !loading}
               isInvalid={invalid}

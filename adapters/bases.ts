@@ -144,8 +144,22 @@ class ApiClient {
       throw error as AxiosError;
     }
   }
-  protected async post(subUrl: string, data: Record<string, any>) {
+  protected async post(
+    subUrl: string,
+    data: Record<string, any>,
+    isUpload = false,
+  ) {
     try {
+      if (isUpload) {
+        const response = await this.axiosInstance.post(subUrl, data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        return response.data;
+      }
+
       const response = await this.axiosInstance.post(
         subUrl,
         JSON.stringify(data),
@@ -205,7 +219,7 @@ class BackendAdapter<T = unknown> extends ApiClient {
   }
   async create(data: any): Promise<T> {
     try {
-      return this.post(this.subUrl, data);
+      return this.post(`${this.subUrl}/`, data);
     } catch (error) {
       throw error as AxiosError;
     }

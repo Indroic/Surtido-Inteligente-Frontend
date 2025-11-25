@@ -30,6 +30,7 @@ interface CustomModalProps {
   triggerColor?: VariantProps<typeof Button>["color"];
   onOpen?: (isOpen: boolean, setOpen: (open: boolean) => void) => void;
   onClose?: (isOpen: boolean, setOpen: (open: boolean) => void) => void;
+  footer?: ReactNode;
 }
 
 export default class CustomModal extends React.Component<CustomModalProps> {
@@ -118,23 +119,27 @@ export default class CustomModal extends React.Component<CustomModalProps> {
                 </ModalHeader>
                 <ModalBody>{children}</ModalBody>
                 <ModalFooter>
-                  <ButtonGroup>
-                    <Button
-                      color={cancelColor}
-                      variant="light"
-                      onPress={onClose || this.handleClose}
-                      {...cancelProps}
-                    >
-                      {cancelLabel}
-                    </Button>
-                    <Button
-                      color={confirmColor}
-                      onPress={this.handleConfirm}
-                      {...confirmProps}
-                    >
-                      {confirmLabel}
-                    </Button>
-                  </ButtonGroup>
+                  {this.props.footer ? (
+                    this.props.footer
+                  ) : (
+                    <ButtonGroup>
+                      <Button
+                        color={cancelColor}
+                        variant="light"
+                        onPress={onClose || this.handleClose}
+                        {...cancelProps}
+                      >
+                        {cancelLabel}
+                      </Button>
+                      <Button
+                        color={confirmColor}
+                        onPress={this.handleConfirm}
+                        {...confirmProps}
+                      >
+                        {confirmLabel}
+                      </Button>
+                    </ButtonGroup>
+                  )}
                 </ModalFooter>
               </>
             )}

@@ -14,20 +14,14 @@ export default function useBaseFormHook<T extends FieldValues>({
 }: BaseFormHookProps<T>) {
   const [loading, setLoading] = useState(false);
 
-  const { handleSubmit, control, setError, reset, watch, setValue } =
-    useForm<T>({
-      defaultValues,
-      resolver: validator_schema ? yupResolver(validator_schema) : undefined,
-    });
+  const form = useForm<T>({
+    defaultValues,
+    resolver: validator_schema ? yupResolver(validator_schema) : undefined,
+  });
 
   return {
-    handleSubmit,
-    control,
-    setError,
-    reset,
+    ...form, // incluye todos los métodos de react-hook-form (getValues, trigger, etc.)
     loading,
     setLoading,
-    watch,
-    setValue,
   };
 }

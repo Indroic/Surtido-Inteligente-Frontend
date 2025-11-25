@@ -11,8 +11,13 @@ export interface ProveedorInterface extends BaseInterface {
   direction: string;
 }
 
-export interface BuyBillInterface extends BaseInterface {
-  date: Date;
+export interface BillPhotoInterface extends BaseInterface {
+  photo: string;
+}
+
+export interface BuyBillInterface<P = string | BillPhotoInterface>
+  extends BaseInterface {
+  date: string;
   proveedor: ProveedorInterface | string;
   num_control: number;
   num_factura: number;
@@ -22,5 +27,5 @@ export interface BuyBillInterface extends BaseInterface {
   tasaCambio: number;
   total_reference: number;
   pay_type: string | BuyPayType;
-  photo?: string;
+  photo?: P;
 }

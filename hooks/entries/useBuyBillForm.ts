@@ -7,10 +7,10 @@ import useInfiniteScroll from "../useInfiniteScroll";
 import useBaseFormHook, { BaseFormHookProps } from "@/hooks/baseFormHook";
 import { BuyBillInterface, ProveedorInterface } from "@/types/proveedores";
 import { BuyPayType } from "@/types/finanzas";
-import { PROVIDERS_API_URL, PAY_TYPES_API_URL } from "@/UrlPaths";
+import { PROVIDERS_API_URL, BUY_PAY_TYPES_API_URL } from "@/UrlPaths";
 
-const defaultValuesBuyBill: DefaultValues<BuyBillInterface> = {
-  date: new Date(),
+const defaultValuesBuyBill: DefaultValues<BuyBillInterface<string>> = {
+  date: "",
   proveedor: "",
   num_control: 0,
   num_factura: 0,
@@ -34,7 +34,7 @@ export default function useBuyBillForm(
   const [openPayType, setOpenPayType] = useState<boolean>(false);
 
   const validator_schema = yup.object<BuyBillInterface>({
-    date: yup.date().required("La Fecha es Requerida"),
+    date: yup.string().required("La Fecha es Requerida"),
     proveedor: yup.string().required("El Proveedor es Requerido"),
     num_control: yup
       .number()
@@ -88,7 +88,7 @@ export default function useBuyBillForm(
     scrollerRef: scrollRefPayTypes,
   } = useInfiniteScroll<BuyPayType>({
     Enabled: openPayType,
-    url: PAY_TYPES_API_URL,
+    url: BUY_PAY_TYPES_API_URL,
   });
 
   return {
