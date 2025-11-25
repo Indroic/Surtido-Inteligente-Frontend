@@ -12,6 +12,7 @@ export interface WizardFormHookBase<FormData = any> {
   ) => () => Promise<void> | void;
   setError?: (...args: any[]) => void;
   reset?: (...args: any[]) => void;
+  formState?: { errors?: Record<string, unknown> };
 }
 
 export interface WizardStepDefinition<
