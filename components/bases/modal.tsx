@@ -20,12 +20,16 @@ interface CustomModalProps {
   headerChildren?: ReactNode;
   modalprops?: Omit<React.ComponentProps<typeof Modal>, "children">;
   onConfirm?: (closeModal: () => void) => void;
+  onSecondConfirm?: (closeModal: () => void) => void; // este es para el boton de "guardar y seguir registrando"
   onCancel?: (closeModal: () => void) => void;
   confirmLabel?: string;
   confirmProps?: React.ComponentProps<typeof Button>;
+  secondConfirmLabel?: string;
+  secondConfirmProps?: React.ComponentProps<typeof Button>;
   cancelLabel?: string;
   cancelProps?: React.ComponentProps<typeof Button>;
   confirmColor?: VariantProps<typeof Button>["color"];
+  secondConfirmColor?: VariantProps<typeof Button>["color"];
   cancelColor?: VariantProps<typeof Button>["color"];
   triggerColor?: VariantProps<typeof Button>["color"];
   onOpen?: (isOpen: boolean, setOpen: (open: boolean) => void) => void;
@@ -78,11 +82,14 @@ export default class CustomModal extends React.Component<CustomModalProps> {
       children,
       confirmLabel = "Confirmar",
       cancelLabel = "Cancelar",
+      secondConfirmLabel = "Confirmar y Nuevo",
       confirmColor = "primary",
+      secondConfirmColor = "secondary",
       cancelColor = "danger",
       triggerColor = "primary",
       triggerProps = {},
       confirmProps = {},
+      secondConfirmProps = {},
       cancelProps = {},
     } = this.props;
     const { isOpen } = this.state;
@@ -131,6 +138,16 @@ export default class CustomModal extends React.Component<CustomModalProps> {
                       >
                         {cancelLabel}
                       </Button>
+                      {this.props.onSecondConfirm && (
+                        <Button
+                          color={secondConfirmColor}
+                          variant="flat"
+                          onPress={this.handleConfirm}
+                          {...secondConfirmProps}
+                        >
+                          {secondConfirmLabel}
+                        </Button>
+                      )}
                       <Button
                         color={confirmColor}
                         onPress={this.handleConfirm}

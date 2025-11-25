@@ -24,45 +24,45 @@ export default function CreateVariant({
       weight: 1,
     },
   });
-
-  const onSubmit = useCallback(
-    (closeModal: () => void) => {
+  const submitCallback = useCallback(
+    async (closeModal: () => void, secondarySubmit: boolean = false) => {
       formHook.setLoading(true);
-      formHook
-        .handleSubmit((data) =>
-          handleSubmitApi<ProductVariantInterface>({
-            form: data,
-            url: VARIANTS_API_URL,
-            toast: {
-              title: "Variante Creada",
-              description: "Variante Creada Correctamente",
-              color: "success",
-            },
-            type: "create",
-            reset: formHook.reset,
-            setError: formHook.setError,
-            successFunction: (newVariant) => {
-              closeModal();
-              mutateProductBase((product) => {
-                if (!product) {
-                  return product;
-                }
+      await formHook.handleSubmit((data) =>
+        handleSubmitApi<ProductVariantInterface>({
+          form: data,
+          url: VARIANTS_API_URL,
+          toast: {
+            title: "Variante Creada",
+            description: "Variante Creada Correctamente",
+            color: "success",
+          },
+          type: "create",
+          reset: formHook.reset,
+          setError: formHook.setError,
+          successFunction: (newVariant) => {
+            if (!secondarySubmit) closeModal();
+            mutateProductBase((product) => {
+              if (!product) {
+                return product;
+              }
 
-                return {
-                  ...product,
-                  variants_obj: [
-                    ...(product.variants || []),
-                    newVariant as any,
-                  ],
-                };
-              });
-            },
-          }),
-        )()
-        .finally(() => formHook.setLoading(false));
+              return {
+                ...product,
+                variants_obj: [...(product.variants || []), newVariant as any],
+              };
+            });
+          },
+        }),
+      )();
     },
     [formHook, mutateProductBase],
   );
+
+  const onSubmit = (closeModal: () => void) =>
+    submitCallback(closeModal).finally(() => formHook.setLoading(false));
+
+  const onSubmitAndNew = (closeModal: () => void) =>
+    submitCallback(closeModal, true).finally(() => formHook.setLoading(false));
 
   return (
     <CustomModal
@@ -71,6 +71,7 @@ export default function CreateVariant({
       triggerLabel="Nueva Variante"
       triggerProps={{ startContent: <IconPlus size={16} /> }}
       onConfirm={(closeModal) => onSubmit(closeModal)}
+      onSecondConfirm={(closeModal) => onSubmitAndNew(closeModal)}
     >
       <ProductVariantForm {...formHook} />
     </CustomModal>
