@@ -42,7 +42,7 @@ export default function ProductVariantForm({
             label="Nombre"
             name={name}
             validationBehavior="aria"
-            value={value as string}
+            value={typeof value === "string" ? value : value.id}
             variant="bordered"
             onBlur={onBlur}
             onChange={onChange}
